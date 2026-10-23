@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar App Puro Llano Radio 📱 | Descarga Nuestra Aplicación</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="📱 Instala la aplicación de Puro Llano Radio en tu dispositivo. Escucha música llanera y folklore venezolano en cualquier lugar. ¡Descarga gratis!">
+    <meta name="keywords"
+        content="app puro llano, descargar radio venezolana, aplicación joropo, música llanera móvil, pwa radio, instalar app folklore">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/install.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Instalar App Puro Llano Radio 📱">
+    <meta property="og:description"
+        content="Descarga e instala nuestra aplicación gratuita para escuchar música llanera en cualquier lugar.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:url" content="https://purollanoradio.com/install.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Descarga la App de Puro Llano Radio">
+    <meta name="twitter:description" content="Instala gratis nuestra app de música llanera y folklore venezolano.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1108 0%, #3d2817 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .install-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #fed202, #ffb700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 10px 30px rgba(254, 210, 2, 0.3);
+        }
+
+        h1 {
+            color: #fed202;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .install-button {
+            background: linear-gradient(135deg, #fed202 0%, #ffb700 100%);
+            color: #1a1108;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(254, 210, 2, 0.4);
+        }
+
+        .install-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(254, 210, 2, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fed202;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .instructions {
+            background: rgba(254, 210, 2, 0.1);
+            border-left: 3px solid #fed202;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #fed202;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .status.success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+            display: block;
+        }
+
+        .status.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(254, 210, 2, 0.2);
+            margin: 25px 0;
+        }
+
+        .download-apk {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .download-apk:hover {
+            color: #fed202;
+        }
+
+        @media (max-width: 480px) {
+            .install-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .app-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="install-container">
+        <div class="app-icon">
+            📻
+        </div>
+
+        <h1>Puro Llano Radio</h1>
+        <p class="subtitle">Instala nuestra aplicación y disfruta de la mejor música llanera</p>
+
+        <button class="install-button" id="installButton" onclick="installApp()">
+            <span>📲</span>
+            <span>Instalar Aplicación</span>
+        </button>
+
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div>Funciona offline (cuando hay caché)</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔔</div>
+                <div>Notificaciones de nuevas canciones</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📱</div>
+                <div>Experiencia nativa en tu dispositivo</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🚀</div>
+                <div>Carga rápida y sin anuncios</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="instructions">
+            <h3>📋 ¿Cómo instalar?</h3>
+            <ol>
+                <li>Toca el botón "Instalar Aplicación"</li>
+                <li>Acepta en el diálogo que aparece</li>
+                <li>La app se instalará en tu dispositivo</li>
+                <li>Ábrela desde tu pantalla de inicio</li>
+            </ol>
+        </div>
+
+        <div class="status" id="statusMessage"></div>
+
+        <div class="divider"></div>
+
+        <div>
+            <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-bottom: 10px;">
+                ¿Prefieres la APK?
+            </p>
+            <a href="https://github.com/BubblewrapJS/bubblewrap" target="_blank" class="download-apk">
+                <span>⬇️</span>
+                <span>Descargar APK (Android)</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Detectar si es instalable
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('✅ Evento de instalación disponible');
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.disabled = false;
+        });
+
+        // Detectar cuando se instala
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ Aplicación instalada');
+            statusMessage.className = 'status success';
+            statusMessage.innerHTML = '✅ ¡Aplicación instalada exitosamente!';
+            installButton.disabled = true;
+            installButton.innerHTML = '<span>✓</span> Instalada';
+            deferredPrompt = null;
+        });
+
+        // Función de instalar
+        async function installApp() {
+            if (!deferredPrompt) {
+                statusMessage.className = 'status error';
+                statusMessage.innerHTML = '⚠️ Tu navegador no soporta instalación PWA. Usa Chrome en Android o Desktop.';
+                return;
+            }
+
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            console.log(`Resultado: ${outcome}`);
+
+            if (outcome === 'accepted') {
+                console.log('Usuario aceptó instalar');
+            } else {
+                statusMessage.className = 'status error';
+                statusMessage.innerHTML = '❌ Instalación cancelada';
+            }
+
+            deferredPrompt = null;
+        }
+
+        // Verificar si ya está instalado
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            statusMessage.className = 'status success';
+            statusMessage.innerHTML = '✅ Ya estás usando la aplicación instalada';
+            installButton.disabled = true;
+            installButton.innerHTML = '<span>✓</span> En Uso';
+        }
+
+        // Detectar si es iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+            const instructions = document.querySelector('.instructions ol');
+            instructions.innerHTML = `
+                <li>Toca el botón "Compartir" en Safari</li>
+                <li>Selecciona "Agregar a inicio"</li>
+                <li>Confirma el nombre de la app</li>
+                <li>Toca "Agregar" en la esquina superior</li>
+            `;
+        }
+    </script>
+</body>
+
+</html>

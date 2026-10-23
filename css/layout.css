@@ -1,0 +1,442 @@
+/* ==========================================================================
+   PURO LLANO RADIO - LAYOUT STYLES
+   Sidebar, menu overlay, main content structure
+   ========================================================================== */
+
+/* Clock */
+.clock-box {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: var(--glass);
+    padding: 5px 12px;
+    border-radius: 10px;
+    border-right: 3px solid var(--primary);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    box-shadow: var(--glow);
+}
+
+#relogio {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin: 0;
+    line-height: 1;
+}
+
+.clock-location {
+    font-size: 0.55rem;
+    color: #ffffff;
+    margin-top: 2px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Sidebar Overlay */
+#sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+#sidebarOverlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ─── Menu Toggle Button (hamburger) ─── */
+#menuToggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2000;
+    /* Fondo glass premium con gradiente sutil */
+    background: linear-gradient(135deg, rgba(26, 17, 8, 0.92) 0%, rgba(40, 28, 12, 0.92) 100%);
+    border: 1.5px solid rgba(254, 210, 2, 0.45);
+    color: var(--primary);
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.15rem;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                0 0 0 0 rgba(254, 210, 2, 0.4);
+    animation: menu-toggle-idle 4s ease-in-out infinite;
+}
+
+/* Animación de pulso sutil para llamar la atención */
+@keyframes menu-toggle-idle {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(254, 210, 2, 0); }
+    50%       { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 6px rgba(254, 210, 2, 0.12); }
+}
+
+#menuToggle:hover {
+    background: var(--primary);
+    color: var(--dark-deep);
+    transform: scale(1.08) rotate(90deg);
+    border-color: var(--primary);
+    box-shadow: 0 6px 28px rgba(254, 210, 2, 0.45);
+    animation: none;
+}
+
+/* ─── Sidebar Principal ─── */
+#mainSidebar {
+    position: fixed;
+    top: 0;
+    left: -330px;
+    width: 305px;
+    height: 100vh;
+    /* Fondo oscuro profundo con viñeta dorada izquierda */
+    background: linear-gradient(180deg,
+        rgba(15, 10, 4, 0.97) 0%,
+        rgba(20, 13, 6, 0.97) 60%,
+        rgba(12, 8, 3, 0.99) 100%);
+    backdrop-filter: blur(30px) saturate(180%);
+    border-right: 1px solid rgba(254, 210, 2, 0.18);
+    box-shadow: 6px 0 50px rgba(0, 0, 0, 0.9),
+                inset -1px 0 0 rgba(254, 210, 2, 0.06);
+    z-index: 1999;
+    transition: left 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainSidebar.active {
+    left: 0;
+}
+
+/* ─── Header del Sidebar ─── */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 16px 14px;
+    /* Fondo con gradiente dorado superior muy sutil */
+    background: linear-gradient(180deg,
+        rgba(254, 210, 2, 0.07) 0%,
+        rgba(254, 210, 2, 0.02) 100%);
+    border-bottom: 1px solid rgba(254, 210, 2, 0.12);
+    flex-shrink: 0;
+}
+
+/* ── Branding: Logo + Nombre + Pill "EN VIVO" ── */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0; /* evita overflow */
+}
+
+.sidebar-brand-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(254, 210, 2, 0.4);
+    flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(254, 210, 2, 0.2);
+}
+
+.sidebar-logo-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sidebar-brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.sidebar-brand-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.3px;
+}
+
+/* Pill "EN VIVO 24/7" con punto pulsante */
+.sidebar-brand-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--primary);
+    text-transform: uppercase;
+}
+
+/* Punto pulsante del indicador de en-vivo */
+.live-dot-anim {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.7);
+    flex-shrink: 0;
+    animation: live-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes live-dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); }
+    50%       { opacity: 0.6; transform: scale(1.3); box-shadow: 0 0 10px rgba(74, 222, 128, 1); }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* ── Widget de Oyentes Conectados ── */
+.widget-oyentes-container {
+    padding: 0;
+    background: transparent;
+    border-bottom: 1px solid rgba(254, 210, 2, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.widget-oyentes-container iframe {
+    width: 280px !important;
+    height: 147px !important;
+    border-radius: 0;
+    overflow: hidden;
+    display: block;
+}
+
+/* ── Navegación del Sidebar (área scrolleable) ── */
+.sidebar-nav-content {
+    padding: 12px 12px 24px;
+    overflow-y: auto;
+    flex: 1;
+    /* Scrollbar personalizado */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(254, 210, 2, 0.4) transparent;
+}
+
+.sidebar-nav-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-nav-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav-content::-webkit-scrollbar-thumb {
+    background: rgba(254, 210, 2, 0.35);
+    border-radius: 4px;
+}
+
+/* ── Separadores de Sección ── */
+.nav-section-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 22px 6px 10px;
+    /* Tipografía del título de sección */
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: rgba(254, 210, 2, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.nav-section-icon {
+    font-size: 0.65rem;
+    color: rgba(254, 210, 2, 0.5);
+    flex-shrink: 0;
+}
+
+/* Línea decorativa que se extiende tras el texto */
+.nav-section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(254, 210, 2, 0.3) 0%, transparent 100%);
+    border-radius: 1px;
+}
+
+/* Compatibilidad: los nav-section-title del código legado */
+.nav-section-title {
+    font-size: 0.6rem;
+    color: rgba(254, 210, 2, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin: 22px 6px 10px;
+    padding-left: 10px;
+}
+
+/* ── Sidebar Footer ── */
+.sidebar-footer {
+    padding: 14px 14px 18px;
+    border-top: 1px solid rgba(254, 210, 2, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+}
+
+.btn-download-app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+    color: var(--dark-deep);
+    padding: 13px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 5px 20px rgba(254, 210, 2, 0.3);
+    letter-spacing: 0.3px;
+}
+
+.btn-download-app:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(254, 210, 2, 0.5);
+}
+
+/* Main Wrapper */
+.main-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+/* Footer Copyright */
+.footer-copyright {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    padding: 10px;
+    z-index: 10;
+}
+
+/* Floating Chat Button */
+.floating-chat-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+    border: none;
+    color: var(--dark-deep);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1500;
+    box-shadow: 0 5px 25px rgba(254, 210, 2, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-chat-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 8px 35px rgba(254, 210, 2, 0.6);
+}
+
+.chat-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    animation: badge-pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #mainSidebar {
+        width: 285px;
+        left: -305px;
+    }
+
+    .main-wrapper {
+        padding: 15px;
+    }
+
+    .floating-chat-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #menuToggle {
+        top: 15px;
+        left: 15px;
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    .main-wrapper {
+        padding: 10px;
+    }
+
+    .sidebar-brand-name {
+        font-size: 0.78rem;
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "note": "PROYECTO MIGRADO A CLOUDFLARE",
+  "status": "deprecated",
+  "migration": {
+    "frontend": "Cloudflare Pages",
+    "cron_jobs": "Cloudflare Workers (wrangler.toml)",
+    "date": "2026-04-06"
+  }
+}

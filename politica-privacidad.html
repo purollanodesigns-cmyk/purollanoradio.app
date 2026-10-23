@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad | Puro Llano Radio 🎵</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="📋 Política de Privacidad de Puro Llano Radio: cómo protegemos tu información mientras promovemos el folklore llanero venezolano.">
+    <meta name="keywords"
+        content="politica de privacidad, privacidad radio, proteccion de datos, puro llano radio, folklore llanero, terminos y condiciones">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/politica-privacidad.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Política de Privacidad | Puro Llano Radio 🎵">
+    <meta property="og:description"
+        content="Conoce cómo protegemos tu información mientras promovemos el folklore llanero.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://purollanoradio.com/politica-privacidad.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Política de Privacidad | Puro Llano Radio">
+    <meta name="twitter:description" content="Protegemos tu información mientras promovemos la cultura llanera.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --dark-deep: #1a1108;
+            --dark-brown: #3d2817;
+            --text-light: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-deep) 0%, var(--dark-brown) 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 150px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(254, 210, 2, 0.4);
+        }
+
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(254, 210, 2, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.15);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Secciones de Contenido */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-section h2 i {
+            font-size: 1.5rem;
+        }
+
+        .content-section p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .content-section strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .content-section ul {
+            color: var(--text-light);
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .content-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Tarjetas de Información */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: rgba(254, 210, 2, 0.08);
+            border: 1px solid rgba(254, 210, 2, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(254, 210, 2, 0.2);
+        }
+
+        .info-card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(254, 210, 2, 0.15) 0%, rgba(254, 183, 0, 0.1) 100%);
+            border: 2px solid rgba(254, 210, 2, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .highlight-box p {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: rgba(254, 210, 2, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact-card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(254, 210, 2, 0.4);
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(254, 210, 2, 0.2);
+        }
+
+        .footer-note p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .footer-note strong {
+            color: var(--primary);
+        }
+
+        /* Floating Player */
+        .floating-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.98) 0%, rgba(15, 15, 20, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(254, 210, 2, 0.2);
+            padding: 15px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            animation: player-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes player-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(254, 210, 2, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(254, 210, 2, 0);
+            }
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-info h4 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(254, 210, 2, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                padding-bottom: 140px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-section {
+                padding: 25px 20px;
+            }
+
+            .content-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-player {
+                width: 95%;
+                padding: 12px 15px;
+            }
+
+            .player-logo {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Botón Volver -->
+        <a href="https://purollanoradio.com" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+            Volver al Inicio
+        </a>
+
+        <!-- Breadcrumbs con Schema.org -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb"
+            style="background: rgba(20, 10, 0, 0.4); padding: 15px 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(254, 210, 2, 0.15); backdrop-filter: blur(10px);">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList"
+                style="list-style: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; padding: 0;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <a itemprop="item" href="https://purollanoradio.com/"
+                        style="color: #fed202; text-decoration: none;">
+                        <span itemprop="name">Inicio</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li style="color: #fed202; font-weight: bold;">›</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <span itemprop="name" style="color: rgba(255, 255, 255, 0.7);">Política de Privacidad</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Header -->
+        <header class="page-header">
+            <h1><i class="fa fa-shield-alt"></i> Política de Privacidad</h1>
+            <p>Última actualización: Abril 2026 | Puro Llano Radio</p>
+        </header>
+
+        <!-- Introducción -->
+        <section class="content-section">
+            <h2><i class="fa fa-book-open"></i> Nuestra Misión Cultural</h2>
+            <p>
+                <strong>Puro Llano Radio</strong> es una emisora digital fundada en 2022, dedicada a la promoción,
+                preservación y difusión del <strong>folklore llanero venezolano</strong>. Desde nuestra sede en Puerto
+                Ayacucho, Estado Amazonas, transmitimos las más auténticas expresiones de la música tradicional
+                venezolana,
+                incluyendo joropo, contrapunteo, tonadas, galerones y otras manifestaciones culturales del llano.
+            </p>
+
+            <div class="highlight-box">
+                <p>
+                    <i class="fa fa-heart" style="color: var(--primary);"></i>
+                    Nuestra misión es mantener viva la herencia cultural llanera, conectando a las comunidades rurales y
+                    urbanas con las raíces musicales que definen nuestra identidad venezolana.
+                </p>
+            </div>
+
+            <p>
+                Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos la
+                información
+                de nuestros oyentes y visitantes, en cumplimiento con los principios de transparencia y respeto por la
+                privacidad de nuestra comunidad.
+            </p>
+        </section>
+
+        <!-- Información que Recopilamos -->
+        <section class="content-section">
+            <h2><i class="fa fa-database"></i> Información que Recopilamos</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-icon"><i class="fa fa-stream"></i></div>
+                    <h3>Datos de Reproducción</h3>
+                    <p>Recopilamos información técnica necesaria para el streaming: dirección IP anónima, tipo de
+                        dispositivo, navegador y duración de la conexión. Estos datos son utilizados exclusivamente para
+                        estadísticas de audiencia.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon"><i class="fa fa-cookie-bite"></i></div>
+                    <h3>Cookies y Tecnologías Similares</h3>
+                    <p>Utilizamos cookies esenciales para el funcionamiento del sitio web. Además, proveedores de terceros como Google emplean cookies para fines analíticos y para mostrar anuncios basados en las visitas previas de los usuarios.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon"><i class="fa fa-comments"></i></div>
+                    <h3>Interacción en Chat</h3>
+                    <p>Los usuarios que participen en nuestro chat en vivo podrán elegir un nombre de usuario. No
+                        solicitamos información personal identificable más allá del nombre elegido voluntariamente.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon"><i class="fa fa-bell"></i></div>
+                    <h3>Notificaciones Push</h3>
+                    <p>Si activas las notificaciones push,Firebase almacenará un token anónimo para enviarte
+                        actualizaciones
+                        sobre programación y eventos culturales. Puedes desactivarlas en cualquier momento.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Uso de la Información -->
+        <section class="content-section">
+            <h2><i class="fa fa-cogs"></i> Cómo Utilizamos tu Información</h2>
+            <p>La información recopilada se utiliza exclusivamente para:</p>
+            <ul>
+                <li><strong>Mejorar la experiencia de escucha:</strong> Optimizar la calidad del streaming y la
+                    compatibilidad con diferentes dispositivos y navegadores.</li>
+                <li><strong>Estadísticas de audiencia:</strong> Conocer el alcance de nuestra programación para seguir
+                    promoviendo el folklore llanero de manera efectiva.</li>
+                <li><strong>Notificaciones relevantes:</strong> Informarte sobre eventos culturales, programación
+                    especial
+                    de joropo y actividades relacionadas con la cultura llanera.</li>
+                <li><strong>Mantenimiento técnico:</strong> Identificar y resolver problemas de conectividad para
+                    ofrecer
+                    un servicio ininterrumpido.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p>
+                    <i class="fa fa-lock" style="color: var(--primary);"></i>
+                    <strong>Compromiso:</strong> Tu privacidad es sagrada. A excepción de los datos técnicos recopilados mediante cookies por proveedores como Google (para fines de análisis o publicidad), no vendemos ni transferimos tu información personal directamente identificable.
+                </p>
+            </div>
+        </section>
+
+        <!-- Protección de Datos -->
+        <section class="content-section">
+            <h2><i class="fa fa-shield-alt"></i> Protección de Datos</h2>
+            <p>
+                Implementamos medidas de seguridad técnicas y organizativas para proteger tu información contra acceso
+                no
+                autorizado, alteración, divulgación o destrucción. Nuestros servidores de streaming están protegidos con
+                cifrado SSL y las credenciales de acceso se manejan de forma segura.
+            </p>
+            <p>
+                <strong>Medidas de seguridad que aplicamos:</strong>
+            </p>
+            <ul>
+                <li>Cifrado de datos en tránsito mediante protocolos seguros de streaming.</li>
+                <li>Acceso restringido a datos estadísticos solo para personal autorizado de Puro Llano Radio.</li>
+                <li>Revisión periódica de nuestras prácticas de recopilación y almacenamiento.</li>
+                <li>Uso de servicios de terceros certificados (Firebase, Cloudflare) con altos estándares de seguridad.
+                </li>
+            </ul>
+        </section>
+
+        <!-- Derechos del Usuario -->
+        <section class="content-section">
+            <h2><i class="fa fa-user-shield"></i> Tus Derechos</h2>
+            <p>Como usuario de Puro Llano Radio, tienes derecho a:</p>
+            <ul>
+                <li><strong>Acceder</strong> a la información que tenemos sobre ti.</li>
+                <li><strong>Rectificar</strong> cualquier dato inexacto.</li>
+                <li><strong>Eliminar</strong> tu información de nuestras bases de datos.</li>
+                <li><strong>Oponerte</strong> al tratamiento de tus datos para fines específicos.</li>
+                <li><strong>Desactivar</strong> las notificaciones push en cualquier momento desde la configuración de
+                    tu
+                    navegador o dispositivo.</li>
+                <li><strong>Retirar el consentimiento</strong> para el uso de cookies desde la configuración de tu
+                    navegador.</li>
+            </ul>
+        </section>
+
+        <!-- Servicios de Terceros y Políticas de Google -->
+        <section class="content-section">
+            <h2><i class="fa-brands fa-google"></i> Servicios de Terceros y Políticas de Google</h2>
+            <p>En cumplimiento con las políticas de privacidad de Google y para ofrecer un servicio completo, utilizamos integraciones que pueden recopilar información:</p>
+            <ul>
+                <li><strong>Google (Firebase y otros):</strong> Utilizamos servicios de Google para funcionalidades como base de datos en tiempo real. Google puede recopilar, procesar y almacenar información sobre el uso del sitio.</li>
+                <li><strong>Uso de Cookies por Google:</strong> Los proveedores de terceros, incluido Google, utilizan cookies para mostrar anuncios relevantes basándose en las visitas anteriores de un usuario a nuestro sitio web u otros sitios en Internet.</li>
+                <li><strong>Publicidad Personalizada:</strong> El uso de cookies de publicidad permite a Google y a sus socios mostrar anuncios basados en tu navegación.</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <p>
+                    <i class="fa fa-info-circle" style="color: var(--primary);"></i>
+                    <strong>Tus opciones de privacidad:</strong> Puedes inhabilitar la publicidad personalizada accediendo a <a href="https://myadcenter.google.com/" target="_blank" style="color: #fff; text-decoration: underline;">Preferencias de anuncios de Google</a>. También puedes inhabilitar el uso de cookies de proveedores externos para publicidad en <a href="http://www.aboutads.info/choices/" target="_blank" style="color: #fff; text-decoration: underline;">www.aboutads.info</a>.
+                </p>
+                <p style="margin-top: 15px;">
+                    <i class="fa fa-external-link-alt" style="color: var(--primary);"></i>
+                    Para más detalles sobre cómo Google utiliza tus datos cuando usas nuestro sitio, visita: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" style="color: #fff; text-decoration: underline;">Cómo utiliza Google la información de sitios web que usan sus servicios</a>.
+                </p>
+            </div>
+
+            <p style="margin-top: 20px;">Otros servicios esenciales:</p>
+            <ul>
+                <li><strong>Cloudflare:</strong> Para el hosting seguro y distribución de contenido, sujeto a su política de privacidad.</li>
+                <li><strong>Servidor de Streaming:</strong> Para la transmisión de audio en vivo. Los datos de conexión se utilizan de forma anónima para estadísticas internas de la emisora.</li>
+            </ul>
+        </section>
+
+        <!-- Folklore Llanero -->
+        <section class="content-section">
+            <h2><i class="fa fa-music"></i> Promoción del Folklore Llanero</h2>
+            <p>
+                Puro Llano Radio se compromete con la preservación y difusión del patrimonio cultural inmaterial del
+                llano
+                venezolano. Nuestra programación incluye:
+            </p>
+            <ul>
+                <li><strong>Joropo:</strong> El género musical emblemático de los llanos venezolanos, interpretado con
+                    arpa, cuatro y maracas.</li>
+                <li><strong>Contrapunteo:</strong> La tradición de improvisación lírica que caracteriza nuestra cultura
+                    llanera.</li>
+                <li><strong>Tonadas y Galerones:</strong> Formas musicales tradicionales que narran historias de la vida
+                    en el llano.</li>
+                <li><strong>Entrevistas Culturales:</strong> Conversaciones con artistas, compositores y promotores del
+                    folklore venezolano.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p>
+                    <i class="fa fa-globe-americas" style="color: var(--primary);"></i>
+                    <strong>Cultura sin fronteras:</strong> Nuestra señal llega a oyentes de todo el mundo, llevando el
+                    espíritu del llano venezolano a cada rincón del planeta.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section class="content-section">
+            <h2><i class="fa fa-envelope"></i> Contacto</h2>
+            <p>Si tienes preguntas sobre esta Política de Privacidad o deseas ejercer tus derechos, puedes contactarnos:
+            </p>
+
+            <div class="contact-card">
+                <h3><i class="fa fa-headset"></i> Puro Llano Radio</h3>
+                <p>Puerto Ayacucho, Estado Amazonas, Venezuela</p>
+                <div class="contact-links">
+                    <a href="https://chat.whatsapp.com/EvqnlnK4wOG0EdD4qiFNiL" target="_blank" class="contact-link">
+                        <i class="fa fa-brands fa-whatsapp"></i> Grupo WhatsApp
+                    </a>
+                    <a href="mailto:purollanoradio@gmail.com" class="contact-link">
+                        <i class="fa fa-envelope"></i> Correo Electrónico
+                    </a>
+                    <a href="https://instagram.com/purollanoradio" target="_blank" class="contact-link">
+                        <i class="fa fa-brands fa-instagram"></i> Instagram
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            <p>&copy; 2022 - 2026 <strong>PURO LLANO RADIO</strong> | Todos los derechos reservados</p>
+            <p>Promoviendo el folklore llanero venezolano desde Puerto Ayacucho, Amazonas 🇻🇪</p>
+        </div>
+    </div>
+
+    <!-- Reproductor Flotante -->
+    <div class="floating-player" id="floatingPlayer">
+        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+        <div class="player-info">
+            <h4 id="playerSongTitle">Puro Llano Radio</h4>
+            <p id="playerArtist">Folklore Llanero Venezolano</p>
+        </div>
+        <div class="player-controls">
+            <button class="player-btn" id="playerPlayBtn" onclick="togglePlayFloating()">
+                <i class="fa fa-play" id="playerPlayIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="audioPlayer" crossorigin="anonymous" preload="none">
+        <source src="https://radio.mipanel.stream:6816/stream" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playerPlayBtn = document.getElementById('playerPlayBtn');
+        const playerPlayIcon = document.getElementById('playerPlayIcon');
+        const streamUrl = "https://radio.mipanel.stream:6816/stream";
+
+        // Autoplay al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            audioPlayer.src = streamUrl;
+            audioPlayer.volume = 0.8;
+            audioPlayer.play().then(() => {
+                playerPlayIcon.className = 'fa fa-pause';
+            }).catch(() => {
+                // Si el navegador bloquea el autoplay, mostrar icono de play
+                playerPlayIcon.className = 'fa fa-play';
+            });
+        });
+
+        function togglePlayFloating() {
+            if (audioPlayer.paused) {
+                audioPlayer.src = streamUrl + "?t=" + Date.now();
+                audioPlayer.play().then(() => {
+                    playerPlayIcon.className = 'fa fa-pause';
+                }).catch(err => {
+                    console.error("Error al reproducir:", err);
+                    playerPlayIcon.className = 'fa fa-play';
+                });
+            } else {
+                audioPlayer.pause();
+                audioPlayer.src = "";
+                playerPlayIcon.className = 'fa fa-play';
+            }
+        }
+    </script>
+</body>
+
+</html>

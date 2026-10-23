@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1108">
+    <title>Sin conexión - Puro Llano Radio</title>
+    <link rel="icon" href="PUROLLANORADIO-COM-ICONO.png" type="image/png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1a1108;
+            background-image: radial-gradient(circle at center, rgba(114, 76, 33, 0.3) 0%, #1a1108 100%);
+            color: #fed202;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+        }
+        
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            background: #fed202;
+            color: #1a1108;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #e6bc02;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(254, 210, 2, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📻</div>
+        <h1>Sin conexión</h1>
+        <p>Puro Llano Radio necesita conexión a internet para transmitir el mejor folklore llanero.</p>
+        <button class="btn" onclick="location.reload()">
+            🔄 Reintentar conexión
+        </button>
+        <div class="footer">
+            Puro Llano Radio - Puerto Ayacucho, Amazonas 🇻🇪
+        </div>
+    </div>
+</body>
+</html>

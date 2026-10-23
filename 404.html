@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página No Encontrada | Puro Llano Radio 🎵</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="😔 La página que buscas no existe. Vuelve al inicio de Puro Llano Radio y sigue disfrutando del mejor folklore llanero venezolano.">
+    <meta name="keywords" content="404, pagina no encontrada, error, puro llano radio, folklore llanero">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/404.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="404 - Página No Encontrada | Puro Llano Radio">
+    <meta property="og:description" content="La página que buscas no existe. Vuelve y sigue escuchando joropo.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:url" content="https://purollanoradio.com/404.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="404 - Página No Encontrada | Puro Llano Radio">
+    <meta name="twitter:description" content="Oops, esta página no existe. Vuelve al inicio.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --dark-deep: #1a1108;
+            --dark-brown: #3d2817;
+            --text-light: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-deep) 0%, var(--dark-brown) 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Partículas de fondo */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 700px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 40px rgba(254, 210, 2, 0.3), 0 0 80px rgba(254, 210, 2, 0.1);
+            line-height: 1;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 40px rgba(254, 210, 2, 0.3), 0 0 80px rgba(254, 210, 2, 0.1); }
+            50% { text-shadow: 0 0 60px rgba(254, 210, 2, 0.5), 0 0 120px rgba(254, 210, 2, 0.2); }
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .error-message {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .suggestions {
+            background: rgba(254, 210, 2, 0.08);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .suggestions h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .suggestion-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .suggestion-link:hover {
+            background: rgba(254, 210, 2, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .suggestion-link i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .suggestion-link span {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(254, 210, 2, 0.4);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .footer-note a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-message {
+                font-size: 1rem;
+            }
+
+            .suggestions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1108;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fed202;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af00;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+        <div class="error-code">404</div>
+
+        <div class="error-icon">
+            <i class="fa fa-music"></i>
+        </div>
+
+        <h1 class="error-title">¡Oops! Esta página no existe</h1>
+
+        <p class="error-message">
+            Parece que la melodía se cortó aquí. La página que buscas no se encuentra en nuestro repertorio.
+            No te preocupes, ¡el mejor joropo te espera de vuelta en el inicio!
+        </p>
+
+        <div class="suggestions">
+            <h3><i class="fa fa-compass"></i> ¿Dónde quieres ir?</h3>
+            <div class="suggestions-grid">
+                <a href="https://purollanoradio.com/" class="suggestion-link">
+                    <i class="fa fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="https://purollanoradio.com/blog.html" class="suggestion-link">
+                    <i class="fa fa-newspaper"></i>
+                    <span>Blog</span>
+                </a>
+                <a href="https://purollanoradio.com/artistas.html" class="suggestion-link">
+                    <i class="fa fa-users"></i>
+                    <span>Artistas</span>
+                </a>
+                <a href="https://purollanoradio.com/top5semanal.html" class="suggestion-link">
+                    <i class="fa fa-trophy"></i>
+                    <span>Top 5</span>
+                </a>
+                <a href="https://purollanoradio.com/programacion.html" class="suggestion-link">
+                    <i class="fa fa-calendar"></i>
+                    <span>Programación</span>
+                </a>
+                <a href="https://purollanoradio.com/acerca.html" class="suggestion-link">
+                    <i class="fa fa-info-circle"></i>
+                    <span>Acerca de</span>
+                </a>
+            </div>
+        </div>
+
+        <a href="https://purollanoradio.com/" class="home-btn">
+            <i class="fa fa-arrow-left"></i>
+            Volver al Inicio
+        </a>
+
+        <div class="footer-note">
+            <p>&copy; 2022 - 2026 <strong><a href="https://purollanoradio.com/">PURO LLANO RADIO</a></strong> | Todos los derechos reservados</p>
+            <p>Promoviendo el folklore llanero venezolano desde Puerto Ayacucho, Amazonas 🇻🇪</p>
+        </div>
+    </div>
+
+    <!-- Partículas de fondo -->
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.3 + 0.1,
+                    opacity: Math.random() * 0.5 + 0.1,
+                    drift: Math.random() * 0.5 - 0.25
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(254, 210, 2, ${p.opacity})`;
+                ctx.fill();
+                p.y -= p.speed;
+                p.x += p.drift;
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { resize(); createParticles(); });
+        resize();
+        createParticles();
+        animate();
+    </script>
+</body>
+
+</html>

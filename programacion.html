@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación Semanal - Puro Llano Radio 📅 | Horarios y Programas</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="📅 Consulta la programación semanal de Puro Llano Radio. Descubre los mejores programas de música llanera y folklore venezolano con horarios completos.">
+    <meta name="keywords"
+        content="programación puro llano, horarios radio, programas música llanera, joropo programación, radio venezolana horarios, folklore venezolano programas">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/programacion.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Programación Semanal - Puro Llano Radio 📅">
+    <meta property="og:description"
+        content="Consulta los horarios y programas de la mejor música llanera y folklore venezolano.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:url" content="https://purollanoradio.com/programacion.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Programación Semanal - Puro Llano Radio">
+    <meta name="twitter:description" content="Horarios y programas de música llanera y folklore venezolano.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #fed202;
+            --dark-deep: #1a1108;
+            --glass: rgba(26, 17, 8, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-deep);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(254, 210, 2, 0.5);
+        }
+
+        .schedule-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .schedule-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            background: rgba(254, 210, 2, 0.1);
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .time-badge {
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .time-badge .hour {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .time-badge .period {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .program-info {
+            flex: 1;
+        }
+
+        .program-info h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .program-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        .program-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(254, 210, 2, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .day-section {
+            margin-bottom: 30px;
+        }
+
+        .day-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(254, 210, 2, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .schedule-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .time-badge {
+                width: 100%;
+            }
+
+            .program-icon {
+                display: none;
+            }
+        }
+
+        /* ==========================================================================
+           REPRODUCTOR FLOTANTE
+           ========================================================================== */
+        .floating-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.98) 0%, rgba(15, 15, 20, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(254, 210, 2, 0.2);
+            padding: 15px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            animation: player-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes player-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(254, 210, 2, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(254, 210, 2, 0);
+            }
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-info h4 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            border: none;
+            color: var(--dark-deep);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(254, 210, 2, 0.5);
+        }
+
+        .player-btn.playing {
+            animation: player-btn-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes player-btn-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(254, 210, 2, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 0 15px rgba(254, 210, 2, 0);
+            }
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(46, 204, 113, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.65rem;
+            color: #2ecc71;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: live-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes live-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .floating-player {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                transform: none;
+                width: auto;
+                padding: 12px 15px;
+            }
+
+            .player-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .player-btn {
+                width: 35px;
+                height: 35px;
+            }
+
+            .volume-slider {
+                width: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="https://purollanoradio.com" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+            Volver al Inicio
+        </a>
+
+        <!-- Breadcrumbs con Schema.org -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb"
+            style="background: rgba(254, 210, 2, 0.1); padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(254, 210, 2, 0.2);">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList"
+                style="list-style: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; padding: 0;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <a itemprop="item" href="https://purollanoradio.com/"
+                        style="color: #fed202; text-decoration: none;">
+                        <span itemprop="name">Inicio</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li style="color: #fed202; font-weight: bold;">›</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <span itemprop="name" style="color: rgba(255, 255, 255, 0.7);">Programación</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ul>
+        </nav>
+
+        <div class="header">
+            <h1><i class="fa fa-calendar-alt"></i> Programación Semanal</h1>
+            <p>Puro Llano Radio - Tu música llanera 24/7</p>
+        </div>
+
+        <!-- Lunes a Viernes -->
+        <div class="day-section">
+            <h2 class="day-title"><i class="fa fa-clock"></i> Lunes a Viernes</h2>
+            <div class="schedule-grid">
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">6:00</div>
+                        <div class="period">AM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-sun"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Madrugada Llanera</h3>
+                        <p>Los mejores temas para iniciar el día con el mejor folklore</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">10:00</div>
+                        <div class="period">AM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-music"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Mañanas de Joropo</h3>
+                        <p>Conexión en vivo con los mejores intérpretes del llano</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">2:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-microphone"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Tarde de Colección</h3>
+                        <p>Los clásicos del folklore llanero de todos los tiempos</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">6:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Hora Estelar</h3>
+                        <p>Los temas más solicitados por nuestra audiencia</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">10:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-moon"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Noches de Contrapunteo</h3>
+                        <p>Las mejores controversias y canciones de tono mayor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sábados -->
+        <div class="day-section">
+            <h2 class="day-title"><i class="fa fa-calendar-day"></i> Sábados</h2>
+            <div class="schedule-grid">
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">8:00</div>
+                        <div class="period">AM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-guitar"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Sábado de Arpa</h3>
+                        <p>Los mejores arpistas del llano venezolano y colombiano</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">2:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-trophy"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Festival del Fin de Semana</h3>
+                        <p>Los ganadores de los festivales más importantes</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">8:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-fire"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Noche de Fuego Llanero</h3>
+                        <p>La música más candente del folklore venezolano</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Domingos -->
+        <div class="day-section">
+            <h2 class="day-title"><i class="fa fa-church"></i> Domingos</h2>
+            <div class="schedule-grid">
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">9:00</div>
+                        <div class="period">AM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-pray"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Domingo de Tradición</h3>
+                        <p>Música religiosa y tradicional del llano</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">3:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Tarde de Familia</h3>
+                        <p>Programa especial para compartir en familia</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="time-badge">
+                        <div class="hour">7:00</div>
+                        <div class="period">PM</div>
+                    </div>
+                    <div class="program-icon">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3>Cierre de Fin de Semana</h3>
+                        <p>Los mejores temas para cerrar el domingo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR FLOTANTE -->
+    <div class="floating-player" id="floatingPlayer">
+        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+
+        <div class="player-info">
+            <h4 id="playerSongTitle">Puro Llano Radio</h4>
+            <p id="playerArtistName">En vivo</p>
+        </div>
+
+        <div class="live-indicator">
+            <span class="live-dot"></span>
+            EN VIVO
+        </div>
+
+        <div class="player-controls">
+            <div class="volume-control">
+                <i class="fa fa-volume-down" style="color: var(--primary); font-size: 0.8rem;"></i>
+                <input type="range" class="volume-slider" id="playerVolume" min="0" max="1" step="0.1" value="0.8">
+            </div>
+
+            <button class="player-btn" id="playerToggle" onclick="togglePlayer()">
+                <i class="fa fa-play" id="playerIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="playerAudio" preload="none">
+        <source src="https://radio.mipanel.stream:6816/stream" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const playerAudio = document.getElementById('playerAudio');
+        const playerIcon = document.getElementById('playerIcon');
+        const playerToggle = document.getElementById('playerToggle');
+        const playerVolume = document.getElementById('playerVolume');
+        const playerSongTitle = document.getElementById('playerSongTitle');
+        const playerArtistName = document.getElementById('playerArtistName');
+
+        let isPlaying = false;
+        let metadataInterval = null;
+
+        // AUTO PLAY al cargar la página
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                togglePlayer();
+            }, 1000);
+        });
+
+        function togglePlayer() {
+            if (isPlaying) {
+                playerAudio.pause();
+                playerIcon.className = 'fa fa-play';
+                playerToggle.classList.remove('playing');
+                playerArtistName.innerText = 'Pausado';
+                isPlaying = false;
+                if (metadataInterval) {
+                    clearInterval(metadataInterval);
+                    metadataInterval = null;
+                }
+            } else {
+                playerAudio.src = 'https://radio.mipanel.stream:6816/stream?t=' + Date.now();
+                playerAudio.play().then(() => {
+                    playerIcon.className = 'fa fa-pause';
+                    playerToggle.classList.add('playing');
+                    playerArtistName.innerText = 'Cargando...';
+                    isPlaying = true;
+
+                    // Actualizar metadata inmediatamente y luego cada 15 segundos
+                    updatePlayerMetadata();
+                    metadataInterval = setInterval(updatePlayerMetadata, 15000);
+                }).catch(err => {
+                    console.error('Error al reproducir:', err);
+                    playerArtistName.innerText = 'Error al conectar';
+                });
+            }
+        }
+
+        // Control de volumen
+        playerVolume.addEventListener('input', function (e) {
+            playerAudio.volume = e.target.value;
+        });
+
+        // Actualizar metadata del player
+        async function updatePlayerMetadata() {
+            try {
+                const cacheBuster = Date.now();
+
+                // Método 1: Intentar conexión directa HTTPS
+                try {
+                    const apiUrl = 'https://radio.mipanel.stream:6816/stats?json=1&_t=' + cacheBuster;
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        cache: 'no-cache',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        processMetadata(data);
+                        return;
+                    }
+                } catch (httpsError) {
+                    console.log('HTTPS falló, intentando HTTP:', httpsError);
+                }
+
+                // Método 2: Intentar con HTTP (si HTTPS falla por mixed content)
+                try {
+                    const apiUrl = 'http://radio.mipanel.stream:6816/stats?json=1&_t=' + cacheBuster;
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        cache: 'no-cache',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        mode: 'mixed-content'
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        processMetadata(data);
+                        return;
+                    }
+                } catch (httpError) {
+                    console.log('HTTP falló:', httpError);
+                }
+
+                // Método 3: Usar proxy CORS como fallback
+                try {
+                    const apiUrl = 'https://radio.mipanel.stream:6816/stats?json=1';
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl) + '&_t=' + cacheBuster;
+                    const response = await fetch(proxyUrl, {
+                        cache: 'no-store'
+                    });
+
+                    if (response.ok) {
+                        const text = await response.text();
+                        const data = JSON.parse(text);
+                        processMetadata(data);
+                        return;
+                    }
+                } catch (proxyError) {
+                    console.log('Proxy falló:', proxyError);
+                }
+
+                // Si todo falla, mostrar estado por defecto
+                playerSongTitle.innerText = 'Puro Llano Radio';
+                playerArtistName.innerText = 'En Vivo - Señal Online';
+
+            } catch (e) {
+                console.error('Error general en metadata:', e);
+                playerSongTitle.innerText = 'Puro Llano Radio';
+                playerArtistName.innerText = 'En Vivo';
+            }
+        }
+
+        // Función para procesar y mostrar metadata
+        function processMetadata(data) {
+            if (!data || !data.songtitle) {
+                playerSongTitle.innerText = 'Puro Llano Radio';
+                playerArtistName.innerText = 'En Vivo';
+                return;
+            }
+
+            let fullTitle = data.songtitle.trim();
+
+            // Si el título está vacío o es genérico
+            if (!fullTitle || fullTitle.length < 3 || fullTitle.toUpperCase() === 'PURO LLANO RADIO') {
+                playerSongTitle.innerText = 'Señal en Vivo';
+                playerArtistName.innerText = 'Puro Llano Radio';
+                return;
+            }
+
+            let songTitle = fullTitle;
+            let artistName = 'Puro Llano Radio';
+
+            // Intentar separar por " - " (espacio-guion-espacio)
+            if (fullTitle.includes(' - ')) {
+                const lastDashIndex = fullTitle.lastIndexOf(' - ');
+                if (lastDashIndex > 0 && lastDashIndex < fullTitle.length - 2) {
+                    songTitle = fullTitle.substring(0, lastDashIndex).trim();
+                    artistName = fullTitle.substring(lastDashIndex + 3).trim();
+                }
+            }
+
+            // Limpieza de caracteres especiales
+            songTitle = songTitle.replace(/["']/g, '').replace(/\s+/g, ' ').trim();
+            artistName = artistName.replace(/["']/g, '').replace(/\s+/g, ' ').trim();
+
+            // Validar que no estén vacíos después de limpiar
+            if (!songTitle || songTitle.length < 2) {
+                songTitle = 'Señal en Vivo';
+            }
+            if (!artistName || artistName.length < 2) {
+                artistName = 'Puro Llano Radio';
+            }
+
+            playerSongTitle.innerText = songTitle;
+            playerArtistName.innerText = artistName;
+
+            console.log('Metadata actualizada:', { song: songTitle, artist: artistName });
+        }
+
+        // Limpiar intervalo al cerrar la página
+        window.addEventListener('beforeunload', function () {
+            if (metadataInterval) {
+                clearInterval(metadataInterval);
+            }
+        });
+    </script>
+</body>
+
+</html>

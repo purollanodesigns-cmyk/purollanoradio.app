@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 AutoDJ Panel | Puro Llano Radio - Gestión de Streaming</title>
+
+    <meta name="description" content="Panel de AutoDJ y gestión de playlists para Puro Llano Radio">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --primary-dark: #d4af00;
+            --primary-light: rgba(254, 210, 2, 0.1);
+            --dark-bg: #0a0a0a;
+            --dark-surface: #141414;
+            --dark-card: #1a1a1a;
+            --dark-border: #2a2a2a;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-card);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* ==========================================================================
+           LOGIN SCREEN
+           ========================================================================== */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, rgba(254, 210, 2, 0.08), transparent 70%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            padding: 50px 40px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin-bottom: 20px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(254, 210, 2, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: var(--dark-surface);
+            color: var(--text-primary);
+            border: 1px solid var(--dark-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: 8px;
+        }
+
+        /* ==========================================================================
+           MAIN DASHBOARD
+           ========================================================================== */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        /* Top Navigation */
+        .topnav {
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .topnav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topnav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topnav-logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .topnav-logo h1 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .topnav-logo span {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .topnav-center {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .nav-tab.active {
+            color: var(--dark-bg);
+            background: var(--primary);
+        }
+
+        .topnav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: var(--dark-surface);
+            border-radius: 8px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .user-badge i {
+            color: var(--primary);
+        }
+
+        .user-badge span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 25px;
+            font-weight: 700;
+        }
+
+        .live-indicator.online {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--danger);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        .live-dot.online {
+            background: var(--success);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .now-playing-info {
+            min-width: 250px;
+        }
+
+        .now-playing-info .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .now-playing-info .song {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .now-playing-info .artist {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 12px 20px;
+            background: var(--dark-surface);
+            border-radius: 10px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .stat-box .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--success);
+            font-family: 'Inter', monospace;
+        }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           CONTENT SECTIONS
+           ========================================================================== */
+        .content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--primary-light);
+        }
+
+        .card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* ==========================================================================
+           PLAYLIST MANAGER
+           ========================================================================== */
+        .playlist-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .playlist-tab {
+            padding: 12px 24px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .playlist-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .playlist-tab.active {
+            background: var(--primary);
+            color: var(--dark-bg);
+            border-color: var(--primary);
+        }
+
+        .playlist-content {
+            display: none;
+        }
+
+        .playlist-content.active {
+            display: block;
+        }
+
+        .track-list {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .track-item:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .track-item.playing {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+        }
+
+        .track-number {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            color: var(--dark-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .track-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .track-duration {
+            font-family: 'Inter', monospace;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .track-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .track-actions button {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .track-actions button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--dark-border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .upload-zone p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .upload-zone small {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .upload-zone input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           SCHEDULE / PROGRAMMING
+           ========================================================================== */
+        .schedule-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .schedule-item.current {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .schedule-time {
+            font-family: 'Inter', monospace;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            min-width: 80px;
+        }
+
+        .schedule-details {
+            flex: 1;
+        }
+
+        .schedule-details h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .schedule-details p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .schedule-type {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .schedule-type.live {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .schedule-type.automated {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--info);
+        }
+
+        /* ==========================================================================
+           LISTENER STATS
+           ========================================================================== */
+        .listeners-chart {
+            background: var(--dark-surface);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 180px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--success), var(--info));
+            border-radius: 4px;
+            transition: height 0.3s;
+            min-height: 8px;
+            position: relative;
+        }
+
+        .chart-bar:hover::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            background: var(--dark-card);
+            color: var(--text-primary);
+            font-size: 0.7rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            margin-bottom: 4px;
+        }
+
+        .listeners-big {
+            text-align: center;
+            padding: 30px;
+            background: var(--dark-surface);
+            border-radius: 12px;
+        }
+
+        .listeners-big .number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--success);
+            line-height: 1;
+        }
+
+        .listeners-big .label {
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           METADATA EDITOR
+           ========================================================================== */
+        .metadata-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .metadata-form .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .metadata-form input,
+        .metadata-form select {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .metadata-form input:focus,
+        .metadata-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* ==========================================================================
+           AUTODJ CONTROLS
+           ========================================================================== */
+        .autodj-controls {
+            display: grid;
+            gap: 20px;
+        }
+
+        .autodj-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--dark-surface);
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .autodj-toggle-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .autodj-toggle-info i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .autodj-toggle-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .autodj-toggle-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--dark-border);
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--success);
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .crossfader {
+            padding: 20px;
+            background: var(--dark-surface);
+            border-radius: 12px;
+        }
+
+        .crossfader h3 {
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .crossfader input[type="range"] {
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, var(--info), var(--warning));
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .crossfader input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .crossfader-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==========================================================================
+           QUICK ACTIONS
+           ========================================================================== */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .quick-action {
+            padding: 24px 16px;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(254, 210, 2, 0.15);
+        }
+
+        .quick-action i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .quick-action span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           MODAL
+           ========================================================================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark-card);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--dark-surface);
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        /* ==========================================================================
+           TOAST NOTIFICATIONS
+           ========================================================================== */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: toastIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+            color: var(--dark-bg);
+        }
+
+        @keyframes toastIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ==========================================================================
+           EMPTY STATE
+           ========================================================================== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+           RESPONSIVE
+           ========================================================================== */
+        @media (max-width: 1024px) {
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topnav {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .topnav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topnav {
+                padding: 16px;
+            }
+
+            .stats-row {
+                flex-wrap: wrap;
+            }
+
+            .stat-box {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio">
+                <h1>AutoDJ Panel</h1>
+                <p>Gestión de Streaming - MIPanel.stream</p>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa fa-user"></i> Usuario</label>
+                <input type="text" id="loginUser" placeholder="Ingresa tu usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa fa-key"></i> Contraseña</label>
+                <input type="password" id="loginPass" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <button class="btn btn-full" onclick="handleLogin()">
+                <i class="fa fa-sign-in-alt"></i> Acceder al Panel
+            </button>
+
+            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
+                <i class="fa fa-info-circle"></i> Usuario: admin | Contraseña: autodj2026
+            </p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <!-- Top Navigation -->
+        <div class="topnav">
+            <div class="topnav-left">
+                <div class="topnav-logo">
+                    <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Logo">
+                    <div>
+                        <h1>PURO LLANO RADIO</h1>
+                        <span>AutoDJ Manager</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="topnav-center">
+                <button class="nav-tab active" onclick="switchTab('playlists')">
+                    <i class="fa fa-list"></i> Playlists
+                </button>
+                <button class="nav-tab" onclick="switchTab('schedule')">
+                    <i class="fa fa-calendar"></i> Programación
+                </button>
+                <button class="nav-tab" onclick="switchTab('listeners')">
+                    <i class="fa fa-headphones"></i> Oyentes
+                </button>
+                <button class="nav-tab" onclick="switchTab('autodj')">
+                    <i class="fa fa-robot"></i> AutoDJ
+                </button>
+                <button class="nav-tab" onclick="switchTab('metadata')">
+                    <i class="fa fa-tag"></i> Metadata
+                </button>
+            </div>
+
+            <div class="topnav-right">
+                <div class="user-badge">
+                    <i class="fa fa-user-circle"></i>
+                    <span id="userName">Admin</span>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="handleLogout()">
+                    <i class="fa fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <div class="live-indicator" id="liveIndicator">
+                    <div class="live-dot" id="liveDot"></div>
+                    <span id="liveStatus">DESCONECTADO</span>
+                </div>
+
+                <div class="now-playing-info">
+                    <div class="label"><i class="fa fa-music"></i> Ahora Sonando</div>
+                    <div class="song" id="currentSong">Puro Llano Radio</div>
+                    <div class="artist" id="currentArtist">AutoDJ</div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="value" id="listenersCount">0</div>
+                    <div class="label">Oyentes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="peakListeners">0</div>
+                    <div class="label">Pico</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="totalTracks">0</div>
+                    <div class="label">Tracks</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="uptime">00:00</div>
+                    <div class="label">Uptime</div>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="btn btn-sm" onclick="refreshStats()">
+                    <i class="fa fa-sync"></i> Actualizar
+                </button>
+                <button class="btn btn-sm btn-success" onclick="toggleAutoDJ()">
+                    <i class="fa fa-robot"></i> AutoDJ
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- PLAYLISTS SECTION -->
+            <div class="section active" id="section-playlists">
+                <div class="section-header">
+                    <h2><i class="fa fa-list"></i> Gestión de Playlists</h2>
+                    <button class="btn btn-sm" onclick="document.getElementById('trackUpload').click()">
+                        <i class="fa fa-upload"></i> Subir Canciones
+                    </button>
+                    <input type="file" id="trackUpload" accept="audio/*" multiple style="display: none;"
+                        onchange="uploadTracks(event)">
+                </div>
+
+                <div class="playlist-tabs">
+                    <button class="playlist-tab active" onclick="switchPlaylist('main')">
+                        <i class="fa fa-star"></i> Playlist Principal
+                    </button>
+                    <button class="playlist-tab" onclick="switchPlaylist('secondary')">
+                        <i class="fa fa-plus-circle"></i> Playlist Secundaria
+                    </button>
+                </div>
+
+                <!-- Main Playlist -->
+                <div class="playlist-content active" id="playlist-main">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-music"></i> Cola de Reproducción</h3>
+                            <div>
+                                <button class="btn btn-sm btn-secondary" onclick="playAll('main')">
+                                    <i class="fa fa-play"></i> Reproducir Todo
+                                </button>
+                                <button class="btn btn-sm btn-secondary" onclick="shufflePlaylist('main')">
+                                    <i class="fa fa-random"></i> Aleatorio
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="track-list" id="trackListMain">
+                                <div class="empty-state">
+                                    <i class="fa fa-music"></i>
+                                    <h3>No hay canciones</h3>
+                                    <p>Sube canciones para comenzar tu playlist</p>
+                                </div>
+                            </div>
+
+                            <div class="upload-zone" id="uploadZoneMain">
+                                <i class="fa fa-cloud-upload-alt"></i>
+                                <p>Arrastra archivos MP3 o haz clic para subir</p>
+                                <small>Formatos: MP3, WAV, OGG, FLAC</small>
+                                <input type="file" accept="audio/*" multiple onchange="uploadTracks(event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Playlist -->
+                <div class="playlist-content" id="playlist-secondary">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-music"></i> Cola Secundaria (Jingles/Cuñas)</h3>
+                            <button class="btn btn-sm btn-secondary" onclick="shufflePlaylist('secondary')">
+                                <i class="fa fa-random"></i> Aleatorio
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="track-list" id="trackListSecondary">
+                                <div class="empty-state">
+                                    <i class="fa fa-bullhorn"></i>
+                                    <h3>No hay elementos</h3>
+                                    <p>Agrega jingles, cuñas publicitarias o efectos</p>
+                                </div>
+                            </div>
+
+                            <div class="upload-zone" id="uploadZoneSecondary">
+                                <i class="fa fa-cloud-upload-alt"></i>
+                                <p>Arrastra archivos o haz clic para subir</p>
+                                <small>Formatos: MP3, WAV, OGG, FLAC</small>
+                                <input type="file" accept="audio/*" multiple
+                                    onchange="uploadTracks(event, 'secondary')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHEDULE SECTION -->
+            <div class="section" id="section-schedule">
+                <div class="section-header">
+                    <h2><i class="fa fa-calendar-alt"></i> Programación Semanal</h2>
+                    <button class="btn btn-sm" onclick="openModal('addScheduleModal')">
+                        <i class="fa fa-plus"></i> Agregar Programa
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="schedule-grid" id="scheduleGrid">
+                            <!-- Schedules rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LISTENERS SECTION -->
+            <div class="section" id="section-listeners">
+                <div class="section-header">
+                    <h2><i class="fa fa-headphones"></i> Estadísticas de Oyentes</h2>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-chart-line"></i> Oyentes en Tiempo Real</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="listeners-big">
+                                <div class="number" id="listenersBig">0</div>
+                                <div class="label">Oyentes Actuales</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-chart-bar"></i> Histórico de Oyentes</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="listeners-chart">
+                                <div class="chart-bars" id="listenersChart">
+                                    <!-- Bars rendered by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="stat-box">
+                        <div class="value" id="avgListeners">0</div>
+                        <div class="label">Promedio</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="maxListeners">0</div>
+                        <div class="label">Máximo</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="totalListenersToday">0</div>
+                        <div class="label">Total Hoy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUTODJ SECTION -->
+            <div class="section" id="section-autodj">
+                <div class="section-header">
+                    <h2><i class="fa fa-robot"></i> Configuración AutoDJ</h2>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-power-off"></i> Modo AutoDJ</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="autodj-controls">
+                                <div class="autodj-toggle">
+                                    <div class="autodj-toggle-info">
+                                        <i class="fa fa-robot"></i>
+                                        <div>
+                                            <h3>AutoDJ Activado</h3>
+                                            <p>Reproduce playlists automáticamente</p>
+                                        </div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="autoDJToggle" onchange="toggleAutoDJMode()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="autodj-toggle">
+                                    <div class="autodj-toggle-info">
+                                        <i class="fa fa-repeat"></i>
+                                        <div>
+                                            <h3>Repetir Playlist</h3>
+                                            <p>Cuando termine, vuelve a empezar</p>
+                                        </div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="repeatToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="autodj-toggle">
+                                    <div class="autodj-toggle-info">
+                                        <i class="fa fa-random"></i>
+                                        <div>
+                                            <h3>Modo Aleatorio</h3>
+                                            <p>Reproduce en orden aleatorio</p>
+                                        </div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="shuffleToggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa fa-sliders-h"></i> Crossfader</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="crossfader">
+                                <h3>Mezcla entre Playlists</h3>
+                                <input type="range" id="crossfader" min="0" max="100" value="50"
+                                    oninput="updateCrossfader(this.value)">
+                                <div class="crossfader-labels">
+                                    <span>Principal</span>
+                                    <span id="crossfaderValue">50/50</span>
+                                    <span>Secundaria</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">
+                                    <i class="fa fa-clock"></i> Transición (segundos)
+                                </label>
+                                <input type="number" id="transitionTime" value="5" min="0" max="30"
+                                    style="width: 100%; padding: 12px; background: var(--dark-surface); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--text-primary);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3><i class="fa fa-bolt"></i> Acciones Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <div class="quick-action" onclick="announceTime()">
+                                <i class="fa fa-clock"></i>
+                                <span>Anunciar Hora</span>
+                            </div>
+                            <div class="quick-action" onclick="playJingle()">
+                                <i class="fa fa-music"></i>
+                                <span>Insertar Jingle</span>
+                            </div>
+                            <div class="quick-action" onclick="fadeToMusic()">
+                                <i class="fa fa-fade"></i>
+                                <span>Fade a Música</span>
+                            </div>
+                            <div class="quick-action" onclick="recordShow()">
+                                <i class="fa fa-record-vinyl"></i>
+                                <span>Grabar Show</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METADATA SECTION -->
+            <div class="section" id="section-metadata">
+                <div class="section-header">
+                    <h2><i class="fa fa-tag"></i> Editor de Metadata</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa fa-edit"></i> Información de Transmisión</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metadata-form">
+                            <div class="row">
+                                <input type="text" id="metaArtist" placeholder="Nombre del Artista">
+                                <input type="text" id="metaSong" placeholder="Nombre de la Canción">
+                            </div>
+                            <div class="row">
+                                <input type="text" id="metaAlbum" placeholder="Álbum (Opcional)">
+                                <select id="metaGenre">
+                                    <option value="">Género</option>
+                                    <option value="folklor">Folclor Llanero</option>
+                                    <option value="joropo">Joropo</option>
+                                    <option value="contrapunteo">Contrapunteo</option>
+                                    <option value="pasaje">Pasaje</option>
+                                    <option value="walp">Walp</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <button class="btn" onclick="updateMetadata()">
+                                <i class="fa fa-sync"></i> Actualizar Metadata
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3><i class="fa fa-history"></i> Historial de Canciones</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="track-list" id="historyList">
+                            <div class="empty-state">
+                                <i class="fa fa-history"></i>
+                                <h3>Sin historial</h3>
+                                <p>El historial aparecerá aquí cuando se reproduzcan canciones</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Schedule Modal -->
+    <div class="modal" id="addScheduleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa fa-calendar-plus"></i> Agregar Programa</h2>
+                <button class="modal-close" onclick="closeModal('addScheduleModal')"><i
+                        class="fa fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nombre del Programa</label>
+                    <input type="text" id="scheduleName" placeholder="Ej: Mañanas de Joropo">
+                </div>
+                <div class="form-group">
+                    <label>DJ / Locutor</label>
+                    <input type="text" id="scheduleDJ" placeholder="Ej: AutoDJ, Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Hora de Inicio</label>
+                    <input type="time" id="scheduleTime" value="06:00">
+                </div>
+                <div class="form-group">
+                    <label>Hora de Fin</label>
+                    <input type="time" id="scheduleTimeEnd" value="09:00">
+                </div>
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select id="scheduleType"
+                        style="width: 100%; padding: 12px; background: var(--dark-surface); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--text-primary);">
+                        <option value="automated">AutoDJ (Automatizado)</option>
+                        <option value="live">En Vivo</option>
+                    </select>
+                </div>
+                <button class="btn btn-full" onclick="addSchedule()">
+                    <i class="fa fa-plus"></i> Agregar Programa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ==========================================================================
+        // CONFIGURATION - MIPanel.stream SHOUTcast Server
+        // ==========================================================================
+        const STREAM_CONFIG = {
+            server: 'https://radio.mipanel.stream:6816',
+            streamUrl: 'https://radio.mipanel.stream:6816/stream',
+            statsUrl: 'https://radio.mipanel.stream:6816/stats?json=1',
+            currentSongUrl: 'https://radio.mipanel.stream:6816/currentsong?json=1',
+            adminPassword: 'Micampo123.',
+            sourcePassword: '6816',
+            serverType: 'shoutcast2'
+        };
+
+        // ==========================================================================
+        // GLOBAL STATE
+        // ==========================================================================
+        let state = {
+            isLive: false,
+            isAutoDJ: false,
+            currentListeners: 0,
+            peakListeners: 0,
+            listenerHistory: [],
+            mainPlaylist: [],
+            secondaryPlaylist: [],
+            currentTrack: null,
+            history: [],
+            schedules: [
+                { time: '06:00', timeEnd: '09:00', name: 'Amanecer Llanero', dj: 'AutoDJ', type: 'automated' },
+                { time: '09:00', timeEnd: '12:00', name: 'Mañanas de Joropo', dj: 'AutoDJ', type: 'automated' },
+                { time: '12:00', timeEnd: '15:00', name: 'Mediodía Folklorico', dj: 'AutoDJ', type: 'automated' },
+                { time: '15:00', timeEnd: '18:00', name: 'Tarde de Artistas', dj: 'AutoDJ', type: 'automated' },
+                { time: '18:00', timeEnd: '21:00', name: 'Contrapunteo', dj: 'AutoDJ', type: 'automated' },
+                { time: '21:00', timeEnd: '00:00', name: 'Noche de Leyendas', dj: 'AutoDJ', type: 'automated' }
+            ],
+            startTime: null,
+            uptimeInterval: null
+        };
+
+        // ==========================================================================
+        // AUTHENTICATION
+        // ==========================================================================
+        function handleLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (!user || !pass) {
+                showToast('⚠️ Completa todos los campos', 'error');
+                return;
+            }
+
+            if (user === 'admin' && pass === 'autodj2026') {
+                localStorage.setItem('autodj_auth', 'true');
+                showDashboard();
+                showToast('✅ Bienvenido al AutoDJ Panel');
+            } else {
+                showToast('❌ Credenciales incorrectas', 'error');
+            }
+        }
+
+        function handleLogout() {
+            if (state.isLive && !confirm('⚠️ Estás transmitiendo. ¿Seguro que deseas salir?')) return;
+            localStorage.removeItem('autodj_auth');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+            showToast('👋 Sesión cerrada');
+        }
+
+        function checkAuth() {
+            if (localStorage.getItem('autodj_auth') === 'true') {
+                showDashboard();
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            initDashboard();
+        }
+
+        // Enter key on login
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginPass = document.getElementById('loginPass');
+            if (loginPass) {
+                loginPass.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') handleLogin();
+                });
+            }
+            checkAuth();
+        });
+
+        // ==========================================================================
+        // INIT DASHBOARD
+        // ==========================================================================
+        function initDashboard() {
+            loadPlaylists();
+            renderSchedules();
+            renderListenerChart();
+            connectToServer();
+            startUptimeCounter();
+
+            // Auto-refresh stats every 10 seconds
+            setInterval(refreshStats, 10000);
+
+            // Check current schedule
+            checkCurrentSchedule();
+            setInterval(checkCurrentSchedule, 60000);
+        }
+
+        // ==========================================================================
+        // TAB NAVIGATION
+        // ==========================================================================
+        function switchTab(tabName) {
+            // Update nav buttons
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.nav-tab').classList.add('active');
+
+            // Update sections
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`section-${tabName}`).classList.add('active');
+        }
+
+        function switchPlaylist(type) {
+            document.querySelectorAll('.playlist-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.playlist-tab').classList.add('active');
+
+            document.querySelectorAll('.playlist-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`playlist-${type}`).classList.add('active');
+        }
+
+        // ==========================================================================
+        // SERVER CONNECTION
+        // ==========================================================================
+        async function connectToServer() {
+            try {
+                const response = await fetch(STREAM_CONFIG.streamUrl, {
+                    method: 'HEAD',
+                    mode: 'no-cors',
+                    cache: 'no-store'
+                });
+
+                state.isLive = true;
+                updateLiveStatus();
+                showToast('🟢 Conectado al servidor de streaming');
+
+                // Fetch initial stats
+                await refreshStats();
+
+            } catch (err) {
+                console.warn('Servidor no disponible:', err.message);
+                state.isLive = false;
+                updateLiveStatus();
+                showToast('⚠️ Modo local - Servidor no accesible', 'warning');
+            }
+        }
+
+        async function refreshStats() {
+            try {
+                const response = await fetch(STREAM_CONFIG.statsUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-store'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    parseStats(data);
+                }
+            } catch (err) {
+                console.log('Stats no disponibles:', err.message);
+            }
+
+            // Also fetch current song
+            try {
+                const response = await fetch(STREAM_CONFIG.currentSongUrl, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.song) {
+                        const parts = data.song.split(' - ');
+                        if (parts.length >= 2) {
+                            document.getElementById('currentSong').textContent = parts[1].trim();
+                            document.getElementById('currentArtist').textContent = parts[0].trim();
+                        } else {
+                            document.getElementById('currentSong').textContent = data.song;
+                        }
+                    }
+                }
+            } catch (err) {
+                // Ignore
+            }
+        }
+
+        function parseStats(data) {
+            // SHOUTcast v2 format
+            if (data.currentlisteners !== undefined) {
+                state.currentListeners = data.currentlisteners;
+            }
+
+            // Icecast format
+            if (data.icestats && data.icestats.source) {
+                const source = Array.isArray(data.icestats.source)
+                    ? data.icestats.source[0]
+                    : data.icestats.source;
+                state.currentListeners = source.listeners || 0;
+            }
+
+            // Update peak
+            if (state.currentListeners > state.peakListeners) {
+                state.peakListeners = state.currentListeners;
+            }
+
+            // Add to history
+            state.listenerHistory.push(state.currentListeners);
+            if (state.listenerHistory.length > 30) {
+                state.listenerHistory.shift();
+            }
+
+            updateStatsDisplay();
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('listenersCount').textContent = state.currentListeners;
+            document.getElementById('peakListeners').textContent = state.peakListeners;
+            document.getElementById('listenersBig').textContent = state.currentListeners;
+
+            // Calculate average
+            const avg = state.listenerHistory.length > 0
+                ? Math.round(state.listenerHistory.reduce((a, b) => a + b, 0) / state.listenerHistory.length)
+                : 0;
+            document.getElementById('avgListeners').textContent = avg;
+            document.getElementById('maxListeners').textContent = state.peakListeners;
+
+            // Update chart
+            renderListenerChart();
+        }
+
+        function updateLiveStatus() {
+            const indicator = document.getElementById('liveIndicator');
+            const dot = document.getElementById('liveDot');
+            const text = document.getElementById('liveStatus');
+
+            if (state.isLive) {
+                indicator.classList.add('online');
+                dot.classList.add('online');
+                text.textContent = 'EN VIVO';
+            } else {
+                indicator.classList.remove('online');
+                dot.classList.remove('online');
+                text.textContent = 'DESCONECTADO';
+            }
+        }
+
+        function startUptimeCounter() {
+            state.startTime = Date.now();
+
+            state.uptimeInterval = setInterval(() => {
+                const elapsed = Date.now() - state.startTime;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+
+                const uptimeStr = [hours, minutes, seconds]
+                    .map(v => v.toString().padStart(2, '0'))
+                    .join(':');
+
+                document.getElementById('uptime').textContent = uptimeStr;
+            }, 1000);
+        }
+
+        // ==========================================================================
+        // PLAYLIST MANAGEMENT
+        // ==========================================================================
+        function loadPlaylists() {
+            const saved = localStorage.getItem('autodj_playlists');
+            if (saved) {
+                const data = JSON.parse(saved);
+                state.mainPlaylist = data.main || [];
+                state.secondaryPlaylist = data.secondary || [];
+            }
+
+            renderTrackList('main');
+            renderTrackList('secondary');
+            updateTotalTracks();
+        }
+
+        function savePlaylists() {
+            localStorage.setItem('autodj_playlists', JSON.stringify({
+                main: state.mainPlaylist,
+                secondary: state.secondaryPlaylist
+            }));
+        }
+
+        function renderTrackList(type) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+            const container = document.getElementById(type === 'main' ? 'trackListMain' : 'trackListSecondary');
+
+            if (playlist.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa fa-${type === 'main' ? 'music' : 'bullhorn'}"></i>
+                        <h3>No hay ${type === 'main' ? 'canciones' : 'elementos'}</h3>
+                        <p>${type === 'main' ? 'Sube canciones para comenzar tu playlist' : 'Agrega jingles, cuñas publicitarias o efectos'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = playlist.map((track, index) => `
+                <div class="track-item ${state.currentTrack === track.id ? 'playing' : ''}">
+                    <div class="track-number">${index + 1}</div>
+                    <div class="track-info">
+                        <h4>${track.title}</h4>
+                        <p>${track.artist || 'Artista desconocido'}</p>
+                    </div>
+                    <div class="track-duration">${track.duration || '--:--'}</div>
+                    <div class="track-actions">
+                        <button onclick="playTrack('${track.id}', '${type}')" title="Reproducir">
+                            <i class="fa fa-play"></i>
+                        </button>
+                        <button onclick="moveTrack('${type}', ${index}, -1)" title="Mover arriba">
+                            <i class="fa fa-arrow-up"></i>
+                        </button>
+                        <button onclick="moveTrack('${type}', ${index}, 1)" title="Mover abajo">
+                            <i class="fa fa-arrow-down"></i>
+                        </button>
+                        <button onclick="removeTrack('${type}', ${index})" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function uploadTracks(event, type = 'main') {
+            const files = event.target.files;
+            if (!files.length) return;
+
+            Array.from(files).forEach(file => {
+                const track = {
+                    id: 'track_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    title: file.name.replace(/\.[^/.]+$/, ''),
+                    artist: '',
+                    duration: '--:--',
+                    file: file,
+                    addedAt: new Date().toISOString()
+                };
+
+                if (type === 'main') {
+                    state.mainPlaylist.push(track);
+                } else {
+                    state.secondaryPlaylist.push(track);
+                }
+            });
+
+            savePlaylists();
+            renderTrackList(type);
+            updateTotalTracks();
+            showToast(`✅ ${files.length} cancion(es) agregada(s)`);
+        }
+
+        function playTrack(trackId, type) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+            const track = playlist.find(t => t.id === trackId);
+
+            if (track) {
+                state.currentTrack = trackId;
+
+                // Update now playing
+                document.getElementById('currentSong').textContent = track.title;
+                document.getElementById('currentArtist').textContent = track.artist || 'AutoDJ';
+
+                // Add to history
+                state.history.unshift({
+                    title: track.title,
+                    artist: track.artist,
+                    playedAt: new Date().toLocaleTimeString()
+                });
+
+                if (state.history.length > 50) state.history.pop();
+
+                renderTrackList(type);
+                renderHistory();
+                showToast(`🎵 Reproduciendo: ${track.title}`);
+            }
+        }
+
+        function playAll(type) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+            if (playlist.length === 0) {
+                showToast('⚠️ No hay canciones en la playlist', 'warning');
+                return;
+            }
+
+            playTrack(playlist[0].id, type);
+            showToast('▶️ Reproduciendo playlist completa');
+        }
+
+        function shufflePlaylist(type) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+
+            for (let i = playlist.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
+            }
+
+            savePlaylists();
+            renderTrackList(type);
+            showToast('🔀 Playlist mezclada');
+        }
+
+        function moveTrack(type, index, direction) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+            const newIndex = index + direction;
+
+            if (newIndex < 0 || newIndex >= playlist.length) return;
+
+            [playlist[index], playlist[newIndex]] = [playlist[newIndex], playlist[index]];
+            savePlaylists();
+            renderTrackList(type);
+        }
+
+        function removeTrack(type, index) {
+            const playlist = type === 'main' ? state.mainPlaylist : state.secondaryPlaylist;
+            playlist.splice(index, 1);
+            savePlaylists();
+            renderTrackList(type);
+            updateTotalTracks();
+            showToast('🗑️ Canción eliminina');
+        }
+
+        function updateTotalTracks() {
+            const total = state.mainPlaylist.length + state.secondaryPlaylist.length;
+            document.getElementById('totalTracks').textContent = total;
+        }
+
+        // ==========================================================================
+        // SCHEDULE MANAGEMENT
+        // ==========================================================================
+        function renderSchedules() {
+            const container = document.getElementById('scheduleGrid');
+
+            container.innerHTML = state.schedules.map((schedule, index) => {
+                const now = new Date();
+                const currentTime = now.getHours().toString().padStart(2, '0') + ':' +
+                    now.getMinutes().toString().padStart(2, '0');
+                const isCurrent = currentTime >= schedule.time && currentTime < schedule.timeEnd;
+
+                return `
+                    <div class="schedule-item ${isCurrent ? 'current' : ''}">
+                        <div class="schedule-time">${schedule.time}</div>
+                        <div class="schedule-details">
+                            <h4>${schedule.name}</h4>
+                            <p><i class="fa fa-user"></i> ${schedule.dj} | ${schedule.time} - ${schedule.timeEnd}</p>
+                        </div>
+                        <span class="schedule-type ${schedule.type}">
+                            ${schedule.type === 'live' ? '🔴 En Vivo' : '🤖 AutoDJ'}
+                        </span>
+                        <button class="btn-icon btn-secondary" onclick="deleteSchedule(${index})" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addSchedule() {
+            const name = document.getElementById('scheduleName').value.trim();
+            const dj = document.getElementById('scheduleDJ').value.trim();
+            const time = document.getElementById('scheduleTime').value;
+            const timeEnd = document.getElementById('scheduleTimeEnd').value;
+            const type = document.getElementById('scheduleType').value;
+
+            if (!name || !time || !timeEnd) {
+                showToast('⚠️ Completa todos los campos', 'error');
+                return;
+            }
+
+            state.schedules.push({ name, dj: dj || 'AutoDJ', time, timeEnd, type });
+            state.schedules.sort((a, b) => a.time.localeCompare(b.time));
+
+            localStorage.setItem('autodj_schedules', JSON.stringify(state.schedules));
+
+            closeModal('addScheduleModal');
+            renderSchedules();
+            showToast('✅ Programa agregado');
+
+            // Clear form
+            document.getElementById('scheduleName').value = '';
+            document.getElementById('scheduleDJ').value = '';
+        }
+
+        function deleteSchedule(index) {
+            state.schedules.splice(index, 1);
+            localStorage.setItem('autodj_schedules', JSON.stringify(state.schedules));
+            renderSchedules();
+            showToast('🗑️ Programa eliminado');
+        }
+
+        function checkCurrentSchedule() {
+            const now = new Date();
+            const currentTime = now.getHours().toString().padStart(2, '0') + ':' +
+                now.getMinutes().toString().padStart(2, '0');
+
+            const current = state.schedules.find(s => currentTime >= s.time && currentTime < s.timeEnd);
+
+            if (current) {
+                console.log(`📻 Programa actual: ${current.name} (${current.dj})`);
+            }
+
+            renderSchedules();
+        }
+
+        // ==========================================================================
+        // LISTENER CHART
+        // ==========================================================================
+        function renderListenerChart() {
+            const container = document.getElementById('listenersChart');
+            const data = state.listenerHistory.length > 0 ? state.listenerHistory : [0, 0, 0, 0, 0];
+            const max = Math.max(...data, 1);
+
+            container.innerHTML = data.map(value => {
+                const height = (value / max) * 100;
+                return `<div class="chart-bar" style="height: ${Math.max(height, 5)}%" data-value="${value} oyentes"></div>`;
+            }).join('');
+        }
+
+        // ==========================================================================
+        // AUTODJ CONTROLS
+        // ==========================================================================
+        function toggleAutoDJ() {
+            state.isAutoDJ = !state.isAutoDJ;
+            document.getElementById('autoDJToggle').checked = state.isAutoDJ;
+
+            if (state.isAutoDJ) {
+                showToast('🤖 AutoDJ activado');
+                startAutoDJ();
+            } else {
+                showToast('⏹️ AutoDJ desactivado');
+                stopAutoDJ();
+            }
+        }
+
+        function toggleAutoDJMode() {
+            state.isAutoDJ = document.getElementById('autoDJToggle').checked;
+
+            if (state.isAutoDJ) {
+                showToast('🤖 AutoDJ activado');
+                startAutoDJ();
+            } else {
+                showToast('⏹️ AutoDJ desactivado');
+                stopAutoDJ();
+            }
+        }
+
+        function startAutoDJ() {
+            if (state.mainPlaylist.length === 0) {
+                showToast('⚠️ Agrega canciones a la playlist primero', 'warning');
+                return;
+            }
+
+            // Start playing from playlist
+            playAll('main');
+        }
+
+        function stopAutoDJ() {
+            // Stop current playback
+            state.currentTrack = null;
+            renderTrackList('main');
+            renderTrackList('secondary');
+        }
+
+        function updateCrossfader(value) {
+            const main = 100 - value;
+            const secondary = value;
+            document.getElementById('crossfaderValue').textContent = `${main}/${secondary}`;
+        }
+
+        // ==========================================================================
+        // METADATA
+        // ==========================================================================
+        function updateMetadata() {
+            const artist = document.getElementById('metaArtist').value.trim();
+            const song = document.getElementById('metaSong').value.trim();
+
+            if (!artist && !song) {
+                showToast('⚠️ Ingresa artista o canción', 'error');
+                return;
+            }
+
+            // Update display
+            document.getElementById('currentArtist').textContent = artist || 'AutoDJ';
+            document.getElementById('currentSong').textContent = song || 'Puro Llano Radio';
+
+            // Send to server
+            sendMetadataToServer(artist, song);
+
+            // Add to history
+            state.history.unshift({
+                title: song || 'Puro Llano Radio',
+                artist: artist || 'AutoDJ',
+                playedAt: new Date().toLocaleTimeString()
+            });
+
+            renderHistory();
+            showToast('✅ Metadata actualizada');
+        }
+
+        async function sendMetadataToServer(artist, song) {
+            try {
+                const metadata = `${artist || 'AutoDJ'} - ${song || 'Puro Llano Radio'}`;
+                const url = `${STREAM_CONFIG.server}/admin.cgi?pass=${STREAM_CONFIG.adminPassword}&mode=updinfo&song=${encodeURIComponent(metadata)}`;
+
+                await fetch(url, {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+
+                console.log('Metadata enviada al servidor');
+            } catch (err) {
+                console.log('No se pudo enviar metadata:', err.message);
+            }
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+
+            if (state.history.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa fa-history"></i>
+                        <h3>Sin historial</h3>
+                        <p>El historial aparecerá cuando se reproduzcan canciones</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = state.history.map(item => `
+                <div class="track-item">
+                    <div class="track-info">
+                        <h4>${item.title}</h4>
+                        <p>${item.artist}</p>
+                    </div>
+                    <div class="track-duration">${item.playedAt}</div>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================================================
+        // QUICK ACTIONS
+        // ==========================================================================
+        function announceTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            const timeStr = `Son las ${hours}:${minutes.toString().padStart(2, '0')}`;
+
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(timeStr);
+                utterance.lang = 'es-ES';
+                speechSynthesis.speak(utterance);
+                showToast(`📢 Anunciando: ${timeStr}`);
+            } else {
+                showToast('⚠️ Tu navegador no soporta síntesis de voz', 'warning');
+            }
+        }
+
+        function playJingle() {
+            if (state.secondaryPlaylist.length === 0) {
+                showToast('⚠️ No hay jingles en la playlist secundaria', 'warning');
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * state.secondaryPlaylist.length);
+            playTrack(state.secondaryPlaylist[randomIndex].id, 'secondary');
+        }
+
+        function fadeToMusic() {
+            showToast('🎵 Fade a música activado');
+        }
+
+        function recordShow() {
+            showToast('🎙️ Grabación iniciada');
+        }
+
+        // ==========================================================================
+        // MODALS
+        // ==========================================================================
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // ==========================================================================
+        // TOAST NOTIFICATIONS
+        // ==========================================================================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fa fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'exclamation-triangle'}"></i> ${message}`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

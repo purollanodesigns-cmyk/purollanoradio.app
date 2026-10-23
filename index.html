@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PURO LLANO RADIO | Emisora Online del Folklore Llanero</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="🎵 Puro Llano Radio - La mejor emisora de música llanera online. Escucha joropo, contrapunteo y folklore venezolano en vivo 24/7 desde Puerto Ayacucho, Amazonas, Venezuela.">
+    <meta name="keywords"
+        content="puro llano radio, música llanera, joropo venezolano, folklore llanero, radio venezolana, emisora online, música tradicional, contrapunteo, arpa llanera, cuatro venezolano, maracas, puerto ayacucho, amazonas venezuela, radio en vivo, streaming musical">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="revisit-after" content="1 days">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradioapp.vercel.app/">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="VE-Z">
+    <meta name="geo.placename" content="Puerto Ayacucho, Amazonas, Venezuela">
+    <meta name="geo.position" content="5.6333;--67.6167">
+    <meta name="ICBM" content="5.6333, -67.6167">
+
+    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
+    <meta property="og:title" content="PURO LLANO RADIO 🎵 | Música Llanera y Folklore Venezolano en Vivo">
+    <meta property="og:description"
+        content="Escucha la mejor selección de música llanera 24/7. Joropo, contrapunteo y folklore venezolano en vivo.">
+    <meta property="og:image" content="./PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Puro Llano Radio - Logo Oficial">
+    <meta property="og:url" content="https://purollanoradio.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+    <meta property="og:locale" content="es_VE">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@purollanoradio">
+    <meta name="twitter:creator" content="@purollanoradio">
+    <meta name="twitter:title" content="PURO LLANO RADIO 🎵 | Música Llanera en Vivo 24/7">
+    <meta name="twitter:description"
+        content="La mejor emisora de joropo y folklore llanero. Transmisión en vivo desde Venezuela.">
+    <meta name="twitter:image" content="./PUROLLANORADIO-COM-ICONO.png">
+    <meta name="twitter:image:alt" content="Puro Llano Radio - Logo Oficial">
+
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+    <meta name="application-name" content="Puro Llano Radio">
+    <meta name="msapplication-TileColor" content="#1a1108">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Language Alternates -->
+    <link rel="alternate" hreflang="es" href="https://purollanoradioapp.vercel.app/">
+    <link rel="alternate" hreflang="es-VE" href="https://purollanoradioapp.vercel.app/">
+
+    <link rel="icon" href="./PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="./PUROLLANORADIO-COM-ICONO.png" />
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/base.css?v=3">
+    <link rel="stylesheet" href="css/layout.css?v=3">
+    <link rel="stylesheet" href="css/player.css?v=3">
+    <link rel="stylesheet" href="css/components.css?v=3">
+    <link rel="stylesheet" href="css/widgets.css?v=3">
+
+    <!-- Chat Styles (separate for now) -->
+    <link rel="stylesheet" href="chat-styles.css">
+
+    <!-- Main styles (legacy, to be removed after full migration) -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
+    <!-- Firebase Messaging (Push Notifications propias) -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="./firebase.js"></script>
+    <!-- Dynamic Sidebar Loader -->
+    <script src="menu-loader.js?v=3" defer></script>
+</head>
+
+<body oncontextmenu="return false">
+
+    <!-- Canvas de Fondo -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Overlay del Menu -->
+    <div id="sidebarOverlay"></div>
+
+    <!-- Botón Toggle del Menú -->
+    <button id="menuToggle" aria-label="Abrir menú">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Principal -->
+    <aside id="mainSidebar"></aside>
+
+    <!-- Contenido Principal -->
+    <div class="main-wrapper">
+        <div class="player-card">
+            <!-- Partículas flotantes -->
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 1s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 3s;"></div>
+
+            <!-- Título de la Radio -->
+            <h1 class="radio-main-title">Puro Llano Radio</h1>
+
+            <!-- Información de la Canción -->
+            <div class="song-info-container">
+                <div id="song-title" class="song-title-text">LISTO PARA ESCUCHAR</div>
+                <div id="artist-name" class="artist-name-text">Joropo del bueno</div>
+            </div>
+
+            <!-- Vinilo Girando -->
+            <div class="turntable-container">
+                <!-- Disco de vinilo negro -->
+                <div class="vinyl-record" id="vinylRecord">
+                    <!-- Estrías del vinilo -->
+                    <div class="vinyl-grooves"></div>
+
+                    <!-- Etiqueta central con logo -->
+                    <div class="vinyl-label" id="vinylLabel">
+                        <img id="vinylLabelImg" src="./PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio Logo">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Progreso -->
+            <div class="progress-container">
+                <span id="currentTime" class="time-display">00:00</span>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-cursor" id="progressCursor"></div>
+                </div>
+            </div>
+
+            <!-- Botón de Play/Pausa -->
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                <i class="fa fa-play" id="playIcon"></i>
+            </button>
+
+            <!-- Estado de Conexión -->
+            <div id="status-container" class="status-indicator">
+                <span id="status-dot" class="dot-online"></span>
+                <span id="status-text">CONECTADO</span>
+            </div>
+
+            <!-- Control de Volumen -->
+            <div class="volume-wrapper">
+                <i class="fa fa-volume-down" id="vol-down-icon" onclick="toggleMute()" style="cursor: pointer;"></i>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8">
+                <i class="fa fa-volume-up" id="vol-up-icon" style="opacity: 0.6;"></i>
+            </div>
+        </div>
+
+        <footer class="footer-copyright">
+            &copy; 2022 - 2026 PURO LLANO RADIO | TODOS LOS DERECHOS RESERVADOS
+        </footer>
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="audio" crossorigin="anonymous" metadataTechnic="fallback"
+        ownMetadataUrl="https://player.extassisnetwork.com/api.php?url=https://radios.mipanel.stream:6816/stream"></audio>
+
+    <!-- Botón Flotante de Chat -->
+    <div class="chat-cta" id="chatCTA">¡Escríbenos! Estamos en vivo 📻✨</div>
+    <button class="floating-chat-btn" id="floatingChatBtn" title="Chat en Vivo" onclick="toggleChatInterno()">
+        <i class="fa fa-comments"></i>
+        <span class="chat-badge" id="chatBadge" style="display: none;">0</span>
+    </button>
+
+    <!-- Panel de Chat Interno con Firebase -->
+    <div class="chat-panel-interno" id="chatPanelInterno">
+        <div class="chat-header-interno">
+            <div class="chat-header-info-interno">
+                <i class="fa fa-headset"></i>
+                <div>
+                    <h4>Chat Puro Llano</h4>
+                    <span class="chat-status-interno"><span class="dot-online"></span> <span
+                            id="chatOnlineCount">0</span> en línea</span>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button class="chat-users-btn" onclick="toggleChatUsers()" title="Usuarios">
+                    <i class="fa fa-users"></i>
+                    <span class="users-badge" id="chatUsersBadge">0</span>
+                </button>
+                <button class="chat-close" onclick="toggleChatInterno()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Panel de Usuarios -->
+        <div class="chat-users-panel" id="chatUsersPanel">
+            <div class="chat-users-header">
+                <h5><i class="fa fa-users"></i> Usuarios en Línea</h5>
+                <button onclick="toggleChatUsers()"><i class="fa fa-times"></i></button>
+            </div>
+            <div class="chat-users-list" id="chatUsersList">
+                <div class="users-loading">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <p>Cargando usuarios...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensajes -->
+        <div class="chat-messages-interno" id="chatMessagesInterno">
+            <div class="messages-loading" id="chatLoading">
+                <i class="fa fa-spinner fa-spin"></i>
+                <p>Conectando al chat...</p>
+            </div>
+        </div>
+
+        <!-- Indicador de escritura -->
+        <div class="chat-typing-indicator" id="chatTypingIndicator"></div>
+
+        <!-- Input de mensajes -->
+        <div class="chat-input-area">
+            <button class="emoji-btn" onclick="toggleEmojiPicker()" title="Emojis">
+                <i class="fa fa-smile"></i>
+            </button>
+            <div class="emoji-picker-interno" id="emojiPickerInterno">
+                <div class="emoji-grid">
+                    <span onclick="insertEmojiChat('😀')">😀</span>
+                    <span onclick="insertEmojiChat('😂')">😂</span>
+                    <span onclick="insertEmojiChat('🤠')">🤠</span>
+                    <span onclick="insertEmojiChat('😍')">😍</span>
+                    <span onclick="insertEmojiChat('👍')">👍</span>
+                    <span onclick="insertEmojiChat('❤️')">❤️</span>
+                    <span onclick="insertEmojiChat('🎵')">🎵</span>
+                    <span onclick="insertEmojiChat('🎶')">🎶</span>
+                    <span onclick="insertEmojiChat('🎸')">🎸</span>
+                    <span onclick="insertEmojiChat('🎤')">🎤</span>
+                    <span onclick="insertEmojiChat('📻')">📻</span>
+                    <span onclick="insertEmojiChat('🇻🇪')">🇻🇪</span>
+                    <span onclick="insertEmojiChat('🔥')">🔥</span>
+                    <span onclick="insertEmojiChat('✨')">✨</span>
+                    <span onclick="insertEmojiChat('👏')">👏</span>
+                    <span onclick="insertEmojiChat('💯')">💯</span>
+                </div>
+            </div>
+            <input type="text" id="chatInput" placeholder="Escribe tu mensaje..." maxlength="500"
+                onkeypress="handleChatKeyPress(event)">
+            <button class="send-btn" onclick="sendChatMessage()">
+                <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+        <div class="chat-input-footer">
+            <span class="char-count"><span id="chatCharCount">0</span>/500</span>
+        </div>
+    </div>
+
+    <!-- Modal de Bienvenida al Chat -->
+    <div class="chat-modal-overlay" id="chatWelcomeModal">
+        <div class="chat-modal-content">
+            <div class="chat-modal-header">
+                <i class="fa fa-comments"></i>
+                <h3>¡Bienvenido al Chat!</h3>
+            </div>
+            <div class="chat-modal-body">
+                <p>Únete a nuestra comunidad de amantes del folklore llanero</p>
+                <div class="chat-rules">
+                    <h4>Reglas del Chat:</h4>
+                    <ul>
+                        <li><i class="fa fa-check"></i> Respeta a los demás usuarios</li>
+                        <li><i class="fa fa-check"></i> No uses lenguaje ofensivo</li>
+                        <li><i class="fa fa-check"></i> Disfruta la música llanera</li>
+                        <li><i class="fa fa-check"></i> Comparte sin spam</li>
+                    </ul>
+                </div>
+                <div class="chat-username-form">
+                    <label>Elige tu nombre de usuario:</label>
+                    <input type="text" id="chatWelcomeUsername" placeholder="Tu nombre" maxlength="20">
+                </div>
+            </div>
+            <div class="chat-modal-footer">
+                <button class="btn-join-chat" onclick="joinChatInterno()">
+                    <i class="fa fa-sign-in-alt"></i> Unirme al Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de notificaciones -->
+    <div class="chat-toast" id="chatToast">
+        <i class="fa fa-info-circle"></i>
+        <span id="chatToastMessage">Mensaje</span>
+    </div>
+
+    <!-- Toast "Ahora Suena" -->
+    <div class="ahora-sueno-toast" id="ahoraSuenoToast">
+        <div class="ahora-sueno-content">
+            <div class="ahora-sueno-icon">
+                <i class="fa fa-music"></i>
+            </div>
+            <div class="ahora-sueno-text">
+                <span class="ahora-sueno-label">Ahora Suena</span>
+                <span class="ahora-sueno-song" id="ahoraSuenoSong"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script-visits.js?v=2"></script>
+    <script src="script-history.js?v=2"></script>
+    <script src="script-listeners.js?v=2"></script>
+    <script src="script-main.js?v=2"></script>
+    <script src="./notifications.js?v=2"></script>
+    <script src="script-greetings.js?v=2"></script>
+    <script src="chat-script.js?v=2"></script>
+
+    <!-- PWA Service Worker -->
+    <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado:', registration.scope);
+
+                        // Verificar actualizaciones
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('🔄 Nueva versión disponible');
+                                    if (confirm('Hay una nueva versión disponible. ¿Recargar?')) {
+                                        location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error al registrar Service Worker:', error);
+                    });
+            });
+        }
+
+        // Manifest dinámico para PWA
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = 'manifest.json';
+        document.head.appendChild(manifestLink);
+
+        // Meta tags para PWA en iOS
+        const iosMetaTags = [
+            { name: 'apple-mobile-web-app-capable', content: 'yes' },
+            { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+            { name: 'apple-mobile-web-app-title', content: 'Puro Llano' },
+            { name: 'mobile-web-app-capable', content: 'yes' }
+        ];
+
+        iosMetaTags.forEach(tag => {
+            const meta = document.createElement('meta');
+            meta.name = tag.name;
+            meta.content = tag.content;
+            document.head.appendChild(meta);
+        });
+
+        // Apple Touch Icon
+        const appleIcon = document.createElement('link');
+        appleIcon.rel = 'apple-touch-icon';
+        appleIcon.href = './PUROLLANORADIO-COM-ICONO.png';
+        document.head.appendChild(appleIcon);
+    </script>
+
+    <!-- Función Contactar WhatsApp desde el menú -->
+    <script>
+        // Función contactar WhatsApp desde el menú
+        window.contactarWhatsAppMenu = function (event) {
+            if (event) event.preventDefault();
+
+            const telefono = "584164242274";
+            const ahora = new Date();
+            const hora = ahora.getHours();
+            let saludo = "Hola";
+            let momentoDia = "";
+
+            if (hora >= 5 && hora < 12) {
+                saludo = "¡Buenos días!";
+                momentoDia = "mañana";
+            } else if (hora >= 12 && hora < 19) {
+                saludo = "¡Buenas tardes!";
+                momentoDia = "tarde";
+            } else {
+                saludo = "¡Buenas noches!";
+                momentoDia = "noche";
+            }
+
+            const songTitle = document.getElementById('song-title')?.innerText.replace('📻 ', '') || 'la mejor música llanera';
+            const artistName = document.getElementById('artist-name')?.innerText || '';
+
+            const mensaje = `${saludo} equipo de *Puro Llano Radio*. 🤠 Estoy en sintonía de la estación...`;
+
+            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+    <!-- Datos Estructurados JSON-LD para SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RadioStation",
+        "name": "Puro Llano Radio",
+        "alternateName": ["Puro Llano", "PURO LLANO RADIO"],
+        "description": "Emisora online de música llanera y folklore venezolano. Transmisión en vivo 24/7 desde Puerto Ayacucho, Amazonas, Venezuela.",
+        "url": "https://purollanoradioapp.vercel.app/",
+        "logo": "./PUROLLANORADIO-COM-ICONO.png",
+        "image": "./PUROLLANORADIO-COM-ICONO.png",
+        "sameAs": [
+            "https://www.instagram.com/purollanoradio",
+            "https://www.facebook.com/purollanoradio",
+            "https://www.youtube.com/@purollanoradio",
+            "https://x.com/purollanoradio"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Puerto Ayacucho",
+            "addressRegion": "Amazonas",
+            "addressCountry": "VE"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "5.6333",
+            "longitude": "-67.6167"
+        },
+        "broadcastChannel": "Online Streaming",
+        "broadcastFrequency": "Online",
+        "genre": ["Folklore", "Música Llanera", "Joropo", "Música Tradicional Venezolana"],
+        "founder": {
+            "@type": "Organization",
+            "name": "Puro Llano Radio",
+            "foundingDate": "2022"
+        },
+        "potentialAction": {
+            "@type": "ListenAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://purollanoradioapp.vercel.app/?autoplay=1"
+            },
+            "expectsAcceptanceOf": {
+                "@type": "Offer",
+                "eligibleRegion": "WorldWide",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        }
+    }
+    </script>
+</body>
+
+</html>

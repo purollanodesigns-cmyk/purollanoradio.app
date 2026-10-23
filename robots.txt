@@ -1,0 +1,65 @@
+# robots.txt para Puro Llano Radio
+# https://purollanoradio.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Permitir rastreo de todas las páginas principales
+Allow: /index.html
+Allow: /top5.html
+Allow: /programacion.html
+Allow: /chat.html
+
+# Permitir rastreo de recursos estáticos
+Allow: /css/
+Allow: /fonts/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.woff
+Allow: /*.woff2
+
+# Sitemap
+Sitemap: https://purollanoradio.com/sitemap.xml
+
+# Reglas específicas para Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Reglas específicas para Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Reglas para redes sociales
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Evitar rastreo de archivos sensibles (si los hay)
+Disallow: /admin-notificaciones.html
+Disallow: /api/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.qwen/
+
+# Limpiar parámetros de URL para mejor indexación
+Clean-param: autoplay
+Clean-param: t
+Clean-param: cache

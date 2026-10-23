@@ -1,0 +1,28 @@
+# Cloudflare Pages Headers for Puro Llano Radio
+# https://developers.cloudflare.com/pages/platform/headers/
+
+/*
+  X-Robots-Tag: index, follow
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/top5semanal.html
+  X-Robots-Tag: index, follow
+
+/programacion.html
+  X-Robots-Tag: index, follow
+
+/blog.html
+  X-Robots-Tag: index, follow
+
+/acerca.html
+  X-Robots-Tag: index, follow
+
+/artistas.html
+  X-Robots-Tag: index, follow
+
+/chat.html
+  X-Robots-Tag: index, follow
+
+/install.html
+  X-Robots-Tag: index, follow

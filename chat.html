@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Chat en Vivo - Puro Llano Radio 💬 | Conecta con Oyentes de Joropo</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="💬 Únete al chat en vivo de Puro Llano Radio. Conecta con otros oyentes de música llanera y folklore venezolano. ¡Comparte tu pasión por el joropo!">
+    <meta name="keywords"
+        content="chat puro llano, chat música llanera, comunidad joropo, oyentes radio venezolana, chat folklore, conversación llanera">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/chat.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Chat en Vivo - Puro Llano Radio 💬">
+    <meta property="og:description"
+        content="Únete a nuestra comunidad en vivo. Conecta con oyentes de música llanera y folklore.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:url" content="https://purollanoradio.com/chat.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Chat en Vivo - Puro Llano Radio">
+    <meta name="twitter:description" content="Conecta con otros amantes del folklore llanero en nuestro chat.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Estilos Chat -->
+    <link rel="stylesheet" href="chat-styles.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="./firebase.js"></script>
+</head>
+
+<body>
+    <!-- Canvas de Fondo -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="chat-header-main">
+        <div class="header-content">
+            <a href="https://purollanoradio.com" class="back-btn" title="Volver a la radio">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <div class="header-info">
+                <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio"
+                    class="header-logo">
+                <div>
+                    <h1>Chat Puro Llano</h1>
+                    <span class="online-status"><span class="dot-online"></span> <span id="onlineCount">0</span>
+                        usuarios en línea</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="settingsBtn" title="Configuración" onclick="toggleSettings()">
+                    <i class="fa fa-cog"></i>
+                </button>
+                <button class="header-btn" id="usersBtn" title="Usuarios" onclick="toggleUsersPanel()">
+                    <i class="fa fa-users"></i>
+                    <span class="users-badge" id="usersBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Panel de Usuarios -->
+    <div class="users-panel" id="usersPanel">
+        <div class="users-panel-header">
+            <h3><i class="fa fa-users"></i> Usuarios en Línea</h3>
+            <button class="close-panel-btn" onclick="toggleUsersPanel()">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="users-list" id="usersList">
+            <div class="users-loading">
+                <i class="fa fa-spinner fa-spin"></i>
+                <p>Cargando usuarios...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel de Configuración -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-panel-header">
+            <h3><i class="fa fa-cog"></i> Configuración</h3>
+            <button class="close-panel-btn" onclick="toggleSettings()">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-content">
+            <div class="setting-group">
+                <h4>Perfil</h4>
+                <div class="setting-item">
+                    <label>Nombre de Usuario</label>
+                    <input type="text" id="usernameInput" placeholder="Tu nombre" maxlength="20">
+                </div>
+                <button class="btn-save-profile" onclick="saveProfile()">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
+            <div class="setting-group">
+                <h4>Preferencias</h4>
+                <div class="setting-item">
+                    <label>Notificaciones de Mensajes</label>
+                    <label class="switch">
+                        <input type="checkbox" id="notifyMessages" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>Sonido de Notificación</label>
+                    <label class="switch">
+                        <input type="checkbox" id="notifySound" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>Mostrar Emojis</label>
+                    <label class="switch">
+                        <input type="checkbox" id="showEmojis" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-group">
+                <h4>Moderación</h4>
+                <button class="btn-report" onclick="reportAbuse()">
+                    <i class="fa fa-flag"></i> Reportar Abuso
+                </button>
+                <button class="btn-clear-chat" onclick="clearMyMessages()">
+                    <i class="fa fa-trash"></i> Limpiar Mi Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal del Chat -->
+    <main class="chat-container">
+        <!-- Área de Mensajes -->
+        <div class="chat-messages-container" id="chatMessagesContainer">
+            <div class="chat-messages" id="chatMessages">
+                <div class="messages-loading">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <p>Cargando mensajes...</p>
+                </div>
+            </div>
+            <button class="scroll-to-bottom-btn" id="scrollToBottomBtn" onclick="scrollToBottom()"
+                style="display: none;">
+                <i class="fa fa-arrow-down"></i>
+            </button>
+        </div>
+
+        <!-- Área de Input -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <button class="emoji-btn" id="emojiBtn" onclick="toggleEmojiPicker()" title="Emojis">
+                    <i class="fa fa-smile"></i>
+                </button>
+                <div class="emoji-picker" id="emojiPicker">
+                    <div class="emoji-grid">
+                        <span onclick="insertEmoji('😀')">😀</span>
+                        <span onclick="insertEmoji('😂')">😂</span>
+                        <span onclick="insertEmoji('🤠')">🤠</span>
+                        <span onclick="insertEmoji('😍')">😍</span>
+                        <span onclick="insertEmoji('👍')">👍</span>
+                        <span onclick="insertEmoji('❤️')">❤️</span>
+                        <span onclick="insertEmoji('🎵')">🎵</span>
+                        <span onclick="insertEmoji('🎶')">🎶</span>
+                        <span onclick="insertEmoji('🎸')">🎸</span>
+                        <span onclick="insertEmoji('🎤')">🎤</span>
+                        <span onclick="insertEmoji('📻')">📻</span>
+                        <span onclick="insertEmoji('🇻🇪')">🇻🇪</span>
+                        <span onclick="insertEmoji('🔥')">🔥</span>
+                        <span onclick="insertEmoji('✨')">✨</span>
+                        <span onclick="insertEmoji('👏')">👏</span>
+                        <span onclick="insertEmoji('💯')">💯</span>
+                    </div>
+                </div>
+                <input type="text" id="messageInput" placeholder="Escribe tu mensaje..." autocomplete="off"
+                    onkeypress="handleKeyPress(event)">
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="chat-input-footer">
+                <span id="typingIndicator" class="typing-indicator"></span>
+                <span class="char-count"><span id="charCount">0</span>/500</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Bienvenida -->
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-comments"></i>
+                <h2>¡Bienvenido al Chat!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Únete a nuestra comunidad de amantes del folklore llanero</p>
+                <div class="rules-list">
+                    <h4>Reglas del Chat:</h4>
+                    <ul>
+                        <li><i class="fa fa-check"></i> Respeta a los demás usuarios</li>
+                        <li><i class="fa fa-check"></i> No uses lenguaje ofensivo</li>
+                        <li><i class="fa fa-check"></i> Disfruta la música llanera</li>
+                        <li><i class="fa fa-check"></i> Comparte sin spam</li>
+                    </ul>
+                </div>
+                <div class="username-form">
+                    <label>Elige tu nombre de usuario:</label>
+                    <input type="text" id="welcomeUsername" placeholder="Tu nombre" maxlength="20">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-join" onclick="joinChat()">
+                    <i class="fa fa-sign-in-alt"></i> Unirme al Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación Toast -->
+    <div class="toast" id="toast">
+        <i class="fa fa-info-circle"></i>
+        <span id="toastMessage">Mensaje</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="chat-script.js"></script>
+
+    <script>
+        // Canvas de fondo (similar al index.html)
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * bgCanvas.width,
+                    y: Math.random() * bgCanvas.height,
+                    size: Math.random() * 1.5 + 0.5,
+                    baseSpeed: Math.random() * 0.4 + 0.1,
+                    opacity: Math.random() * 0.4
+                });
+            }
+        }
+
+        function drawParticles() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgCtx.fillStyle = '#fed202';
+            particles.forEach(p => {
+                bgCtx.globalAlpha = Math.min(p.opacity, 0.7);
+                bgCtx.beginPath();
+                bgCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                bgCtx.fill();
+                p.y -= p.baseSpeed;
+                if (p.y < -20) { p.y = bgCanvas.height + 20; p.x = Math.random() * bgCanvas.width; }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initParticles);
+        initParticles();
+        drawParticles();
+    </script>
+</body>
+
+</html>

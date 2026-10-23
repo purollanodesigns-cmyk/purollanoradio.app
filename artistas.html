@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artistas de Joropo 🎵 | Músicos Destacados del Folklore Llanero</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="🎵 Descubre los artistas más destacados de la música llanera venezolana y colombiana. Joropo contemporáneo, arpistas, copleros y grandes maestros del folklore.">
+    <meta name="keywords"
+        content="artistas joropo, músicos llaneros, arpistas venezolanos, copleros, folklore venezolano, música tradicional, artistas contemporáneos, neo joropo">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/artistas.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Artistas de Joropo 🎵 | Músicos del Folklore Llanero">
+    <meta property="og:description"
+        content="Conoce a los artistas más destacados de la música llanera venezolana y colombiana contemporánea.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://purollanoradio.com/artistas.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+    <meta property="og:locale" content="es_VE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Artistas de Joropo 🎵 | Puro Llano Radio">
+    <meta name="twitter:description" content="Descubre los mejores artistas de música llanera venezolana.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --dark-deep: #1a1108;
+            --dark-brown: #3d2817;
+            --text-light: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-deep) 0%, var(--dark-brown) 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 150px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(254, 210, 2, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(254, 210, 2, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.2);
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            background: rgba(254, 210, 2, 0.1);
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(254, 210, 2, 0.2);
+        }
+
+        .breadcrumbs ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumbs li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumbs li:not(:last-child)::after {
+            content: '›';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-light);
+        }
+
+        /* Filtro */
+        .filter-section {
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 16px;
+            background: rgba(254, 210, 2, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 18px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--dark-deep);
+            font-weight: 700;
+        }
+
+        /* Stats counter */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(254, 210, 2, 0.1);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(254, 210, 2, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Grid de Artistas */
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .artist-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 35px rgba(254, 210, 2, 0.3);
+        }
+
+        .artist-banner {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .artist-banner-bg {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .artist-card:hover .artist-banner-bg {
+            transform: scale(1.05);
+        }
+
+        .artist-banner-initial {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            z-index: 2;
+        }
+
+        .artist-banner-yt {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #FF0000;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .artist-banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.6));
+            z-index: 1;
+        }
+
+        .artist-info {
+            padding: 20px;
+        }
+
+        .artist-name {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+
+        .artist-role {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .artist-description {
+            color: var(--text-light);
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .artist-highlights {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+        }
+
+        .artist-highlights li {
+            color: var(--text-light);
+            padding: 6px 0;
+            padding-left: 22px;
+            position: relative;
+            font-size: 0.85rem;
+        }
+
+        .artist-highlights li::before {
+            content: '♪';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .artist-social {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .artist-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(254, 210, 2, 0.2);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 50%;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .artist-social a:hover {
+            background: var(--primary);
+            color: var(--dark-deep);
+            transform: scale(1.1);
+        }
+
+        /* Reproductor Flotante */
+        .floating-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.98) 0%, rgba(15, 15, 20, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(254, 210, 2, 0.2);
+            padding: 12px 18px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-info h4 {
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .player-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.7rem;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .player-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            border: none;
+            color: var(--dark-deep);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(254, 210, 2, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .artists-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 10px 18px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="https://purollanoradio.com" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+            Volver al Inicio
+        </a>
+
+        <div class="header">
+            <h1><i class="fa fa-star"></i> Artistas del Folklore Llanero</h1>
+            <p>Los mejores intérpretes de música llanera venezolana y colombiana</p>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="https://purollanoradio.com/">
+                        <span itemprop="name">Inicio</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current">
+                    <span itemprop="name">Artistas</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Stats -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="artistCount">50+</div>
+                <div class="stat-label">Artistas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Venezuela</div>
+                <div class="stat-label">y Colombia</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">En Vivo</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="arpistas">Arpistas</button>
+            <button class="filter-btn" data-filter="cantantes">Cantantes</button>
+            <button class="filter-btn" data-filter="copleros">Copleros</button>
+            <button class="filter-btn" data-filter="contemporaneos">Contemporáneos</button>
+        </div>
+
+        <!-- Artistas -->
+        <div class="artists-grid" id="artistsGrid">
+            <!-- Artista 1: Milena Benites -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@MilenaBenites" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #9c27b0);">
+                        <div class="artist-banner-initial">MB</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Milena Benites</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento femenino del joropo contemporáneo. Su voz ha conquistado escenarios en Venezuela y
+                        Colombia, llevando la música llanera a nuevas audiencias.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@MilenaBenites" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 2: Leonel Araujo -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@leonel.araujo" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #2196f3, #00bcd4);">
+                        <div class="artist-banner-initial">LA</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Leonel Araujo</h2>
+                    <p class="artist-role">Cantante y Compositor</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano dedicado a preservar y difundir la música llanera tradicional con un toque
+                        contemporáneo.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@leonel.araujo" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 3: Duilfer Bona -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@duilferbonaoficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #f44336, #ff9800);">
+                        <div class="artist-banner-initial">DB</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Duilfer Bona</h2>
+                    <p class="artist-role">Cantante Contemporáneo de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista contemporáneo que ha llevado el joropo a nuevas audiencias. Su éxito "Frenando en el
+                        Hierro" es uno de los temas más escuchados de la música llanera actual con más de 55,700 vistas.
+                    </p>
+                    <ul class="artist-highlights">
+                        <li>Éxito "Frenando en el Hierro"</li>
+                        <li>55,700+ vistas en YouTube</li>
+                    </ul>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@duilferbonaoficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 4: El Cartelu -->
+            <article class="artist-card" data-category="copleros" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@ElCartelu" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">EC</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">El Cartelu</h2>
+                    <p class="artist-role">Coplero y Compositor</p>
+                    <p class="artist-description" itemprop="description">
+                        Reconocido coplero del folklore llanero, manteniendo viva la tradición del contrapunteo y la
+                        poesía popular.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@ElCartelu" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 5: Reinaldo Acuña -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@reinaldoacunamusic" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">RA</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Reinaldo Acuña</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano dedicado a la música llanera, interpretando los géneros tradicionales del
+                        folklore con pasión y autenticidad.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@reinaldoacunamusic" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 6: Rosmely Ledezma -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@RosmelyLedezma24" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #00bcd4, #009688);">
+                        <div class="artist-banner-initial">RL</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Rosmely Ledezma</h2>
+                    <p class="artist-role">Cantante Femenina de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Representante del talento femenino en la música llanera, interpretando joropo con una voz
+                        potente y estilo auténtico.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@RosmelyLedezma24" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 7: Jorge El Guerrero -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@elguerrerojorge" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #f44336);">
+                        <div class="artist-banner-initial">JE</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Jorge El Guerrero</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista venezolano conocido por su interpretación enérgica y apasionada de la música llanera
+                        tradicional.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@elguerrerojorge" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 8: Rosángela Belisario -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@RosangelaBelisario" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #ff5722, #ff9800);">
+                        <div class="artist-banner-initial">RB</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Rosángela Belisario</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolana dedicada a la promoción del folklore llanero a través de su música y
+                        presentaciones en vivo.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@RosangelaBelisario" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 9: El Mocho Pérez -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@elmochoperez" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #3f51b5, #2196f3);">
+                        <div class="artist-banner-initial">EM</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">El Mocho Pérez</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete venezolano de joropo y música llanera, conocido por su estilo auténtico y conexión
+                        con el público.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@elmochoperez" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 10: Duglanny Sosa -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@duglannysosaoficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #009688, #4caf50);">
+                        <div class="artist-banner-initial">DS</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Duglanny Sosa</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento emergente de la música llanera venezolana, interpretando joropo con pasión y dedicación
+                        artística.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@duglannysosaoficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 11: Huber Paredes -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@HuberParedesOficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">HU</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Huber Paredes</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano dedicado a la difusión del folklore llanero a través de su música y
+                        presentaciones.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@HuberParedesOficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 12: Luis Andrés Bianchi -->
+            <article class="artist-card" data-category="arpistas" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@LuisAndresbianchi" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">LU</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Luis Andrés Bianchi</h2>
+                    <p class="artist-role">Arpista y Compositor</p>
+                    <p class="artist-description" itemprop="description">
+                        Virtuoso del arpa llanera, llevando la melodía del llano a escenarios nacionales e
+                        internacionales.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@LuisAndresbianchi" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 13: Hipólito Arrieta -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@Hipólito_Arrieta_Oficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #f44336, #ff9800);">
+                        <div class="artist-banner-initial">HA</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Hipólito Arrieta</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano de música llanera, dedicado a preservar y promover los géneros tradicionales
+                        del folklore.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@Hipólito_Arrieta_Oficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 14: Cheito González -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@cheitogonzalez5792" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">CG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Cheito González</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Reconocido intérprete de joropo con una trayectoria dedicada a la música tradicional venezolana.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@cheitogonzalez5792" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 15: José Escobar -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@JoseEscobar-Oficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">JE</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">José Escobar</h2>
+                    <p class="artist-role">Cantante de Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista venezolano dedicado a la interpretación de música folklórica llanera con autenticidad y
+                        pasión.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@JoseEscobar-Oficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 16: Ariel Leal -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@ArielLeal" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #00bcd4, #009688);">
+                        <div class="artist-banner-initial">AL</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Ariel Leal</h2>
+                    <p class="artist-role">Cantante y Compositor</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante y compositor de música llanera, fusionando la tradición con sonidos contemporáneos.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@ArielLeal" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 17: Fernando Tovar -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@FernandoTovar" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #f44336);">
+                        <div class="artist-banner-initial">FT</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Fernando Tovar</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de joropo venezolano, llevando la esencia del llano a diferentes escenarios.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@FernandoTovar" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 18: Patio Sonoro -->
+            <article class="artist-card" data-category="contemporaneos" itemscope
+                itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@patiosonoro" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #ff5722, #ff9800);">
+                        <div class="artist-banner-initial">PS</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Patio Sonoro</h2>
+                    <p class="artist-role">Proyecto Musical</p>
+                    <p class="artist-description" itemprop="description">
+                        Proyecto musical dedicado a la difusión de la música llanera y folklore venezolano en
+                        plataformas digitales.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@patiosonoro" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 19: Manuel Prisco -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@manuelpriscooficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #795548, #9e9e9e);">
+                        <div class="artist-banner-initial">MP</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Manuel Prisco</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano de música llanera, interpretando los géneros tradicionales con dedicación
+                        artística.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@manuelpriscooficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 20: Nakary Perdomo -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@NakaryPerdomo" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+                        <div class="artist-banner-initial">NP</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Nakary Perdomo</h2>
+                    <p class="artist-role">Cantante Femenina de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Representante del talento femenino en el joropo, interpretando música llanera con voz potente y
+                        estilo auténtico.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@NakaryPerdomo" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 21: Milton Cruz (Jiruelito) -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@miltoncruzjiriuelito" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #3f51b5, #2196f3);">
+                        <div class="artist-banner-initial">MC</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Milton Cruz "Jiruelito"</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano conocido como "Jiruelito", interpretando música llanera con pasión y
+                        autenticidad.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@miltoncruzjiriuelito" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 22: Jhorvis Corrales -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@JhorvisCorrales" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #009688, #4caf50);">
+                        <div class="artist-banner-initial">JC</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Jhorvis Corrales</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento emergente del joropo venezolano, llevando la música llanera a nuevas generaciones.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@JhorvisCorrales" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 23: Yesid Ortiz -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@YesidOrtiz" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #f44336, #ff9800);">
+                        <div class="artist-banner-initial">YO</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Yesid Ortiz</h2>
+                    <p class="artist-role">Cantante de Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de música folklórica llanera, dedicado a preservar las tradiciones musicales del
+                        llano.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@YesidOrtiz" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 24: La Flor de Palavecino -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@Laflordepalavecino" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">LF</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">La Flor de Palavecino</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista venezolana originaria de Palavecino, interpretando música llanera con raíces profundas
+                        en la tradición.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@Laflordepalavecino" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 25: Norelkys Rondon -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@NorelkysRondon" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">NR</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Norelkys Rondon</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolana de joropo, promoviendo la música llanera en diferentes escenarios.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@NorelkysRondon" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 26: Fabian Padilla -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@fabianpadilloficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #00bcd4, #009688);">
+                        <div class="artist-banner-initial">FP</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Fabian Padilla</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante dedicado a la música llanera venezolana, interpretando géneros tradicionales con
+                        pasión.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@fabianpadilloficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 27: Luvicmar Blanco -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@LuvicmarBlanco" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #f44336);">
+                        <div class="artist-banner-initial">LB</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Luvicmar Blanco</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista venezolano dedicado al folklore llanero, interpretando joropo con dedicación y
+                        autenticidad.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@LuvicmarBlanco" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 28: Alejandro Rondon -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@AlejandroRondon" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #ff5722, #ff9800);">
+                        <div class="artist-banner-initial">AR</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Alejandro Rondon</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de joropo venezolano, llevando la esencia del llano a su audiencia a través de su
+                        música.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@AlejandroRondon" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 29: Correa Cantante -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@correacantante" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #795548, #9e9e9e);">
+                        <div class="artist-banner-initial">CC</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Correa Cantante</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete venezolano de música llanera, dedicado a preservar la tradición del folklore.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@correacantante" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 30: Robenis González -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@ROBENISGONZALEZ" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+                        <div class="artist-banner-initial">RG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Robenis González</h2>
+                    <p class="artist-role">Cantante de Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de folklore llanero, interpretando los géneros tradicionales con autenticidad y
+                        dedicación.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@ROBENISGONZALEZ" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 31: Roberci Hernández -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@Roberci_HernandezOficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #3f51b5, #2196f3);">
+                        <div class="artist-banner-initial">RH</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Roberci Hernández</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano de joropo, promoviendo la música llanera a través de sus presentaciones y
+                        grabaciones.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@Roberci_HernandezOficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 32: Jhon Ofre -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@jhonofre" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #009688, #4caf50);">
+                        <div class="artist-banner-initial">JO</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Jhon Ofre</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Artista dedicado a la música llanera venezolana, interpretando los géneros tradicionales del
+                        folklore.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@jhonofre" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 33: Ignacio Rondon -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@IgnacioRondon" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #f44336, #ff9800);">
+                        <div class="artist-banner-initial">IR</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Ignacio Rondon</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de folklore llanero, manteniendo viva la tradición musical del llano venezolano.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@IgnacioRondon" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 34: Walter Silva -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@waltersilvaoficial8186" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">WS</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Walter Silva</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de joropo venezolano, llevando la música del llano a diversos escenarios.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@waltersilvaoficial8186" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 35: Dameira Sánchez -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@dameirasanchez" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">DS</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Dameira Sánchez</h2>
+                    <p class="artist-role">Cantante Femenina de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento femenino del joropo venezolano, interpretando música llanera con pasión y dedicación
+                        artística.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@dameirasanchez" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 36: Neymar P -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@NeymarP" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #00bcd4, #009688);">
+                        <div class="artist-banner-initial">NP</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Neymar P</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de música llanera, dedicado a difundir el folklore venezolano a través de su arte.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@NeymarP" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 37: Araima Amezquita -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@AraimaAmezquita" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #f44336);">
+                        <div class="artist-banner-initial">AA</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Araima Amezquita</h2>
+                    <p class="artist-role">Cantante de Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de folklore llanero, promoviendo la música tradicional venezolana en diferentes
+                        plataformas.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@AraimaAmezquita" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 38: Alexander Galdames -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@alexandergaldamesoficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #ff5722, #ff9800);">
+                        <div class="artist-banner-initial">AG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Alexander Galdames</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de joropo, llevando la esencia del llano a su audiencia a través de su música
+                        auténtica.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@alexandergaldamesoficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 39: Adrián de Jesús Guaraná -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@AdriandeJesusGuaranOficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #795548, #9e9e9e);">
+                        <div class="artist-banner-initial">AG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Adrián de Jesús Guaraná</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante dedicado a la música llanera, interpretando los géneros tradicionales del folklore
+                        venezolano.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@AdriandeJesusGuaranOficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 40: Cristian Castillo -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@cristiancastillovzla" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+                        <div class="artist-banner-initial">CC</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Cristian Castillo</h2>
+                    <p class="artist-role">Cantante Venezolano</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante venezolano de música llanera, dedicado a la promoción del folklore a través de su arte.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@cristiancastillovzla" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 41: Neyer Oropeza -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@neyeroropeza1320" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #3f51b5, #2196f3);">
+                        <div class="artist-banner-initial">NO</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Neyer Oropeza</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de folklore llanero, manteniendo viva la tradición musical del llano venezolano.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@neyeroropeza1320" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 42: Ambar Montilla -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@Ambarmontillaa" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #009688, #4caf50);">
+                        <div class="artist-banner-initial">AM</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Ambar Montilla</h2>
+                    <p class="artist-role">Cantante Femenina de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento femenino del joropo, interpretando música llanera con dedicación y pasión artística.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@Ambarmontillaa" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 43: Francisco Mercado -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@Soyfranciscomercado" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #f44336, #ff9800);">
+                        <div class="artist-banner-initial">FM</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Francisco Mercado</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de joropo venezolano, llevando la esencia del llano a su audiencia.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@Soyfranciscomercado" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 44: Daniel Gualdron -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@DanielGualdron" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #4caf50, #8bc34a);">
+                        <div class="artist-banner-initial">DG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Daniel Gualdron</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Intérprete de música llanera, dedicado a la difusión del folklore venezolano.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@DanielGualdron" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 45: Rafael Garrido -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@RafaelGarrido.Oficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #673ab7, #3f51b5);">
+                        <div class="artist-banner-initial">RG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Rafael Garrido</h2>
+                    <p class="artist-role">Cantante de Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de folklore llanero, interpretando los géneros tradicionales con autenticidad.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@RafaelGarrido.Oficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 46: El Tigrito de Matanegra -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@eltigritodematanegra" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #00bcd4, #009688);">
+                        <div class="artist-banner-initial">ET</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">El Tigrito de Matanegra</h2>
+                    <p class="artist-role">Cantante de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de joropo con estilo propio, llevando la música llanera a diferentes audiencias.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@eltigritodematanegra" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 47: Andrea Mesa -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@AndreaMesaOficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #e91e63, #f44336);">
+                        <div class="artist-banner-initial">AM</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Andrea Mesa</h2>
+                    <p class="artist-role">Cantante Femenina de Joropo</p>
+                    <p class="artist-description" itemprop="description">
+                        Talento femenino del joropo, promoviendo la música llanera con voz potente y estilo auténtico.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@AndreaMesaOficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 48: Adriana Boada -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@AdrianaBoada_Oficial" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #ff5722, #ff9800);">
+                        <div class="artist-banner-initial">AB</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Adriana Boada</h2>
+                    <p class="artist-role">Cantante de Folklore Llanero</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante de folklore llanero, interpretando la música tradicional con dedicación y pasión.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@AdrianaBoada_Oficial" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 49: Manolo Guerrero -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@oficialmanologuerrero" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #795548, #9e9e9e);">
+                        <div class="artist-banner-initial">MG</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Manolo Guerrero</h2>
+                    <p class="artist-role">Cantante de Música Llanera</p>
+                    <p class="artist-description" itemprop="description">
+                        Cantante oficial de música llanera, llevando el joropo y el folklore a diversos escenarios.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@oficialmanologuerrero" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Artista 50: Leonar Reyes -->
+            <article class="artist-card" data-category="cantantes" itemscope itemtype="https://schema.org/MusicGroup">
+                <a href="https://www.youtube.com/@leonardreyesvoz" target="_blank" class="artist-banner">
+                    <div class="artist-banner-bg" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+                        <div class="artist-banner-initial">LR</div>
+                        <div class="artist-banner-overlay"></div>
+                        <div class="artist-banner-yt"><i class="fa-brands fa-youtube"></i> YouTube</div>
+                    </div>
+                </a>
+                <div class="artist-info">
+                    <h2 class="artist-name" itemprop="name">Leonar Reyes</h2>
+                    <p class="artist-role">Cantante y Voz del Folklore</p>
+                    <p class="artist-description" itemprop="description">
+                        Voz destacada del folklore llanero, interpretando la música tradicional venezolana con pasión y
+                        autenticidad.
+                    </p>
+                    <div class="artist-social">
+                        <a href="https://www.youtube.com/@leonardreyesvoz" target="_blank" title="YouTube"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR FLOTANTE -->
+    <div class="floating-player" id="floatingPlayer">
+        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+        <div class="player-info">
+            <h4 id="playerSongTitle">Puro Llano Radio</h4>
+            <p id="playerArtistName">En vivo</p>
+        </div>
+        <div class="player-controls">
+            <button class="player-btn" id="playerToggle" onclick="togglePlayer()">
+                <i class="fa fa-play" id="playerIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="playerAudio" preload="auto" crossorigin="anonymous">
+        <source src="https://radio.mipanel.stream:6816/stream" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script>
+        const playerAudio = document.getElementById('playerAudio');
+        const playerIcon = document.getElementById('playerIcon');
+        const playerToggle = document.getElementById('playerToggle');
+        const playerSongTitle = document.getElementById('playerSongTitle');
+        const playerArtistName = document.getElementById('playerArtistName');
+
+        let isPlaying = false;
+
+        // AUTO PLAY al cargar la página
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                togglePlayer();
+            }, 1000);
+        });
+
+        function togglePlayer() {
+            if (isPlaying) {
+                playerAudio.pause();
+                playerIcon.className = 'fa fa-play';
+                playerArtistName.innerText = 'Pausado';
+                isPlaying = false;
+            } else {
+                playerAudio.src = 'https://radio.mipanel.stream:6816/stream?t=' + Date.now();
+                playerAudio.play().then(() => {
+                    playerIcon.className = 'fa fa-pause';
+                    playerArtistName.innerText = 'En Vivo';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.error('Error al reproducir:', err);
+                    playerArtistName.innerText = 'Error al conectar';
+                });
+            }
+        }
+
+        // Filtro de artistas
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const filter = this.dataset.filter;
+
+                // Actualizar botón activo
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filtrar artistas
+                document.querySelectorAll('.artist-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Datos Estructurados JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Artistas Destacados del Folklore Llanero",
+        "description": "Los mejores artistas de música llanera venezolana y colombiana contemporánea",
+        "url": "https://purollanoradio.com/artistas.html",
+        "numberOfItems": 50,
+        "itemListElement": [
+            {
+                "@type": "MusicGroup",
+                "name": "Duilfer Bona",
+                "description": "Cantante contemporáneo de joropo, éxito 'Frenando en el Hierro'"
+            },
+            {
+                "@type": "MusicGroup",
+                "name": "Milena Benites",
+                "description": "Cantante femenina de joropo"
+            },
+            {
+                "@type": "MusicGroup",
+                "name": "Leonel Araujo",
+                "description": "Cantante y compositor de música llanera"
+            }
+        ]
+    }
+    </script>
+</body>
+
+</html>

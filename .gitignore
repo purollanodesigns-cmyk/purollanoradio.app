@@ -1,0 +1,22 @@
+node_modules
+.env
+.env.local
+.env.*.local
+settings.json.orig
+.qwen
+.wrangler
+wrangler-account.json
+cache
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Secretos y artefactos locales: nunca versionar
+.env*
+!.env.example
+.wrangler/
+.dev.vars
+.dev.vars.*

@@ -1,0 +1,17 @@
+# Configuración de preparación segura. El cron queda DESACTIVADO intencionalmente.
+# Desde la raíz del repositorio: npx wrangler deploy --config worker/wrangler.toml
+# En el panel Cloudflare Worker, dejar Build command vacío.
+# No desplegar hasta terminar pruebas locales y validar reglas/permisos Firebase.
+name = "purollanoradio-cron"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Para habilitar producción más adelante, revisar y descomentar solo tras aprobación:
+# [triggers]
+# crons = ["*/10 * * * *"]
+
+# Configurar secretos desde Cloudflare; nunca escribir sus valores aquí:
+# CRON_SECRET
+# FIREBASE_PROJECT_ID
+# FIREBASE_CLIENT_EMAIL
+# FIREBASE_PRIVATE_KEY

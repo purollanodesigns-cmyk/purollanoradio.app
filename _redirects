@@ -1,0 +1,15 @@
+# Redirecciones de Puro Llano Radio
+# Para Cloudflare Pages
+
+# Redirigir index a la raíz
+/index / 301
+/index.html / 301
+
+# Asegurar que programacion no falle por trailing slash o extensiones raras
+/programacion /programacion.html 301
+
+# Otros alias comunes
+/historia /acerca.html 301
+/horarios /programacion.html 301
+/ranking /top5semanal.html 301
+/top5 /top5semanal.html 301

@@ -1,0 +1,678 @@
+/* ==========================================================================
+   PURO LLANO RADIO - PLAYER COMPONENT
+   Radio player, vinyl turntable, controls, visualizer
+   ========================================================================== */
+
+/* Player Card - Silver Glass Design */
+.player-card {
+    background: linear-gradient(135deg,
+            rgba(200, 200, 210, 0.15) 0%,
+            rgba(150, 150, 160, 0.1) 50%,
+            rgba(180, 180, 190, 0.12) 100%);
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 32px;
+    padding: 40px 35px;
+    box-shadow:
+        0 32px 64px rgba(0, 0, 0, 0.4),
+        0 0 100px rgba(200, 200, 220, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    overflow: visible;
+}
+
+/* Efecto de vidrio - reflejo superior */
+.player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 100%);
+    border-radius: 32px 32px 0 0;
+    pointer-events: none;
+}
+
+/* Particles */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: floatParticle 10s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes floatParticle {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.2;
+    }
+
+    90% {
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translateY(-100vh) translateX(20px);
+    }
+}
+
+/* Main Title */
+.radio-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+    text-shadow: 0 0 24px rgba(254, 210, 2, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Song Info Container */
+.song-info-container {
+    margin: 12px 0 18px;
+    min-height: 44px;
+    position: relative;
+}
+
+.song-title-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.artist-name-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   TURNTABLE - VINYL RECORD PLAYER
+   ========================================================================== */
+
+.turntable-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 15px auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Disco de vinilo - Plateado elegante */
+.vinyl-record {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at center,
+            rgba(180, 180, 190, 0.2) 0%,
+            transparent 30%),
+        linear-gradient(145deg, #2a2a2e 0%, #1a1a1e 50%, #2a2a2e 100%);
+    box-shadow:
+        0 12px 36px rgba(0, 0, 0, 0.5),
+        inset 0 0 40px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    animation: rotateVinyl 3s linear infinite;
+    animation-play-state: paused;
+    z-index: 2;
+}
+
+.vinyl-record.spinning {
+    animation-play-state: running;
+}
+
+/* Estrías del vinilo */
+.vinyl-grooves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle at center,
+            transparent 0px,
+            transparent 3px,
+            rgba(255, 255, 255, 0.02) 3px,
+            rgba(255, 255, 255, 0.02) 4px);
+}
+
+/* Etiqueta central del vinilo */
+.vinyl-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 94%;
+    height: 94%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fed202 0%, #ffb700 100%);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(254, 210, 2, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+    clip-path: circle(50%);
+    -webkit-clip-path: circle(50%);
+}
+
+.vinyl-label img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    clip-path: circle(50%);
+    -webkit-clip-path: circle(50%);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* Agujero central del vinilo */
+.vinyl-label::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes rotateVinyl {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   VINYL ALBUM ART - Transición dinámica de carátulas
+   ========================================================================== */
+
+/* Transición suave de opacidad al cambiar imagen */
+.vinyl-label img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    clip-path: circle(50%);
+    -webkit-clip-path: circle(50%);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Cuando hay carátula: expandir al disco completo */
+.vinyl-label.has-cover-art {
+    width: 94%;
+    height: 94%;
+    padding: 0;
+    background: transparent;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(254, 210, 2, 0.3);
+    transition: all 0.4s ease-in-out;
+}
+
+.vinyl-label.has-cover-art img {
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4)) brightness(0.9);
+}
+
+/* Agujero central visible sobre la carátula */
+.vinyl-label.has-cover-art::before {
+    z-index: 3;
+    width: 8px;
+    height: 8px;
+    background: #1a1a1a;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Transición de vuelta al logo normal */
+.vinyl-label:not(.has-cover-art) {
+    transition: all 0.4s ease-in-out;
+}
+
+/* ==========================================================================
+   BARRA DE PROGRESO
+   ========================================================================== */
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    padding: 0 5px;
+}
+
+.time-display {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    color: var(--primary);
+    min-width: 50px;
+    opacity: 0.8;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+#currentTime {
+    text-align: left;
+}
+
+.progress-bar-wrapper {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #fed202 0%, #ffb700 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(254, 210, 2, 0.3);
+}
+
+.progress-cursor {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(254, 210, 2, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   STATUS INDICATOR
+   ========================================================================== */
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0 4px;
+}
+
+.dot-online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.dot-offline {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e74c3c;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+}
+
+#status-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   PLAY BUTTON
+   ========================================================================== */
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.dot-online {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 8px #2ecc71;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.dot-offline {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e74c3c;
+}
+
+#status-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+/* Play Button - Premium Design */
+.play-btn {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(30, 25, 15, 0.95) 0%, rgba(20, 15, 8, 0.98) 100%);
+    border: 2px solid rgba(254, 210, 2, 0.4);
+    color: var(--primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 12px auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.play-btn:hover {
+    transform: scale(1.06);
+    border-color: rgba(254, 210, 2, 0.6);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+.play-btn:active {
+    transform: scale(0.96);
+}
+
+.play-btn.playing {
+    border-color: rgba(254, 210, 2, 0.5);
+}
+
+@keyframes playPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* ==========================================================================
+   VOLUME CONTROLS
+   ========================================================================== */
+
+.volume-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.volume-wrapper i {
+    color: var(--primary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 1;
+}
+
+.volume-wrapper i:hover {
+    transform: scale(1.1);
+}
+
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 120px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+    cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(254, 210, 2, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+#volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 12px rgba(254, 210, 2, 0.6), 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 8px rgba(254, 210, 2, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+#volume-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 12px rgba(254, 210, 2, 0.6), 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .player-card {
+        padding: 35px 20px;
+    }
+
+    .radio-main-title {
+        font-size: 1.6rem;
+    }
+
+    .turntable-container {
+        width: 190px;
+        height: 190px;
+    }
+
+    .vinyl-record {
+        width: 170px;
+        height: 170px;
+    }
+
+    .vinyl-label {
+        /* Tamaño ahora definido en porcentaje (94%) */
+    }
+
+    .play-btn {
+        width: 68px;
+        height: 68px;
+        font-size: 1.5rem;
+    }
+
+    #volume-slider {
+        width: 110px;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-card {
+        padding: 30px 15px;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    .radio-main-title {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    .song-info-container {
+        margin: 15px 0 20px;
+        min-height: 50px;
+    }
+
+    .song-title-text {
+        font-size: 1rem;
+    }
+
+    .artist-name-text {
+        font-size: 0.8rem;
+    }
+
+    .turntable-container {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+    }
+
+    .vinyl-record {
+        width: 140px;
+        height: 140px;
+    }
+
+    .vinyl-label {
+        /* Tamaño ahora definido en porcentaje (94%) */
+    }
+
+    .progress-container {
+        margin: 15px 0 10px;
+        gap: 8px;
+    }
+
+    .play-btn {
+        width: 64px;
+        height: 64px;
+        font-size: 1.4rem;
+        margin: 12px auto;
+    }
+
+    #volume-slider {
+        width: 100px;
+    }
+
+    .time-display {
+        font-size: 0.6rem;
+        min-width: 45px;
+    }
+
+    .status-indicator {
+        margin: 10px 0;
+    }
+
+    .volume-wrapper {
+        margin-top: 10px;
+        gap: 8px;
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .player-card {
+        padding: 25px 10px;
+    }
+
+    .radio-main-title {
+        font-size: 1.2rem;
+    }
+
+    .turntable-container {
+        width: 140px;
+        height: 140px;
+        margin: 15px auto;
+    }
+
+    .vinyl-record {
+        width: 120px;
+        height: 120px;
+    }
+
+    .vinyl-label {
+        /* Tamaño ahora definido en porcentaje (94%) */
+    }
+
+    .play-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.3rem;
+    }
+
+    #volume-slider {
+        width: 80px;
+    }
+
+    .time-display {
+        font-size: 0.55rem;
+        min-width: 50px;
+    }
+}

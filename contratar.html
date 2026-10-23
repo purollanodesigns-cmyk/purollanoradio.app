@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratar Artista | Puro Llano Radio 🤠</title>
+    <meta name="description" content="Solicita la contratación de artistas llaneros para tus eventos y festivales.">
+    
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="talento.css">
+    <link rel="stylesheet" href="perfil-artista.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="./firebase-simple.js"></script>
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    
+    <div class="container">
+        <nav class="top-nav">
+            <a href="javascript:history.back()" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Volver
+            </a>
+            <div class="nav-branding">
+                <i class="fa fa-handshake"></i> Contrataciones
+            </div>
+        </nav>
+        
+        <header class="community-header">
+            <h1>Solicita una <span>Contratación</span></h1>
+            <p>Completa el formulario y el artista recibirá tu propuesta directamente.</p>
+        </header>
+        
+        <div class="contract-form-container glass-panel">
+            <div class="contract-artist-info" id="artistInfo">
+                <i class="fa fa-user-circle" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                <h2 id="artistNameDisplay">Cargando artista...</h2>
+            </div>
+            
+            <form id="contractForm" class="contract-form">
+                <input type="hidden" id="artistaId" name="artistaId">
+                
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="input-group">
+                        <label for="nombreCompleto">
+                            <i class="fa fa-user"></i> Tu Nombre Completo *
+                        </label>
+                        <input type="text" id="nombreCompleto" required 
+                               placeholder="Ej. Juan Pérez" maxlength="60">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="email">
+                            <i class="fa fa-envelope"></i> Correo Electrónico *
+                        </label>
+                        <input type="email" id="email" required 
+                               placeholder="tu@email.com">
+                    </div>
+                </div>
+                
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="input-group">
+                        <label for="telefono">
+                            <i class="fa fa-phone"></i> Teléfono / WhatsApp *
+                        </label>
+                        <input type="tel" id="telefono" required 
+                               placeholder="+58 414 1234567" 
+                               pattern="\+?[0-9]{10,15}">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="empresa">
+                            <i class="fa fa-building"></i> Empresa / Organización
+                        </label>
+                        <input type="text" id="empresa" 
+                               placeholder="Nombre de tu empresa o evento">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>
+                        <i class="fa fa-calendar-check"></i> Tipo de Evento *
+                    </label>
+                    <div class="contract-type-options">
+                        <div class="contract-type-option" onclick="selectContractType(this, 'festival')" data-value="festival">
+                            <i class="fa fa-music"></i>
+                            Festival
+                        </div>
+                        <div class="contract-type-option" onclick="selectContractType(this, 'privado')" data-value="privado">
+                            <i class="fa fa-birthday-cake"></i>
+                            Evento Privado
+                        </div>
+                        <div class="contract-type-option" onclick="selectContractType(this, 'corporativo')" data-value="corporativo">
+                            <i class="fa fa-building"></i>
+                            Evento Corporativo
+                        </div>
+                        <div class="contract-type-option" onclick="selectContractType(this, 'radio')" data-value="radio">
+                            <i class="fa fa-broadcast-tower"></i>
+                            Programa de Radio/TV
+                        </div>
+                    </div>
+                    <input type="hidden" id="tipoEvento" name="tipoEvento" required>
+                </div>
+                
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="input-group">
+                        <label for="nombreEvento">
+                            <i class="fa fa-star"></i> Nombre del Evento *
+                        </label>
+                        <input type="text" id="nombreEvento" required 
+                               placeholder="Ej. Festival de la Tonada 2026">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="fechaEvento">
+                            <i class="fa fa-calendar"></i> Fecha del Evento
+                        </label>
+                        <input type="date" id="fechaEvento">
+                    </div>
+                </div>
+                
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="input-group">
+                        <label for="ubicacion">
+                            <i class="fa fa-map-marker"></i> Ubicación *
+                        </label>
+                        <input type="text" id="ubicacion" required 
+                               placeholder="Ciudad, País">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="presupuesto">
+                            <i class="fa fa-dollar-sign"></i> Presupuesto Aproximado
+                        </label>
+                        <input type="text" id="presupuesto" 
+                               placeholder="Ej. $1.500 USD">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="mensaje">
+                        <i class="fa fa-comment"></i> Mensaje para el Artista *
+                    </label>
+                    <textarea id="mensaje" rows="5" required 
+                              placeholder="Describe los detalles del evento, logística, riders técnicos, y cualquier información relevante..."
+                              maxlength="1000"></textarea>
+                </div>
+                
+                <div class="form-status" id="formStatus"></div>
+                
+                <button type="submit" class="btn-submit-contract" id="submitBtn">
+                    <i class="fa fa-paper-plane"></i> Enviar Solicitud
+                </button>
+            </form>
+        </div>
+        
+        <footer style="text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid rgba(254,210,2,0.2); color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+            <p>&copy; 2022 - 2026 <strong style="color: #fed202;">PURO LLANO RADIO</strong></p>
+        </footer>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const artistaId = urlParams.get('artista');
+        const artistName = urlParams.get('nombre');
+        
+        if (!artistaId) {
+            document.querySelector('.contract-form-container').innerHTML = `
+                <div style="text-align: center; padding: 50px;">
+                    <i class="fa fa-exclamation-triangle" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--primary);">Error</h2>
+                    <p>No se especificó ningún artista.</p>
+                    <a href="talento.html" class="btn-back" style="display: inline-flex; margin-top: 20px;">
+                        <i class="fa fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            `;
+            return;
+        }
+        
+        document.getElementById('artistaId').value = artistaId;
+        
+        if (artistName) {
+            document.getElementById('artistNameDisplay').textContent = decodeURIComponent(artistName);
+        } else {
+            loadArtistName(artistaId);
+        }
+        
+        const contractForm = document.getElementById('contractForm');
+        
+        if (contractForm) {
+            contractForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('submitBtn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Enviando...';
+                
+                const contratacionData = {
+                    artistaId: document.getElementById('artistaId').value,
+                    nombreCliente: document.getElementById('nombreCompleto').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    telefono: document.getElementById('telefono').value.trim(),
+                    empresa: document.getElementById('empresa').value.trim(),
+                    tipoEvento: document.getElementById('tipoEvento').value,
+                    nombreEvento: document.getElementById('nombreEvento').value.trim(),
+                    fechaEvento: document.getElementById('fechaEvento').value,
+                    ubicacion: document.getElementById('ubicacion').value.trim(),
+                    presupuesto: document.getElementById('presupuesto').value.trim(),
+                    mensaje: document.getElementById('mensaje').value.trim(),
+                    estado: 'pendiente',
+                    fechaSolicitud: firebase.database.ServerValue.TIMESTAMP
+                };
+                
+                try {
+                    const db = firebase.database();
+                    const newContractRef = db.ref('contrataciones').push();
+                    await newContractRef.set(contratacionData);
+                    
+                    const artistRef = db.ref('perfiles/' + artistaId + '/contrataciones');
+                    await artistRef.transaction((current) => {
+                        if (current === null) {
+                            return [newContractRef.key];
+                        } else if (Array.isArray(current)) {
+                            return [...current, newContractRef.key];
+                        } else {
+                            return [current, newContractRef.key];
+                        }
+                    });
+                    
+                    window.showToast('¡Solicitud enviada! El artista te contactará pronto.', 'fa-check');
+                    
+                    contractForm.reset();
+                    document.querySelectorAll('.contract-type-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                } catch (error) {
+                    console.error('Error enviando solicitud:', error);
+                    showStatus('Error al enviar: ' + error.message, 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            });
+        }
+        
+        function showStatus(text, type) {
+            const formStatus = document.getElementById('formStatus');
+            if (formStatus) {
+                formStatus.textContent = text;
+                formStatus.className = 'form-status status-' + type;
+                setTimeout(() => { formStatus.textContent = ''; formStatus.className = 'form-status'; }, 5000);
+            }
+        }
+        
+        async function loadArtistName(uid) {
+            try {
+                const db = firebase.database();
+                const snapshot = await db.ref('perfiles/' + uid + '/nombreArtistico').once('value');
+                const nombre = snapshot.val();
+                if (nombre) {
+                    document.getElementById('artistNameDisplay').textContent = nombre;
+                }
+            } catch (error) {
+                console.error('Error cargando nombre:', error);
+            }
+        }
+    });
+
+    window.selectContractType = function(element, value) {
+        document.querySelectorAll('.contract-type-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        document.getElementById('tipoEvento').value = value;
+    };
+    </script>
+</body>
+</html>

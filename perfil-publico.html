@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Artista | Puro Llano Radio 🤠</title>
+    <meta name="description" content="Perfil profesional de artista llanero en Puro Llano Radio.">
+    
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="talento.css">
+    <link rel="stylesheet" href="perfil-artista.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="./firebase-simple.js"></script>
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    
+    <div class="container">
+        <nav class="top-nav">
+            <a href="talento.html" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Volver al Muro
+            </a>
+            <div class="nav-branding">
+                <i class="fa fa-star flame-icon"></i> Puro Llano Radio
+            </div>
+        </nav>
+        
+        <div id="artistProfileContainer">
+            <div class="loading-state">
+                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                <p style="margin-top: 15px;">Cargando perfil del artista...</p>
+            </div>
+        </div>
+        
+        <footer style="text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid rgba(254,210,2,0.2); color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+            <p>&copy; 2022 - 2026 <strong style="color: #fed202;">PURO LLANO RADIO</strong> | Todos los derechos reservados</p>
+            <p>Plataforma de promoción de artistas llaneros</p>
+        </footer>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const artistId = urlParams.get('id');
+        
+        if (!artistId) {
+            document.getElementById('artistProfileContainer').innerHTML = `
+                <div class="glass-panel" style="text-align: center; padding: 50px;">
+                    <i class="fa fa-exclamation-triangle" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--primary);">Artista no encontrado</h2>
+                    <p style="color: var(--text-muted);">El perfil que buscas no existe o ha sido eliminado.</p>
+                    <a href="talento.html" class="btn-back" style="display: inline-flex; margin-top: 20px;">
+                        <i class="fa fa-arrow-left"></i> Volver al Muro
+                    </a>
+                </div>
+            `;
+            return;
+        }
+        
+        loadArtistProfile(artistId);
+    });
+
+    function escapeHTML(str) {
+        if (!str) return '';
+        return str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
+    }
+
+    function loadArtistProfile(uid) {
+        const db = firebase.database();
+        const profileRef = db.ref('perfiles/' + uid);
+        
+        profileRef.once('value', (snapshot) => {
+            const perfil = snapshot.val();
+            
+            if (!perfil) {
+                document.getElementById('artistProfileContainer').innerHTML = `
+                    <div class="glass-panel" style="text-align: center; padding: 50px;">
+                        <i class="fa fa-user-times" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <h2 style="color: var(--primary);">Perfil no encontrado</h2>
+                        <p style="color: var(--text-muted);">Este artista aún no ha completado su perfil.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            renderArtistProfile(perfil, uid);
+            incrementProfileViews(uid);
+            
+        }, (error) => {
+            console.error('Error cargando perfil:', error);
+            document.getElementById('artistProfileContainer').innerHTML = `
+                <div class="glass-panel" style="text-align: center; padding: 50px;">
+                    <i class="fa fa-exclamation-circle" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"></i>
+                    <h2>Error al cargar perfil</h2>
+                    <p>Intenta más tarde.</p>
+                </div>
+            `;
+        });
+    }
+
+    function renderArtistProfile(perfil, uid) {
+        const nombreArtistico = escapeHTML(perfil.nombreArtistico || 'Artista Llanero');
+        const iniciales = nombreArtistico.charAt(0).toUpperCase();
+        
+        let instrumentosHTML = '';
+        if (perfil.instrumentos && perfil.instrumentos.length > 0) {
+            instrumentosHTML = perfil.instrumentos.map(inst => 
+                `<span class="instrument-tag"><i class="fa fa-music"></i> ${escapeHTML(inst)}</span>`
+            ).join('');
+        }
+        
+        let redesHTML = '';
+        if (perfil.youtube) {
+            redesHTML += `<a href="${escapeHTML(perfil.youtube)}" target="_blank" class="social-link-btn youtube" title="YouTube"><i class="fa fa-youtube"></i></a>`;
+        }
+        if (perfil.spotify) {
+            redesHTML += `<a href="${escapeHTML(perfil.spotify)}" target="_blank" class="social-link-btn spotify" title="Spotify"><i class="fa fa-spotify"></i></a>`;
+        }
+        if (perfil.instagram) {
+            const instaUrl = perfil.instagram.startsWith('http') ? perfil.instagram : `https://instagram.com/${perfil.instagram.replace('@', '')}`;
+            redesHTML += `<a href="${instaUrl}" target="_blank" class="social-link-btn instagram" title="Instagram"><i class="fa fa-instagram"></i></a>`;
+        }
+        if (perfil.facebook) {
+            redesHTML += `<a href="${escapeHTML(perfil.facebook)}" target="_blank" class="social-link-btn facebook" title="Facebook"><i class="fa fa-facebook"></i></a>`;
+        }
+        
+        let videoEmbed = '';
+        if (perfil.videoIntro) {
+            const ytId = extractYouTubeId(perfil.videoIntro);
+            if (ytId) {
+                videoEmbed = `
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 15px;"><i class="fa fa-play-circle"></i> Video de Presentación</h4>
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        const whatsappLink = perfil.whatsapp 
+            ? `https://wa.me/${perfil.whatsapp.replace(/\D/g,'')}?text=Hola%20${encodeURIComponent(nombreArtistico)},%20te%20vi%20en%20Puro%20Llano%20Radio%20y%20me%20gustar%C3%ADa%20contactarte%20para%20una%20contrataci%C3%B3n.`
+            : '';
+        
+        const html = `
+            <div class="artist-profile-header">
+                <div class="artist-cover-image">
+                    <div class="artist-cover-placeholder">
+                        <i class="fa fa-music"></i>
+                    </div>
+                </div>
+                <div class="artist-profile-avatar">${iniciales}</div>
+            </div>
+            
+            <div class="glass-panel">
+                <div class="artist-profile-info">
+                    <h1 class="artist-profile-name">${nombreArtistico}</h1>
+                    <div class="artist-profile-region">
+                        <i class="fa fa-map-marker-alt"></i>
+                        ${escapeHTML(perfil.region || 'Llanos')}, Venezuela
+                    </div>
+                    
+                    ${instrumentosHTML ? `<div class="artist-instruments">${instrumentosHTML}</div>` : ''}
+                    
+                    ${redesHTML ? `<div class="artist-social-links">${redesHTML}</div>` : ''}
+                    
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 25px;">
+                        ${perfil.whatsapp ? `
+                            <a href="${whatsappLink}" target="_blank" class="btn-contratar-whatsapp">
+                                <i class="fa-brands fa-whatsapp"></i> Contratar
+                            </a>
+                        ` : `
+                            <button class="btn-submit" onclick="openContractForm('${uid}', '${escapeHTML(nombreArtistico)}')" style="padding: 12px 25px;">
+                                <i class="fa fa-envelope"></i> Solicitar Contratación
+                            </button>
+                        `}
+                        <button class="btn-back" onclick="showShareOptions('${uid}', '${escapeHTML(nombreArtistico)}')" style="background: var(--dark-elevated);">
+                            <i class="fa fa-share"></i> Compartir
+                        </button>
+                        
+                        <div id="shareOptions_${uid}" class="share-options-popup" style="display: none; position: absolute; background: var(--dark-card); border: 1px solid var(--primary); border-radius: 15px; padding: 15px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-top: 10px;">
+                            <h4 style="color: var(--primary); margin-bottom: 15px; font-size: 0.9rem;">Compartir en:</h4>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button onclick="shareProfileOn('facebook', '${uid}', '${escapeHTML(nombreArtistico)}')" style="background: #1877f2; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">
+                                    <i class="fa fa-facebook"></i> Facebook
+                                </button>
+                                <button onclick="shareProfileOn('whatsapp', '${uid}', '${escapeHTML(nombreArtistico)}')" style="background: #25d366; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">
+                                    <i class="fa fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button onclick="shareProfileOn('twitter', '${uid}', '${escapeHTML(nombreArtistico)}')" style="background: #1da1f2; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">
+                                    <i class="fa fa-twitter"></i> Twitter
+                                </button>
+                                <button onclick="shareProfileOn('instagram', '${uid}', '${escapeHTML(nombreArtistico)}')" style="background: linear-gradient(45deg, #f09433, #dc2743); color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">
+                                    <i class="fa fa-instagram"></i> Instagram
+                                </button>
+                                <button onclick="copyProfileLink('${uid}')" style="background: var(--primary); color: var(--dark-deep); border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">
+                                    <i class="fa fa-link"></i> Copiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-tabs">
+                    <button class="profile-tab active" onclick="switchProfileTab('bio', this)">
+                        <i class="fa fa-book"></i> Biografía
+                    </button>
+                    <button class="profile-tab" onclick="switchProfileTab('multimedia', this)">
+                        <i class="fa fa-play"></i> Multimedia
+                    </button>
+                    <button class="profile-tab" onclick="switchProfileTab('contacto', this)">
+                        <i class="fa fa-address-card"></i> Contacto
+                    </button>
+                </div>
+                
+                <div id="tab-bio" class="profile-content-section active">
+                    <div class="artist-bio-content">
+                        ${perfil.biografia ? escapeHTML(perfil.biografia).replace(/\n/g, '<br>') : '<p style="color: var(--text-muted);">Este artista aún no ha agregado una biografía.</p>'}
+                    </div>
+                    ${videoEmbed}
+                </div>
+                
+                <div id="tab-multimedia" class="profile-content-section">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa fa-youtube"></i> Videos y Música</h3>
+                    ${perfil.videoIntro ? `
+                        <div class="multimedia-grid">
+                            <div class="video-card">
+                                <iframe src="https://www.youtube.com/embed/${extractYouTubeId(perfil.videoIntro)}" allowfullscreen></iframe>
+                                <div class="video-card-title">Video de Presentación</div>
+                            </div>
+                        </div>
+                    ` : '<p style="color: var(--text-muted);">No hay multimedia disponible.</p>'}
+                </div>
+                
+                <div id="tab-contacto" class="profile-content-section">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa fa-address-book"></i> Información de Contacto</h3>
+                    <div style="display: grid; gap: 15px;">
+                        ${perfil.whatsapp ? `
+                            <div class="glass-panel" style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa-brands fa-whatsapp" style="color: var(--whatsapp); font-size: 1.5rem;"></i>
+                                <div>
+                                    <strong>WhatsApp</strong>
+                                    <p style="color: var(--text-muted); margin: 0;">${escapeHTML(perfil.whatsapp)}</p>
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${perfil.youtube ? `
+                            <div class="glass-panel" style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa fa-youtube" style="color: #ff0000; font-size: 1.5rem;"></i>
+                                <div>
+                                    <strong>YouTube</strong>
+                                    <a href="${escapeHTML(perfil.youtube)}" target="_blank" style="color: var(--primary);">${escapeHTML(perfil.youtube)}</a>
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${perfil.spotify ? `
+                            <div class="glass-panel" style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa fa-spotify" style="color: #1db954; font-size: 1.5rem;"></i>
+                                <div>
+                                    <strong>Spotify</strong>
+                                    <a href="${escapeHTML(perfil.spotify)}" target="_blank" style="color: var(--primary);">Ver en Spotify</a>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('artistProfileContainer').innerHTML = html;
+        
+        window.currentArtistProfile = perfil;
+        window.currentArtistId = uid;
+    }
+
+    function extractYouTubeId(url) {
+        const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    function incrementProfileViews(uid) {
+        const db = firebase.database();
+        const viewsRef = db.ref('perfiles/' + uid + '/visitasPerfil');
+        viewsRef.transaction((current) => {
+            return (current || 0) + 1;
+        });
+    }
+
+    window.switchProfileTab = function(tabName, btn) {
+        document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.querySelectorAll('.profile-content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        document.getElementById('tab-' + tabName).classList.add('active');
+    };
+
+    window.openContractForm = function(artistId, artistName) {
+        window.location.href = `contratar.html?artista=${artistId}&nombre=${encodeURIComponent(artistName)}`;
+    };
+
+    window.shareProfile = function(artistId, artistName) {
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({
+                title: `${artistName} - Puro Llano Radio`,
+                text: `Conoce el talento de ${artistName} in Puro Llano Radio`,
+                url: url
+            });
+        } else {
+            navigator.clipboard.writeText(url).then(() => {
+                window.showToast('Enlace copiado al portapapeles', 'fa-link');
+            });
+        }
+    };
+
+    window.showShareOptions = function(artistId, artistName) {
+        const popup = document.getElementById('shareOptions_' + artistId);
+        if (popup) {
+            popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+        }
+    };
+
+    window.shareProfileOn = function(platform, artistId, artistName) {
+        const url = window.location.origin + '/perfil-publico.html?id=' + artistId;
+        const region = window.currentArtistProfile?.region || 'los llanos';
+        
+        const textos = {
+            facebook: `🎵 ¡Descubre a ${artistName}! 🎵\n\nArtista llanero de ${region}.\n\nEscucha su música en Puro Llano Radio:\n${url}\n\n🇻🇪🇨🇴 #MúsicaLlanera #Folklore`,
+
+            whatsapp: `🎤 *NUEVO TALENTO LLANERO*\n\n*${artistName}* de ${region}\n\nEscúchalo aquí:\n${url}\n\n🇻🇪🇨🇴 *La música nos une*`,
+
+            twitter: `🎵 ${artistName} - Artista Llanero de ${region}\n\nEscucha su música en @PuroLlanoRadio: ${url}\n\n#MúsicaLlanera #Joropo`,
+
+            instagram: `🎶 ${artistName} 🔥\n\nDe ${region} para el mundo 🌎\n\n#YoEscuchoPuroLlanoRadio #MúsicaLlanera #Joropo`
+        };
+        
+        const texto = textos[platform];
+        
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank');
+        } else if (platform === 'facebook') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(texto)}&u=${encodeURIComponent(url)}`, '_blank');
+        } else if (platform === 'twitter') {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(texto)}`, '_blank');
+        } else if (platform === 'instagram') {
+            navigator.clipboard.writeText(texto).then(() => {
+                window.showToast('Texto copiado. Pégalo en Instagram', 'fa-instagram');
+                window.open('https://instagram.com', '_blank');
+            });
+        }
+        
+        const popup = document.getElementById('shareOptions_' + artistId);
+        if (popup) popup.style.display = 'none';
+    };
+
+    window.copyProfileLink = function(artistId) {
+        const url = window.location.origin + '/perfil-publico.html?id=' + artistId;
+        navigator.clipboard.writeText(url).then(() => {
+            window.showToast('Enlace copiado al portapapeles', 'fa-link');
+        });
+        const popup = document.getElementById('shareOptions_' + artistId);
+        if (popup) popup.style.display = 'none';
+    };
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.share-options-popup') && !e.target.closest('[onclick*="showShareOptions"]')) {
+            document.querySelectorAll('.share-options-popup').forEach(popup => {
+                popup.style.display = 'none';
+            });
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Perfil de Artista | Puro Llano Radio 🤠</title>
+    <meta name="description" content="Crea tu perfil profesional de artista llanero y promociona tu talento con Puro Llano Radio.">
+    
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="talento.css">
+    <link rel="stylesheet" href="perfil-artista.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+    <script src="./firebase-simple.js"></script>
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    
+    <div class="container">
+        <nav class="top-nav">
+            <a href="talento.html" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Volver
+            </a>
+            <div class="nav-branding">
+                <i class="fa fa-star flame-icon"></i> Perfil de Artista
+            </div>
+            <div class="auth-buttons">
+                <button class="btn-back" id="loginBtn" onclick="window.openAuthModal('login')">
+                    <i class="fa fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+                <div class="user-info-bar" id="userInfo">
+                    <div class="user-avatar-small" id="userAvatar">U</div>
+                    <span class="user-name-text" id="userNameDisplay">Usuario</span>
+                    <button class="btn-logout" id="logoutBtn">
+                        <i class="fa fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <header class="community-header">
+            <h1>Crea tu <span>Press Kit Digital</span></h1>
+            <p>Completa tu perfil profesional para que empresarios y promotores puedan contactarte directamente para festivales y eventos.</p>
+        </header>
+        
+        <div class="glass-panel perfil-form-container">
+            <form id="perfilArtistaForm" class="auth-form">
+                <div class="section-header">
+                    <i class="fa fa-user-circle"></i>
+                    <h2>Datos del Artista</h2>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="nombreArtistico">
+                            <i class="fa fa-star"></i> Nombre Artístico *
+                        </label>
+                        <input type="text" id="nombreArtistico" required 
+                               placeholder="Ej. Reinaldo Armas" maxlength="50">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="nombreReal">
+                            <i class="fa fa-id-card"></i> Nombre Real
+                        </label>
+                        <input type="text" id="nombreReal" 
+                               placeholder="Tu nombre completo">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="region">
+                            <i class="fa fa-map-marker-alt"></i> Región de Origen *
+                        </label>
+                        <select id="region" required>
+                            <option value="">Selecciona tu región</option>
+                            <optgroup label="Venezuela">
+                                <option value="Apure">Apure</option>
+                                <option value="Barinas">Barinas</option>
+                                <option value="Bolívar">Bolívar</option>
+                                <option value="Cojedes">Cojedes</option>
+                                <option value="Guárico">Guárico</option>
+                                <option value="Portuguesa">Portuguesa</option>
+                                <option value="Zulia">Zulia (Sur del Lago)</option>
+                                <option value="Amazonas">Amazonas</option>
+                            </optgroup>
+                            <optgroup label="Colombia">
+                                <option value="Arauca">Arauca</option>
+                                <option value="Casanare">Casanare</option>
+                                <option value="Vichada">Vichada</option>
+                                <option value="Meta">Meta</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="whatsapp">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp para Contrataciones
+                        </label>
+                        <input type="tel" id="whatsapp" 
+                               placeholder="+58 414 1234567" 
+                               pattern="\+?[0-9]{10,15}">
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 5px; display: block;">Este número será visible públicamente</small>
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label for="biografia">
+                            <i class="fa fa-book"></i> Biografía
+                        </label>
+                        <textarea id="biografia" rows="5" 
+                                  placeholder="Cuenta tu historia musical... ¿Cuántos años tocando? ¿Qué te inspira? ¿Cuáles son tus logros?"
+                                  maxlength="2000"></textarea>
+                        
+                        <div class="ia-generator-panel" id="bioIAPanel" style="display: none;">
+                            <h4><i class="fa fa-magic"></i> Generador de Biografía con IA</h4>
+                            <div class="ia-result-box" id="bioAIResult">
+                                La biografía generada aparecerá aquí...
+                            </div>
+                            <div class="ia-actions">
+                                <button type="button" class="btn-ia-action btn-copy-ia" onclick="copyAIResult('bioAIResult')">
+                                    <i class="fa fa-copy"></i> Copiar
+                                </button>
+                                <button type="button" class="btn-ia-action btn-use-ia" onclick="useBioAI()">
+                                    <i class="fa fa-check"></i> Usar esta biografía
+                                </button>
+                                <button type="button" class="btn-ia-action btn-regenerate-ia" onclick="generateBioAI()">
+                                    <i class="fa fa-refresh"></i> Regenerar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn-generate-ia" id="btnGenerarBioIA" onclick="generateBioAI()">
+                            <i class="fa fa-magic"></i> Generar Biografía con IA
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="section-header" style="margin-top: 30px;">
+                    <i class="fa fa-music"></i>
+                    <h2>Instrumentos y Géneros</h2>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>
+                            <i class="fa fa-guitar"></i> Instrumentos que tocas
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="arpa"> <span>Arpa Llanera</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="cuatro"> <span>Cuatro</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="maracas"> <span>Maracas</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="bandola"> <span>Bandola</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="guitarra"> <span>Guitarra</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="violin"> <span>Violín</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="canto"> <span>Canto/Voz</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="instrumento" value="charango"> <span>Charango</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label>
+                            <i class="fa fa-music"></i> Géneros Musicales
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="joropo"> <span>Joropo</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="golpe"> <span>Golpe Llanero</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="tonada"> <span>Tonada Llanera</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="paseo"> <span>Paseo</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="waltz"> <span>Vals Llanero</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="corrido"> <span>Corrido</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="gallo"> <span>Gallo</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-header" style="margin-top: 30px;">
+                    <i class="fa fa-link"></i>
+                    <h2>Redes Sociales y Multimedia</h2>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="youtube">
+                            <i class="fa fa-youtube"></i> Canal de YouTube
+                        </label>
+                        <input type="url" id="youtube" 
+                               placeholder="https://youtube.com/@tu-canal">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="spotify">
+                            <i class="fa fa-spotify"></i> Perfil de Spotify
+                        </label>
+                        <input type="url" id="spotify" 
+                               placeholder="https://spotify.com/artist/...">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="instagram">
+                            <i class="fa fa-instagram"></i> Instagram
+                        </label>
+                        <input type="text" id="instagram" 
+                               placeholder="@tu-usuario">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="facebook">
+                            <i class="fa fa-facebook"></i> Facebook
+                        </label>
+                        <input type="url" id="facebook" 
+                               placeholder="https://facebook.com/tu-pagina">
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label for="videoIntro">
+                            <i class="fa fa-video"></i> Video de Introducción (YouTube)
+                        </label>
+                        <input type="url" id="videoIntro" 
+                               placeholder="Pega el enlace de tu video de presentación">
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 5px; display: block;">Este video aparecerá en tu perfil público</small>
+                    </div>
+                </div>
+                
+                <div class="form-status" id="formStatus"></div>
+                
+                <button type="submit" class="btn-save-profile">
+                    <i class="fa fa-save"></i> Guardar Mi Perfil
+                </button>
+            </form>
+        </div>
+        
+        <footer style="text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid rgba(254,210,2,0.2); color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+            <p>&copy; 2022 - 2026 <strong style="color: #fed202;">PURO LLANO RADIO</strong> | Todos los derechos reservados</p>
+        </footer>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script src="auth.js"></script>
+    <script src="perfil-artista.js"></script>
+</body>
+</html>

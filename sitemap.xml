@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+    <!-- 
+    =====================================================
+    SITEMAP - PURO LLANO RADIO
+    =====================================================
+    Generado: 2026-04-06
+    Sitio: https://purollanoradio.com
+    Descripción: Emisora online de folklore llanero venezolano
+    =====================================================
+    -->
+
+    <!-- ==================== PÁGINAS PRINCIPALES ==================== -->
+
+    <!-- Página Principal (Home) -->
+    <url>
+        <loc>https://purollanoradio.com/</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png</image:loc>
+            <image:title>Puro Llano Radio Logo</image:title>
+            <image:caption>Logo oficial de Puro Llano Radio - Emisora de folklore llanero</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://purollanoradio.com/PROMO-2026-01.jpg</image:loc>
+            <image:title>Promoción Puro Llano Radio 2026</image:title>
+        </image:image>
+    </url>
+
+    <!-- Blog de Folklore Llanero -->
+    <url>
+        <loc>https://purollanoradio.com/blog.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png</image:loc>
+            <image:title>Blog de Folklore Llanero</image:title>
+            <image:caption>Blog educativo sobre música llanera y folklore venezolano</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Artistas de Joropo -->
+    <url>
+        <loc>https://purollanoradio.com/artistas.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+        <image:image>
+            <image:loc>https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png</image:loc>
+            <image:title>Artistas de Joropo</image:title>
+            <image:caption>Artistas destacados del folklore llanero venezolano</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Top 5 Semanal -->
+    <url>
+        <loc>https://purollanoradio.com/top5.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Programación de la Emisora -->
+    <url>
+        <loc>https://purollanoradio.com/programacion.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <!-- Acerca de -->
+    <url>
+        <loc>https://purollanoradio.com/acerca.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <image:image>
+            <image:loc>https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png</image:loc>
+            <image:title>Acerca de Puro Llano Radio</image:title>
+            <image:caption>Información sobre la emisora de folklore llanero</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Chat en Vivo -->
+    <url>
+        <loc>https://purollanoradio.com/chat.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.65</priority>
+    </url>
+
+    <!-- Instalar App (PWA) -->
+    <url>
+        <loc>https://purollanoradio.com/install.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Panel DJ (Admin) -->
+    <url>
+        <loc>https://purollanoradio.com/panel-dj.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <!-- Admin Notificaciones -->
+    <url>
+        <loc>https://purollanoradio.com/admin-notificaciones.html</loc>
+        <lastmod>2026-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+</urlset>

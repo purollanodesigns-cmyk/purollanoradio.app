@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de Contenido IA | Puro Llano Radio 🤠</title>
+    <meta name="description" content="Crea contenido promocional para tu música llanera usando inteligencia artificial.">
+    
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="talento.css">
+    <link rel="stylesheet" href="perfil-artista.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+    <script src="./firebase-simple.js"></script>
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    
+    <div class="container">
+        <nav class="top-nav">
+            <a href="dashboard-artista.html" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Volver al Dashboard
+            </a>
+            <div class="nav-branding">
+                <i class="fa fa-robot"></i> Creador de Contenido IA
+            </div>
+        </nav>
+        
+        <header class="community-header">
+            <h1>Crea <span>Contenido Increíble</span> 🎵</h1>
+            <p>Genera publicaciones promocionales, biografía y textos para tus redes sociales con inteligencia artificial.</p>
+        </header>
+        
+        <div class="dashboard-grid" style="max-width: 1000px; margin: 0 auto;">
+            <div class="glass-panel dashboard-card">
+                <h3><i class="fa fa-bullhorn"></i> Generar Publicación</h3>
+                <div class="input-group">
+                    <label for="tipoPublicacion">Tipo de contenido</label>
+                    <select id="tipoPublicacion">
+                        <option value="lanzamiento">🚀 Lanzamiento de canción</option>
+                        <option value="presentacion">🎤 Presentación en vivo</option>
+                        <option value="biografia">📖 Biografía</option>
+                        <option value="agradecimiento">🙏 Agradecimiento a fans</option>
+                        <option value="convocatoria">📢 Convocatoria/Evento</option>
+                        <option value="cover">🎶 Cover o versión</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="temaPublicacion">¿De qué trata?</label>
+                    <textarea id="temaPublicacion" rows="3" placeholder="Ej: Mi nueva canción 'Amanecer Llanero' que habla sobre los paisajes de Barinas..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="tonoPublicacion">Tono</label>
+                    <select id="tonoPublicacion">
+                        <option value="formal">Formal y profesional</option>
+                        <option value="casual">Casual y cercano</option>
+                        <option value="emocional">Emocional y nostálgico</option>
+                        <option value="festivo">Festivo y celebración</option>
+                    </select>
+                </div>
+                <button class="btn-generate-ia" onclick="generarPublicacion()" style="width: 100%; justify-content: center;">
+                    <i class="fa fa-magic"></i> Generar con IA
+                </button>
+                <div class="ia-result-box" id="resultadoPublicacion" style="display: none; margin-top: 15px;"></div>
+                <div class="ia-actions" id="accionesPublicacion" style="display: none; margin-top: 10px;">
+                    <button class="btn-ia-action btn-copy-ia" onclick="copiarResultado('resultadoPublicacion')">
+                        <i class="fa fa-copy"></i> Copiar
+                    </button>
+                    <button class="btn-ia-action btn-use-ia" onclick="compartirEnRedes('publicacion')">
+                        <i class="fa fa-share-alt"></i> Compartir
+                    </button>
+                </div>
+            </div>
+            
+            <div class="glass-panel dashboard-card">
+                <h3><i class="fa fa-image"></i> Caption para Foto/Video</h3>
+                <div class="input-group">
+                    <label for="tipoMedia">Tipo de contenido</label>
+                    <select id="tipoMedia">
+                        <option value="foto">📸 Foto de perfil</option>
+                        <option value="video">🎬 Video de YouTube</option>
+                        <option value="cancion">🎵 Lanzamiento musical</option>
+                        <option value="evento">🎪 Foto de evento</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="descripcionMedia">Describe la imagen/video</label>
+                    <textarea id="descripcionMedia" rows="3" placeholder="Ej: Yo tocando el arpa en el festival de San Fernando..."></textarea>
+                </div>
+                <button class="btn-generate-ia" onclick="generarCaption()" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);">
+                    <i class="fa fa-magic"></i> Generar Caption
+                </button>
+                <div class="ia-result-box" id="resultadoCaption" style="display: none; margin-top: 15px;"></div>
+                <div class="ia-actions" id="accionesCaption" style="display: none; margin-top: 10px;">
+                    <button class="btn-ia-action btn-copy-ia" onclick="copiarResultado('resultadoCaption')">
+                        <i class="fa fa-copy"></i> Copiar
+                    </button>
+                    <button class="btn-ia-action btn-use-ia" onclick="compartirEnRedes('caption')">
+                        <i class="fa fa-share-alt"></i> Compartir
+                    </button>
+                </div>
+            </div>
+            
+            <div class="glass-panel dashboard-card">
+                <h3><i class="fa fa-podcast"></i> Descripción para Video</h3>
+                <div class="input-group">
+                    <label for="tituloVideo">Título del video</label>
+                    <input type="text" id="tituloVideo" placeholder="Ej: Joropo Mix - Las mejores canciones llaneras">
+                </div>
+                <div class="input-group">
+                    <label for="contenidoVideo">¿Qué incluye el video?</label>
+                    <textarea id="contenidoVideo" rows="3" placeholder="Ej: Un recopilado de 10 canciones clásicas del joropo venezolano con el mejor arpa llanera..."></textarea>
+                </div>
+                <button class="btn-generate-ia" onclick="generarDescripcion()" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);">
+                    <i class="fa fa-youtube"></i> Generar para YouTube
+                </button>
+                <div class="ia-result-box" id="resultadoYoutube" style="display: none; margin-top: 15px;"></div>
+                <div class="ia-actions" id="accionesYoutube" style="display: none; margin-top: 10px;">
+                    <button class="btn-ia-action btn-copy-ia" onclick="copiarResultado('resultadoYoutube')">
+                        <i class="fa fa-copy"></i> Copiar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="glass-panel dashboard-card">
+                <h3><i class="fa fa-envelope"></i> Mensaje para Empresario</h3>
+                <div class="input-group">
+                    <label for="tipoPropuesta">Tipo de propuesta</label>
+                    <select id="tipoPropuesta">
+                        <option value="contratacion">Contratación para evento</option>
+                        <option value="colaboracion">Colaboración musical</option>
+                        <option value="promocion">Promoción en radio</option>
+                        <option value="entrevista">Solicitud de entrevista</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="detallesPropuesta">Detalles importantes</label>
+                    <textarea id="detallesPropuesta" rows="3" placeholder="Ej: Festival de música llanera en Arauca, necesito propuesta para tocar 2 horas..."></textarea>
+                </div>
+                <button class="btn-generate-ia" onclick="generarPropuesta()" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);">
+                    <i class="fa fa-paper-plane"></i> Generar Mensaje
+                </button>
+                <div class="ia-result-box" id="resultadoPropuesta" style="display: none; margin-top: 15px;"></div>
+                <div class="ia-actions" id="accionesPropuesta" style="display: none; margin-top: 10px;">
+                    <button class="btn-ia-action btn-copy-ia" onclick="copiarResultado('resultadoPropuesta')">
+                        <i class="fa fa-copy"></i> Copiar
+                    </button>
+                    <button class="btn-ia-action btn-use-ia" onclick="abrirWhatsApp()">
+                        <i class="fa fa-whatsapp"></i> Enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <div class="glass-panel dashboard-card" style="grid-column: 1 / -1;">
+                <h3><i class="fa fa-share-nodes"></i> Compartir en Redes Sociales</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <button class="btn-back" onclick="compartirEn('facebook')" style="justify-content: center; background: #1877f2; padding: 20px;">
+                        <i class="fa fa-facebook fa-2x"></i>
+                        <span style="margin-top: 10px; display: block;">Facebook</span>
+                    </button>
+                    <button class="btn-back" onclick="compartirEn('instagram')" style="justify-content: center; background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); padding: 20px;">
+                        <i class="fa fa-instagram fa-2x"></i>
+                        <span style="margin-top: 10px; display: block;">Instagram</span>
+                    </button>
+                    <button class="btn-back" onclick="compartirEn('whatsapp')" style="justify-content: center; background: #25d366; padding: 20px;">
+                        <i class="fa fa-whatsapp fa-2x"></i>
+                        <span style="margin-top: 10px; display: block;">WhatsApp</span>
+                    </button>
+                    <button class="btn-back" onclick="compartirEn('twitter')" style="justify-content: center; background: #1da1f2; padding: 20px;">
+                        <i class="fa fa-twitter fa-2x"></i>
+                        <span style="margin-top: 10px; display: block;">Twitter/X</span>
+                    </button>
+                    <button class="btn-back" onclick="compartirEn('linkedin')" style="justify-content: center; background: #0077b5; padding: 20px;">
+                        <i class="fa fa-linkedin fa-2x"></i>
+                        <span style="margin-top: 10px; display: block;">LinkedIn</span>
+                    </button>
+                </div>
+                
+                <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--panel-border);">
+                    <h4 style="color: var(--text-muted); margin-bottom: 15px;"><i class="fa fa-link"></i> Compartir mi perfil público</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px; background: rgba(0,0,0,0.3); padding: 12px 15px; border-radius: 10px;">
+                            <code id="perfilUrlDisplay" style="font-size: 0.85rem; word-break: break-all;">Cargando...</code>
+                        </div>
+                        <button class="btn-ia-action btn-copy-ia" onclick="copiarPerfilUrl()">
+                            <i class="fa fa-copy"></i> Copiar Enlace
+                        </button>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">Comparte este enlace con tus fans, familiares y empresarios para que puedan contactarte directamente.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer style="text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid rgba(254,210,2,0.2); color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+            <p>&copy; 2022 - 2026 <strong style="color: #fed202;">PURO LLANO RADIO</strong></p>
+        </footer>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script>
+    let currentUser = null;
+    let currentProfileData = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const auth = firebase.auth();
+        
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'talento.html';
+                return;
+            }
+            currentUser = user;
+            await loadProfileData(user.uid);
+        });
+    });
+
+    async function loadProfileData(uid) {
+        try {
+            const db = firebase.database();
+            const snapshot = await db.ref('perfiles/' + uid).once('value');
+            currentProfileData = snapshot.val();
+            
+            if (currentProfileData) {
+                const perfilUrl = `${window.location.origin}/perfil-publico.html?id=${uid}`;
+                document.getElementById('perfilUrlDisplay').textContent = perfilUrl;
+                window.perfilCompararUrl = perfilUrl;
+            }
+        } catch (error) {
+            console.error('Error cargando datos:', error);
+        }
+    }
+
+    // ========== GENERADORES DE CONTENIDO ==========
+    
+    function getTonoPrefix(tono) {
+        const tonos = {
+            formal: 'Con tono profesional y elegante',
+            casual: 'Con tono amigable y cercano',
+            emocional: 'Con tono emotivo y nostálgico',
+            festivo: 'Con tono festivo y celebratorio'
+        };
+        return tonos[tono] || 'Con tono profesional';
+    }
+
+    function getArtistInfo() {
+        if (!currentProfileData) return {};
+        return {
+            nombre: currentProfileData.nombreArtistico || 'Artista Llanero',
+            region: currentProfileData.region || 'los llanos',
+            instrumentos: currentProfileData.instrumentos?.join(', ') || 'instrumentos llaneros'
+        };
+    }
+
+    window.generarPublicacion = function() {
+        const tipo = document.getElementById('tipoPublicacion').value;
+        const tema = document.getElementById('temaPublicacion').value;
+        const tono = document.getElementById('tonoPublicacion').value;
+        const artista = getArtistInfo();
+        
+        if (!tema) {
+            window.showToast('Describe de qué trata tu publicación', 'fa-exclamation');
+            return;
+        }
+
+        const plantillas = {
+            lanzamiento: `🎵 *NUEVO LANZAMIENTO* 🎵
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+🎸 Artista: ${artista.nombre}
+📍 Origen: ${artista.region}
+
+Disponible en todas las plataformas digitales 🎧
+
+🇻🇪🇨🇴 *#MúsicaLlanera #Joropo #PuroLlanoRadio #${artista.nombre.replace(/\s/g, '')}*`,
+
+            presentacion: `🎤 *¡LES CUENTO!* 🎤
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+📍 Desde ${artista.region}
+🎶 ${artista.instrumentos}
+
+¡Nos vemos en el escenario! 🔥
+
+🇻🇪🇨🇴 #MúsicaLlanera #VivoLlanero #PuroLlanoRadio`,
+
+            biografia: `📖 *MI HISTORIA* 📖
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+Nací en las tierras de ${artista.region}, donde la música llanera es parte del alma. Desde muy pequeño(s) me dediqué a preservar nuestra tradición musical.
+
+${artista.instrumentos} son mi pasión y mi vida.
+
+🇻🇪🇨🇴 *#MiHistoria #MúsicaLlanera #Folklore*`,
+
+            agradecimiento: `🙏 *¡GRACIAS A TODOS!* 🙏
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+Su apoyo significa todo para mí. Cada vez que me escuchan, cada vez que comparten, cada vez que me ovacionan... ¡es gracias a ustedes!
+
+🎵 Desde ${artista.region} con todo mi corazón
+
+🇻🇪🇨🇴 *#Fans #Agradecimiento #MúsicaLlanera*`,
+
+            convocatoria: `📢 *¡IMPORTANTE!* 📢
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+🎟️ ¡No te lo pierdas!
+📍 Marque la ubicación
+🕐 Horario: por confirmar
+
+¡Nos vemos allí! 🔥
+
+🇻🇪🇨🇴 #EventoLlanero #MúsicaLlanera #PuroLlanoRadio`,
+
+            cover: `🎶 *COVER / VERSIÓN* 🎶
+
+${getTenoPrefix(tono)}
+
+${tema}
+
+Interpretación personal de un clásico llanero 🎸
+
+🎵 ${artista.nombre} - ${artista.region}
+
+¡Espero que les guste! 👏
+
+🇻🇪🇨🇴 #CoverLlanero #MúsicaLlanera #PuroLlanoRadio`
+        };
+
+        mostrarResultado('resultadoPublicacion', 'accionesPublicacion', plantillas[tipo]);
+    };
+
+    window.generarCaption = function() {
+        const tipo = document.getElementById('tipoMedia').value;
+        const descripcion = document.getElementById('descripcionMedia').value;
+        const artista = getArtistInfo();
+        
+        if (!descripcion) {
+            window.showToast('Describe la imagen o video', 'fa-exclamation');
+            return;
+        }
+
+        const plantillas = {
+            foto: `📸 *Nueva foto de perfil* 📸
+
+${descripcion}
+
+🎵 ${artista.nombre}
+📍 ${artista.region}
+
+🇻🇪🇨🇴 #FotoDePerfil #MúsicaLlanera #PuroLlanoRadio`,
+
+            video: `🎬 *NUEVO VIDEO* 🎬
+
+${descripcion}
+
+¡Dale play y cuéntame qué te parece! 👇
+
+🎵 ${artista.nombre}
+
+🇻🇪🇨🇴 #YouTube #MúsicaLlanera #Joropo #PuroLlanoRadio`,
+
+            cancion: `🎵 *NUEVA MÚSICA* 🎵
+
+${descripcion}
+
+Ya disponible en todas las plataformas 🎧
+
+🎸 ${artista.nombre} | ${artista.region}
+
+🇻🇪🇨🇴 #NuevoSingle #MúsicaLlanera #Joropo #PuroLlanoRadio`,
+
+            evento: `🎪 *RECORDANDO* 🎪
+
+${descripcion}
+
+¡Qué noche increíble! 🎉
+
+🎵 ${artista.nombre}
+
+🇻🇪🇨🇴 #FestivalLlanero #MúsicaLlanera #PuroLlanoRadio`
+        };
+
+        mostrarResultado('resultadoCaption', 'accionesCaption', plantillas[tipo]);
+    };
+
+    window.generarDescripcion = function() {
+        const titulo = document.getElementById('tituloVideo').value;
+        const contenido = document.getElementById('contenidoVideo').value;
+        const artista = getArtistInfo();
+        
+        if (!titulo || !contenido) {
+            window.showToast('Completa el título y contenido', 'fa-exclamation');
+            return;
+        }
+
+        const descripcion = `🎵 ${titulo} | ${artista.nombre}
+
+${contenido}
+
+🎸 Artista: ${artista.nombre}
+📍 Origen: ${artista.region}
+🎶 Género: Música Llanera / Joropo / Folklore
+
+🔔 Suscríbete y activa las notificaciones para más música llanera tradicional.
+
+🇻🇪🇨🇴 #MúsicaLlanera #Joropo #FolkloreVenezolano #PuroLlanoRadio #ArpaLlanera #TresLlanero`;
+
+        mostrarResultado('resultadoYoutube', 'accionesYoutube', descripcion);
+    };
+
+    window.generarPropuesta = function() {
+        const tipo = document.getElementById('tipoPropuesta').value;
+        const detalles = document.getElementById('detallesPropuesta').value;
+        const artista = getArtistInfo();
+        
+        if (!detalles) {
+            window.showToast('Describe los detalles de tu propuesta', 'fa-exclamation');
+            return;
+        }
+
+        const plantillas = {
+            contratacion: `Estimado organizador,
+
+Mi nombre es ${artista.nombre}, artista llanero originario de ${artista.region}. Me especializo en ${artista.instrumentos} y tengo amplia experiencia en eventos y festivales de música tradicional.
+
+${detalles}
+
+Me encantaría formar parte de su evento.，我可以 enviarles mi rider técnico y referencias de presentaciones anteriores.
+
+Quedo atento a su respuesta.
+
+Saludos cordiales,
+${artista.nombre}
+Músico Llanero
+
+📱 Contacto disponible en mi perfil de Puro Llano Radio`,
+
+            colaboracion: `¡Saludos! Me llamo ${artista.nombre}, artista llanero de ${artista.region}.
+
+Tengo interés en explorar una colaboración musical. Mi propuesta es:
+
+${detalles}
+
+Creo que juntos podemos crear algo realmente especial para la música llanera.
+
+🎵 Mi música: disponible en mi perfil de Puro Llano Radio
+📍 ${artista.region}
+
+¡Espero su respuesta!
+
+Atentamente,
+${artista.nombre}`,
+
+            promocion: `Estimado equipo de Puro Llano Radio,
+
+Soy ${artista.nombre}, artista llanero de ${artista.region}, especializado en ${artista.instrumentos}.
+
+Me gustaría proponer la promoción de mi trabajo en su prestigiosa plataforma:
+
+${detalles}
+
+Tengo el siguiente material disponible:
+- Videos de presentaciones en vivo
+- Canciones originales
+- Material de prensa
+
+Quedo a su disposición.
+
+Saludos,
+${artista.nombre}
+🎵 Puro Llano Radio - Mi Perfil: [ENLACE]`,
+
+            entrevista: `¡Hola! Soy ${artista.nombre}, artista llanero de ${artista.region}.
+
+Me gustaría proponer una entrevista en su medio para compartir:
+
+${detalles}
+
+Estoy disponible para conversar en cualquier momento.
+
+🎤 Sobre ${artista.nombre}:
+- Origen: ${artista.region}
+- Especialidad: ${artista.instrumentos}
+- Trayectoria: disponible en mi perfil
+
+¡Gracias por su atención!
+
+Saludos,
+${artista.nombre}`
+        };
+
+        mostrarResultado('resultadoPropuesta', 'accionesPropuesta', plantillas[tipo]);
+        window.propuestaGenerada = plantillas[tipo];
+    };
+
+    function mostrarResultado(resultId, actionsId, texto) {
+        document.getElementById(resultId).style.display = 'block';
+        document.getElementById(resultId).innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${texto}</pre>`;
+        document.getElementById(actionsId).style.display = 'flex';
+        window.showToast('¡Contenido generado! 🎉', 'fa-magic');
+    }
+
+    // ========== COMPARTIR EN REDES ==========
+    
+    window.copiarResultado = function(elementId) {
+        const texto = document.getElementById(elementId).textContent;
+        navigator.clipboard.writeText(texto).then(() => {
+            window.showToast('Texto copiado al portapapeles', 'fa-copy');
+        });
+    };
+
+    window.copiarPerfilUrl = function() {
+        const url = window.perfilCompararUrl;
+        navigator.clipboard.writeText(url).then(() => {
+            window.showToast('Enlace de tu perfil copiado', 'fa-link');
+        });
+    };
+
+    window.compartirEnRedes = function(tipo) {
+        const opciones = {
+            facebook: { url: 'https://www.facebook.com/sharer/sharer.php', label: 'Facebook' },
+            instagram: { url: 'instagram://', label: 'Instagram' },
+            whatsapp: { url: 'https://wa.me/', label: 'WhatsApp' },
+            twitter: { url: 'https://twitter.com/intent/tweet', label: 'Twitter' }
+        };
+        
+        const texto = tipo === 'publicacion' 
+            ? document.getElementById('resultadoPublicacion').textContent
+            : document.getElementById('resultadoCaption').textContent;
+        
+        window.showToast('Copia el texto y pégalo en la red social', 'fa-info-circle');
+    };
+
+    window.compartirEn = function(plataforma) {
+        const artista = getArtistInfo();
+        const url = window.perfilCompararUrl || '';
+        
+        const textos = {
+            facebook: `🎵 ¡Descubre a ${artista.nombre}! 🎵\n\nArtista llanero de ${artista.region}, especializado en ${artista.instrumentos}.\n\nEscucha su música y síguelo en Puro Llano Radio:\n${url}\n\n🇻🇪🇨🇴 #MúsicaLlanera #Folklore #PuroLlanoRadio`,
+
+            instagram: `🎶 ${artista.nombre} 🔥\n\nDe ${artista.region} para el mundo 🌎\n\n🎵 ${artista.instrumentos}\n\n🔗 Link en bio\n\n#YoEscuchoPuroLlanoRadio #MúsicaLlanera #Joropo #Folklore`,
+
+            whatsapp: `🎤 *NUEVO TALENTO LLANERO*\n\n*${artista.nombre}* de ${artista.region}\n\n${artista.instrumentos}\n\nEscúchalo aquí:\n${url}\n\n🇻🇪🇨🇴 *La música nos une*`,
+
+            twitter: `🎵 ${artista.nombre} - Artista Llanero de ${artista.region}\n\n${artista.instrumentos}\n\nEscucha su música en @PuroLlanoRadio: ${url}\n\n#MúsicaLlanera #Joropo #Folklore`,
+
+            linkedin: `🎶 Artista Llanero: ${artista.nombre}\n\nOrigen: ${artista.region}\nEspecialidad: ${artista.instrumentos}\n\nDescubre su música y舞台 en Puro Llano Radio:\n${url}\n\n#MúsicaLlanera #Folklore #Venezuela #Colombia`
+        };
+        
+        const texto = textos[plataforma];
+        
+        if (plataforma === 'whatsapp') {
+            const encodedText = encodeURIComponent(texto);
+            window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+        } else if (plataforma === 'facebook') {
+            const encodedText = encodeURIComponent(texto);
+            window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodedText}&u=${encodeURIComponent(url)}`, '_blank');
+        } else if (plataforma === 'twitter') {
+            const encodedText = encodeURIComponent(texto);
+            window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank');
+        } else if (plataforma === 'linkedin') {
+            const encodedText = encodeURIComponent(texto);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        } else if (plataforma === 'instagram') {
+            navigator.clipboard.writeText(texto).then(() => {
+                window.showToast('Texto copiado. Pégalo en Instagram ohistorias', 'fa-instagram');
+                window.open('https://instagram.com', '_blank');
+            });
+        }
+    };
+
+    window.abrirWhatsApp = function() {
+        const propuesta = window.propuestaGenerada || '';
+        const encodedText = encodeURIComponent(propuesta);
+        window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+    };
+    </script>
+</body>
+</html>

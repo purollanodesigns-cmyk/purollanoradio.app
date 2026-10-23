@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog de Folklore Llanero 📝 | Puro Llano Radio - Noticias y Cultura</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="📝 Blog de Puro Llano Radio - Aprende sobre folklore llanero, historia del joropo, instrumentos tradicionales y cultura venezolana. Artículos y noticias semanales.">
+    <meta name="keywords"
+        content="blog folklore llanero, historia joropo, instrumentos llaneros, cultura venezolana, arpa llanera, cuatro venezolano, maracas, contrapunteo, coplas llaneras, tradición venezolana">
+    <meta name="author" content="Puro Llano Radio">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://purollanoradio.com/blog.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Blog de Folklore Llanero 📝 | Puro Llano Radio">
+    <meta property="og:description"
+        content="Descubre la riqueza del folklore llanero venezolano. Artículos sobre joropo, instrumentos, historia y tradición cultural.">
+    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://purollanoradio.com/blog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Puro Llano Radio">
+    <meta property="og:locale" content="es_VE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog de Folklore Llanero 📝 | Puro Llano Radio">
+    <meta name="twitter:description"
+        content="Aprende sobre joropo, instrumentos tradicionales y cultura llanera venezolana.">
+    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a1108">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
+
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --dark-deep: #1a1108;
+            --dark-brown: #3d2817;
+            --glass: rgba(26, 17, 8, 0.95);
+            --text-light: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-deep) 0%, var(--dark-brown) 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 150px;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(254, 210, 2, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            background: rgba(254, 210, 2, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(254, 210, 2, 0.2);
+        }
+
+        .breadcrumbs ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumbs li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumbs li:not(:last-child)::after {
+            content: '›';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs .current {
+            color: var(--text-light);
+        }
+
+        /* Categorías */
+        .categories-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            background: rgba(254, 210, 2, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary);
+            color: var(--dark-deep);
+            font-weight: 700;
+        }
+
+        /* Grid de Blog Posts */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(254, 210, 2, 0.3);
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, rgba(254, 210, 2, 0.2), rgba(61, 40, 23, 0.5));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary);
+        }
+
+        .blog-card-content {
+            padding: 25px;
+        }
+
+        .blog-card-category {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(254, 210, 2, 0.2);
+            color: var(--primary);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .blog-card-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .blog-card-excerpt {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .blog-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .blog-card-meta i {
+            color: var(--primary);
+        }
+
+        .blog-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card-link:hover {
+            gap: 12px;
+        }
+
+        /* Artículo expandido */
+        .blog-article {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .blog-article h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .blog-article h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+        }
+
+        .blog-article p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .blog-article ul,
+        .blog-article ol {
+            color: var(--text-light);
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .blog-article li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .blog-article strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-article {
+                padding: 20px;
+            }
+
+            .blog-article h2 {
+                font-size: 1.5rem;
+            }
+
+            .categories-filter {
+                gap: 8px;
+            }
+
+            .category-btn {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+
+            .youtube-embed {
+                height: 200px;
+            }
+        }
+
+        /* Videos de YouTube */
+        .youtube-embed {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .youtube-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-caption {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Sistema de Comentarios */
+        .comments-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .comments-section h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comment-form {
+            margin-bottom: 30px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(254, 210, 2, 0.2);
+        }
+
+        .comment-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .comment-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .comment-form button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            color: var(--dark-deep);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .comment-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(254, 210, 2, 0.4);
+        }
+
+        .comments-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            background: rgba(254, 210, 2, 0.1);
+            border: 1px solid rgba(254, 210, 2, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-deep);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .comment-author {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .comment-date {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .comment-text {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .comments-loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-light);
+        }
+
+        .comments-loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Reproductor Flotante */
+        .floating-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.98) 0%, rgba(15, 15, 20, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(254, 210, 2, 0.2);
+            padding: 15px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            animation: player-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes player-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(254, 210, 2, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(254, 210, 2, 0);
+            }
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-info h4 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffb700 100%);
+            border: none;
+            color: var(--dark-deep);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(254, 210, 2, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="https://purollanoradio.com" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+            Volver al Inicio
+        </a>
+        <a href="admin-blog.html" class="back-btn" style="float: right; font-size: 0.85rem; padding: 8px 16px;"
+            title="Panel de Administración">
+            <i class="fa fa-lock"></i> Admin
+        </a>
+
+        <div class="header">
+            <h1><i class="fa fa-book-open"></i> Blog de Folklore Llanero</h1>
+            <p>Descubre la riqueza cultural del llano venezolano</p>
+        </div>
+
+        <!-- Breadcrumbs con Schema.org -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="https://purollanoradio.com/">
+                        <span itemprop="name">Inicio</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current">
+                    <span itemprop="name">Blog</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Filtros por Categoría -->
+        <div class="categories-filter">
+            <button class="category-btn active" data-category="all">
+                <i class="fa fa-th"></i> Todos
+            </button>
+            <button class="category-btn" data-category="historia">
+                <i class="fa fa-landmark"></i> Historia
+            </button>
+            <button class="category-btn" data-category="instrumentos">
+                <i class="fa fa-music"></i> Instrumentos
+            </button>
+            <button class="category-btn" data-category="tradiciones">
+                <i class="fa fa-guitar"></i> Tradiciones
+            </button>
+            <button class="category-btn" data-category="artistas">
+                <i class="fa fa-users"></i> Artistas
+            </button>
+        </div>
+
+        <!-- Artículos del Blog -->
+        <div class="blog-grid" id="dynamicBlogGrid">
+            <!-- Los artículos se cargarán dinámicamente aquí -->
+        </div>
+
+        <!-- Artículos Estáticos Originales -->
+        <div id="staticArticles" style="margin-top: 60px;">
+            <!-- Artículo 1: Historia del Joropo -->
+            <article class="blog-card" data-category="historia">
+                <div class="blog-card-image">
+                    <i class="fa fa-landmark"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Historia</span>
+                    <h3 class="blog-card-title">Historia del Joropo: El Alma Musical del Llano Venezolano</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 5 Abril 2026</span>
+                        <span><i class="fa fa-clock"></i> 8 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        El joropo es mucho más que un género musical: es la expresión cultural más auténtica del pueblo
+                        llanero. Descubre sus orígenes coloniales y cómo se convirtió en símbolo nacional de Venezuela.
+                    </p>
+                    <a href="#articulo-joropo" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Artículo 2: El Arpa Llanera -->
+            <article class="blog-card" data-category="instrumentos">
+                <div class="blog-card-image">
+                    <i class="fa fa-music"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Instrumentos</span>
+                    <h3 class="blog-card-title">El Arpa Llanera: Reina de la Orquesta Venezolana</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 2 Abril 2026</span>
+                        <span><i class="fa fa-clock"></i> 6 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        Con 32 o 36 cuerdas, el arpa llanera es el instrumento más emblemático de nuestra música.
+                        Aprende sobre su historia, técnica y los grandes maestros que la han elevado.
+                    </p>
+                    <a href="#articulo-arpa" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Artículo 3: Contrapunteo -->
+            <article class="blog-card" data-category="tradiciones">
+                <div class="blog-card-image">
+                    <i class="fa fa-microphone-alt"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Tradiciones</span>
+                    <h3 class="blog-card-title">El Contrapunteo: Duelo de Coplas y Versos en el Llano</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 28 Marzo 2026</span>
+                        <span><i class="fa fa-clock"></i> 7 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        Dos copleros, un escenario y la improvisación como arma. El contrapunteo es una de las
+                        tradiciones más vibrantes del folklore llanero. Conoce su historia y reglas.
+                    </p>
+                    <a href="#articulo-contrapunteo" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Artículo 4: Cuatro Venezolano -->
+            <article class="blog-card" data-category="instrumentos">
+                <div class="blog-card-image">
+                    <i class="fa fa-guitar"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Instrumentos</span>
+                    <h3 class="blog-card-title">El Cuatro Venezolano: Pequeño en Tamaño, Grande en Sonido</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 25 Marzo 2026</span>
+                        <span><i class="fa fa-clock"></i> 5 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        Instrumento nacional de Venezuela, el cuatro tiene cuatro cuerdas pero infinitas posibilidades
+                        sonoras. Descubre su papel fundamental en la música llanera.
+                    </p>
+                    <a href="#articulo-cuatro" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Artículo 5: Maracas -->
+            <article class="blog-card" data-category="instrumentos">
+                <div class="blog-card-image">
+                    <i class="fa fa-drum"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Instrumentos</span>
+                    <h3 class="blog-card-title">Las Maracas: El Ritmo Ancestral del Llano</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 20 Marzo 2026</span>
+                        <span><i class="fa fa-clock"></i> 4 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        Elaboradas con frutos de tapara, las maracas son el corazón rítmico del joropo. Conoce su
+                        proceso de fabricación artesanal y técnica de ejecución.
+                    </p>
+                    <a href="#articulo-maracas" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Artículo 6: Grandes Artistas -->
+            <article class="blog-card" data-category="artistas">
+                <div class="blog-card-image">
+                    <i class="fa fa-star"></i>
+                </div>
+                <div class="blog-card-content">
+                    <span class="blog-card-category">Artistas</span>
+                    <h3 class="blog-card-title">Leyendas del Joropo: Los Grandes Maestros de la Música Llanera</h3>
+                    <div class="blog-card-meta">
+                        <span><i class="fa fa-calendar"></i> 15 Marzo 2026</span>
+                        <span><i class="fa fa-clock"></i> 10 min lectura</span>
+                    </div>
+                    <p class="blog-card-excerpt">
+                        De Juan Vicente Torrealba a Ignacio "Indio" Rivas, conoce a los artistas que definieron el
+                        sonido del llano y dejaron huella imborrable en nuestra cultura.
+                    </p>
+                    <a href="#articulo-leyendas" class="blog-card-link">
+                        Leer más <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Artículos Completos (Secciones expandibles) -->
+        <div id="dynamicArticles" style="margin-top: 60px;">
+            <!-- Los artículos completos se cargarán dinámicamente aquí -->
+        </div>
+
+        <div id="staticArticlesFull" style="margin-top: 60px;">
+            <!-- Artículo Completo 1 -->
+            <article id="articulo-joropo" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-04-05" />
+                <meta itemprop="dateModified" content="2026-04-05" />
+                <h2 itemprop="headline">Historia del Joropo: El Alma Musical del Llano Venezolano</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        El <strong>joropo</strong> es la manifestación musical más representativa de Venezuela y una de
+                        las más ricas de América Latina. Sus raíces se hunden profundamente en el mestizaje cultural que
+                        dio origen a la identidad venezolana contemporánea.
+                    </p>
+
+                    <h3>Orígenes Coloniales</h3>
+                    <p>
+                        Durante el período colonial venezolano, la fusión de elementos musicales europeos, africanos e
+                        indígenas dio origen a expresiones culturales únicas. El joropo nació en los vastos llanos
+                        venezolanos como resultado de esta mezcla:
+                    </p>
+                    <ul>
+                        <li><strong>Aporte europeo:</strong> La armonía, melodías y instrumentos de cuerda traídos por
+                            los colonizadores españoles</li>
+                        <li><strong>Aporte africano:</strong> La rítmica compleja y los patrones de percusión que dieron
+                            vida al género</li>
+                        <li><strong>Aporte indígena:</strong> Influencias en la temática y conexión con la naturaleza
+                        </li>
+                    </ul>
+
+                    <h3>Evolución Histrica</h3>
+                    <p>
+                        A lo largo de los siglos XVIII y XIX, el joropo se consolidó como la expresión musical
+                        predilecta de los habitantes del llano. Las reuniones sociales en los hatos ganaderos eran el
+                        escenario natural para su interpretación y evolución.
+                    </p>
+
+                    <h3>Reconocimiento Nacional</h3>
+                    <p>
+                        En el siglo XX, el joropo trascendió las fronteras del llano para convertirse en símbolo
+                        nacional venezolano. Hoy es reconocido como Patrimonio Cultural Inmaterial de la Humanidad por
+                        la UNESCO, garantizando su preservación para futuras generaciones.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Artículo Completo 2 -->
+            <article id="articulo-arpa" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-04-02" />
+                <meta itemprop="dateModified" content="2026-04-02" />
+                <h2 itemprop="headline">El Arpa Llanera: Reina de la Orquesta Venezolana</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        El <strong>arpa llanera</strong> es el instrumento melódico principal del joropo venezolano. Con
+                        sus 32 o 36 cuerdas, produce las melodías que definen el carácter inconfundible de nuestra
+                        música tradicional.
+                    </p>
+
+                    <h3>Características Técnicas</h3>
+                    <p>
+                        A diferencia del arpa clásica europea, el arpa llanera posee particularidades únicas:
+                    </p>
+                    <ul>
+                        <li><strong>Cuerdas:</strong> Generalmente 32 o 36, de nylon o tripa</li>
+                        <li><strong>Afinación:</strong> Diatónica, sin pedales</li>
+                        <li><strong>Técnica:</strong> Se toca con las uñas de los dedos índice y medio</li>
+                        <li><strong>Construcción:</strong> Artesanal, con madera de cedro o caoba</li>
+                    </ul>
+
+                    <h3>Grandes Maestros</h3>
+                    <p>
+                        La historia del arpa llanera está marcada por virtuosos intérpretes que elevaron el instrumento
+                        a niveles artísticos extraordinarios: Juan Vicente Torrealba, Hugo Blanco, Hermes Romero, y
+                        muchos más que han dedicado su vida a perfeccionar y difundir este tesoro musical.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Artículo Completo 3 -->
+            <article id="articulo-contrapunteo" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-03-28" />
+                <meta itemprop="dateModified" content="2026-03-28" />
+                <h2 itemprop="headline">El Contrapunteo: Duelo de Coplas y Versos en el Llano</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        El <strong>contrapunteo</strong> es una de las tradiciones más emocionantes del folklore
+                        llanero. Dos copleros se enfrentan en un duelo verbal donde la improvisación, el ingenio y la
+                        poesía popular son las armas principales.
+                    </p>
+
+                    <h3>Reglas del Juego</h3>
+                    <p>
+                        Aunque es una forma de expresión libre, el contrapunteo sigue ciertas convenciones:
+                    </p>
+                    <ul>
+                        <li>Los copleros se turnan para improvisar versos sobre un tema dado</li>
+                        <li>El acompañamiento musical es proporcionado por arpa, cuatro y maracas</li>
+                        <li>El público actúa como jurado, decidiendo el ganador con aplausos</li>
+                        <li>Los temas van desde el amor hasta la sátira política</li>
+                    </ul>
+
+                    <h3>Importancia Cultural</h3>
+                    <p>
+                        El contrapunteo es mucho más que entretenimiento: es una forma de preservar la historia oral,
+                        transmitir valores culturales y mantener viva la tradición poética del llano venezolano.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Artículo Completo 4 -->
+            <article id="articulo-cuatro" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-03-25" />
+                <meta itemprop="dateModified" content="2026-03-25" />
+                <h2 itemprop="headline">El Cuatro Venezolano: Pequeño en Tamaño, Grande en Sonido</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        El <strong>cuatro</strong> es el instrumento musical nacional de Venezuela por excelencia. Con
+                        apenas cuatro cuerdas, este pequeño instrumento de la familia de la guitarra posee un universo
+                        sonoro que lo hace indispensable en toda agrupación de música llanera.
+                    </p>
+
+                    <h3>Historia y Origen</h3>
+                    <p>
+                        El cuatro venezolano desciende de los instrumentos de cuerda pulsada traídos por los
+                        colonizadores españoles. Su evolución en Venezuela lo convirtió en un instrumento único,
+                        diferente a sus primos latinoamericanos como el charango andino o el tres cubano.
+                    </p>
+
+                    <h3>Función en el Joropo</h3>
+                    <p>
+                        En el joropo, el cuatro cumple una función rítmica y armónica esencial. Su rasgueo
+                        característico, conocido como "raspao", es uno de los sellos sonoros de nuestra música
+                        tradicional.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Artículo Completo 5 -->
+            <article id="articulo-maracas" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-03-20" />
+                <meta itemprop="dateModified" content="2026-03-20" />
+                <h2 itemprop="headline">Las Maracas: El Ritmo Ancestral del Llano</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        Las <strong>maracas</strong> son el instrumento de percusión por excelencia del joropo
+                        venezolano. Elaboradas artesanalmente con frutos de tapara (calabaza seca), contienen pequeñas
+                        semillas o piedras que producen el ritmo característico de nuestra música.
+                    </p>
+
+                    <h3>Proceso de Fabricación</h3>
+                    <p>
+                        La elaboración de unas buenas maracas es un arte que requiere paciencia y conocimiento
+                        ancestral:
+                    </p>
+                    <ul>
+                        <li>Selección del fruto de tapara en su punto óptimo de maduración</li>
+                        <li>Secado natural durante varios meses</li>
+                        <li>Limpieza interior y colocación de semillas</li>
+                        <li>Decoración y barnizado artesanal</li>
+                    </ul>
+
+                    <h3>Técnica de Ejecución</h3>
+                    <p>
+                        El maraquero ejecuta patrones rítmicos complejos que complementan perfectamente la melodía del
+                        arpa y el rasgueo del cuatro, creando el tejido sonoro único del joropo.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Artículo Completo 6 -->
+            <article id="articulo-leyendas" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                <meta itemprop="author" content="Puro Llano Radio" />
+                <meta itemprop="datePublished" content="2026-03-15" />
+                <meta itemprop="dateModified" content="2026-03-15" />
+                <h2 itemprop="headline">Leyendas del Joropo: Los Grandes Maestros de la Música Llanera</h2>
+
+                <div itemprop="articleBody">
+                    <p>
+                        La música llanera venezolana ha sido enriquecida por innumerables artistas que dedicaron su vida
+                        a preservar y difundir el folklore. Conoce a algunos de los más influyentes:
+                    </p>
+
+                    <h3>Juan Vicente Torrealba (1917-2019)</h3>
+                    <p>
+                        Conocido como "El Cacique del Arpa", Torrealba es posiblemente el arpista más emblemático de
+                        Venezuela. Compositor de obras maestras como "Caballo Viejo" y "Fiesta en Elorza", su legado
+                        trasciende fronteras.
+                    </p>
+
+                    <h3>Ignacio "Indio" Rivas (1936-2021)</h3>
+                    <p>
+                        Cantante y compositor de voz inconfundible, el "Indio" Rivas fue uno de los intérpretes más
+                        queridos del folklore llanero. Su interpretación de "Cantos del Llano" es antológica.
+                    </p>
+
+                    <h3>Hermes Romero</h3>
+                    <p>
+                        Virtuoso del arpa llanera, Romero ha llevado la música del llano a escenarios internacionales,
+                        demostrando la riqueza técnica y emocional de nuestro folklore.
+                    </p>
+
+                    <p>
+                        Estos son solo algunos ejemplos de los muchos artistas que han contribuido a mantener viva la
+                        llama del joropo venezolano. En <strong>Puro Llano Radio</strong> honramos su legado
+                        transmitiendo su música las 24 horas del día.
+                    </p>
+
+                    <!-- Videos de YouTube Embebidos -->
+                    <h3>Videos Destacados</h3>
+
+                    <div class="youtube-embed">
+                        <iframe src="https://www.youtube.com/embed/3JZ3yQJhL1I"
+                            title="Juan Vicente Torrealba - Caballo Viejo"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <p class="video-caption"><i class="fa fa-youtube"></i> Juan Vicente Torrealba - "Caballo Viejo"</p>
+
+                    <div class="youtube-embed">
+                        <iframe src="https://www.youtube.com/embed/5yMGV6z0C8o" title="Joropo Venezolano Tradicional"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <p class="video-caption"><i class="fa fa-youtube"></i> Lo mejor del joropo venezolano</p>
+                </div>
+            </article>
+
+            <!-- Sección de Comentarios -->
+            <section class="comments-section" id="blogComments">
+                <h3><i class="fa fa-comments"></i> Comentarios (<span id="commentCount">0</span>)</h3>
+
+                <!-- Formulario de Comentarios -->
+                <div class="comment-form" id="commentForm">
+                    <input type="text" id="commentAuthorName" placeholder="Tu nombre" maxlength="30" required>
+                    <textarea id="commentText" placeholder="Escribe tu comentario sobre este artículo..."
+                        maxlength="500" required></textarea>
+                    <button onclick="submitBlogComment()">
+                        <i class="fa fa-paper-plane"></i> Publicar Comentario
+                    </button>
+                </div>
+
+                <!-- Lista de Comentarios -->
+                <div class="comments-list" id="commentsList">
+                    <div class="comments-loading">
+                        <i class="fa fa-spinner fa-spin"></i>
+                        <p>Cargando comentarios...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR FLOTANTE -->
+    <div class="floating-player" id="floatingPlayer">
+        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+
+        <div class="player-info">
+            <h4 id="playerSongTitle">Puro Llano Radio</h4>
+            <p id="playerArtistName">En vivo</p>
+        </div>
+
+        <div class="player-controls">
+            <button class="player-btn" id="playerToggle" onclick="togglePlayer()">
+                <i class="fa fa-play" id="playerIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Elemento de Audio -->
+    <audio id="playerAudio" preload="auto" crossorigin="anonymous">
+        <source src="https://radio.mipanel.stream:6816/stream" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script>
+        const playerAudio = document.getElementById('playerAudio');
+        const playerIcon = document.getElementById('playerIcon');
+        const playerToggle = document.getElementById('playerToggle');
+        const playerSongTitle = document.getElementById('playerSongTitle');
+        const playerArtistName = document.getElementById('playerArtistName');
+
+        let isPlaying = false;
+
+        // AUTO PLAY al cargar la página (con manejo de errores de autoplay)
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                // Intentar autoplay pero sin mostrar error si el navegador lo bloquea
+                playerAudio.src = 'https://radio.mipanel.stream:6816/stream?t=' + Date.now();
+                playerAudio.play().then(() => {
+                    playerIcon.className = 'fa fa-pause';
+                    playerArtistName.innerText = 'En Vivo';
+                    isPlaying = true;
+                }).catch(err => {
+                    // El autoplay fue bloqueado - mostrar estado pausado
+                    console.log('Autoplay bloqueado, usuario debe iniciar manualmente');
+                    playerIcon.className = 'fa fa-play';
+                    playerArtistName.innerText = 'Click para reproducir';
+                    isPlaying = false;
+                });
+            }, 1000);
+        });
+
+        function togglePlayer() {
+            if (isPlaying) {
+                playerAudio.pause();
+                playerIcon.className = 'fa fa-play';
+                playerArtistName.innerText = 'Pausado';
+                isPlaying = false;
+            } else {
+                playerAudio.src = 'https://radio.mipanel.stream:6816/stream?t=' + Date.now();
+                playerAudio.play().then(() => {
+                    playerIcon.className = 'fa fa-pause';
+                    playerArtistName.innerText = 'En Vivo';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.error('Error al reproducir:', err);
+                    playerArtistName.innerText = 'Error al conectar';
+                });
+            }
+        }
+
+        // Filtrar artículos por categoría
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const category = this.dataset.category;
+
+                // Actualizar botón activo
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filtrar artículos
+                document.querySelectorAll('.blog-card').forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // ==========================================================================
+        // SISTEMA DE COMENTARIOS CON FIREBASE
+        // ==========================================================================
+
+        let blogCommentsRef = null;
+
+        // Inicializar comentarios cuando Firebase esté listo
+        function initBlogComments() {
+            try {
+                if (typeof firebase !== 'undefined' && firebase.database) {
+                    blogCommentsRef = firebase.database().ref('blog_comments/puro_llano_radio');
+                    loadBlogComments();
+                } else {
+                    console.warn('Firebase no disponible para comentarios del blog');
+                    document.getElementById('commentsList').innerHTML = `
+                        <div class="comment-item">
+                            <p class="comment-text"><i class="fa fa-info-circle"></i> Sistema de comentarios no disponible en este momento.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error inicializando comentarios:', error);
+            }
+        }
+
+        // Enviar comentario
+        window.submitBlogComment = function () {
+            const authorInput = document.getElementById('commentAuthorName');
+            const textInput = document.getElementById('commentText');
+
+            const author = authorInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!author || !text) {
+                alert('Por favor ingresa tu nombre y un comentario.');
+                return;
+            }
+
+            if (author.length < 2) {
+                alert('El nombre debe tener al menos 2 caracteres.');
+                return;
+            }
+
+            if (text.length < 10) {
+                alert('El comentario debe tener al menos 10 caracteres.');
+                return;
+            }
+
+            const commentData = {
+                id: 'comment_' + Date.now(),
+                author: escapeHtml(author),
+                text: escapeHtml(text),
+                timestamp: Date.now(),
+                articleId: 'general_blog'
+            };
+
+            blogCommentsRef.push(commentData)
+                .then(() => {
+                    authorInput.value = '';
+                    textInput.value = '';
+                    showCommentToast('¡Comentario publicado exitosamente!');
+                })
+                .catch((error) => {
+                    console.error('Error publicando comentario:', error);
+                    alert('Error al publicar el comentario. Intenta de nuevo.');
+                });
+        };
+
+        // Cargar comentarios desde Firebase
+        function loadBlogComments() {
+            if (!blogCommentsRef) return;
+
+            blogCommentsRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
+                const comments = [];
+                snapshot.forEach((childSnap) => {
+                    comments.push(childSnap.val());
+                });
+
+                // Ordenar de más reciente a más antiguo
+                comments.reverse();
+                renderComments(comments);
+            });
+        }
+
+        // Renderizar comentarios
+        function renderComments(comments) {
+            const commentsList = document.getElementById('commentsList');
+            const commentCountEl = document.getElementById('commentCount');
+
+            if (!commentsList) return;
+
+            commentCountEl.textContent = comments.length;
+
+            if (comments.length === 0) {
+                commentsList.innerHTML = `
+                    <div class="comment-item" style="text-align: center; padding: 30px;">
+                        <i class="fa fa-comment-slash" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                        <p class="comment-text">Sé el primero en comentar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            comments.forEach((comment) => {
+                const initial = comment.author.charAt(0).toUpperCase();
+                const date = new Date(comment.timestamp).toLocaleDateString('es-VE', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                html += `
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-avatar">${initial}</div>
+                            <div>
+                                <div class="comment-author">${comment.author}</div>
+                                <div class="comment-date">${date}</div>
+                            </div>
+                        </div>
+                        <p class="comment-text">${comment.text}</p>
+                    </div>
+                `;
+            });
+
+            commentsList.innerHTML = html;
+        }
+
+        // Mostrar toast de confirmación
+        function showCommentToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #fed202, #ffb700);
+                color: #1a1108;
+                padding: 15px 25px;
+                border-radius: 25px;
+                font-weight: 700;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(254, 210, 2, 0.5);
+                animation: slideUp 0.3s ease;
+            `;
+            toast.innerHTML = `<i class="fa fa-check-circle"></i> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Escapar HTML para seguridad
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initBlogComments, 1500);
+        });
+
+        // ==========================================================================
+        // SISTEMA DE BLOG DINÁMICO (LEE DESDE ADMIN-BLOG)
+        // ==========================================================================
+
+        function loadDynamicBlogPosts() {
+            const stored = localStorage.getItem('blogPosts');
+            if (!stored) return;
+
+            const posts = JSON.parse(stored);
+            const publishedPosts = posts.filter(p => p.status === 'published');
+
+            if (publishedPosts.length === 0) return;
+
+            // Renderizar tarjetas en el grid
+            const gridContainer = document.getElementById('dynamicBlogGrid');
+            if (gridContainer) {
+                gridContainer.innerHTML = publishedPosts.map(post => {
+                    const date = new Date(post.createdAt);
+                    const formattedDate = date.toLocaleDateString('es-VE', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+
+                    const categoryLabels = {
+                        'historia': 'Historia',
+                        'instrumentos': 'Instrumentos',
+                        'tradiciones': 'Tradiciones',
+                        'artistas': 'Artistas',
+                        'noticias': 'Noticias',
+                        'eventos': 'Eventos'
+                    };
+
+                    const categoryIcons = {
+                        'historia': 'fa-landmark',
+                        'instrumentos': 'fa-music',
+                        'tradiciones': 'fa-guitar',
+                        'artistas': 'fa-star',
+                        'noticias': 'fa-newspaper',
+                        'eventos': 'fa-calendar'
+                    };
+
+                    const imageHtml = post.image ?
+                        `<img src="${post.image}" style="width: 100%; height: 100%; object-fit: cover;" alt="${post.title}">` :
+                        `<i class="fa ${categoryIcons[post.category] || 'fa-newspaper'}"></i>`;
+
+                    return `
+                        <article class="blog-card" data-category="${post.category}">
+                            <div class="blog-card-image" style="background: ${post.image ? 'transparent' : 'linear-gradient(135deg, rgba(254, 210, 2, 0.2), rgba(61, 40, 23, 0.5))'};">
+                                ${imageHtml}
+                            </div>
+                            <div class="blog-card-content">
+                                <span class="blog-card-category">${categoryLabels[post.category] || post.category}</span>
+                                <h3 class="blog-card-title">${post.title}</h3>
+                                <div class="blog-card-meta">
+                                    <span><i class="fa fa-calendar"></i> ${formattedDate}</span>
+                                    <span><i class="fa fa-clock"></i> ${post.readTime} min lectura</span>
+                                </div>
+                                <p class="blog-card-excerpt">${post.excerpt}</p>
+                                <a href="#post-${post.id}" class="blog-card-link">
+                                    Leer más <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+            }
+
+            // Renderizar artículos completos
+            const fullContainer = document.getElementById('dynamicArticles');
+            if (fullContainer) {
+                fullContainer.innerHTML = publishedPosts.map(post => {
+                    const date = new Date(post.createdAt).toISOString().split('T')[0];
+
+                    let videosHtml = '';
+                    if (post.videos && post.videos.length > 0) {
+                        videosHtml = '<h3>Videos Destacados</h3>' +
+                            post.videos.map(video => `
+                                <div class="youtube-embed">
+                                    <iframe src="https://www.youtube.com/embed/${video.id}"
+                                        title="${video.caption}"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                </div>
+                                <p class="video-caption"><i class="fa fa-youtube"></i> ${video.caption}</p>
+                            `).join('');
+                    }
+
+                    return `
+                        <article id="post-${post.id}" class="blog-article" itemscope itemtype="https://schema.org/Article">
+                            <meta itemprop="author" content="Puro Llano Radio" />
+                            <meta itemprop="datePublished" content="${date}" />
+                            <meta itemprop="dateModified" content="${date}" />
+                            <h2 itemprop="headline">${post.title}</h2>
+
+                            ${post.image ? `<img src="${post.image}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 25px;" alt="${post.title}" />` : ''}
+
+                            <div itemprop="articleBody">
+                                ${post.content}
+                            </div>
+
+                            ${videosHtml}
+                        </article>
+                    `;
+                }).join('');
+            }
+
+            // Re-inicializar el filtro de categorías
+            initializeCategoryFilter();
+        }
+
+        function initializeCategoryFilter() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (!btn.dataset.listenerAdded) {
+                    btn.addEventListener('click', function () {
+                        const category = this.dataset.category;
+
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+
+                        document.querySelectorAll('.blog-card').forEach(card => {
+                            if (category === 'all' || card.dataset.category === category) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                    btn.dataset.listenerAdded = 'true';
+                }
+            });
+        }
+
+        // Cargar artículos dinámicos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(loadDynamicBlogPosts, 500);
+        });
+    </script>
+
+    <!-- Datos Estructurados JSON-LD para SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Blog de Folklore Llanero - Puro Llano Radio",
+        "description": "Blog dedicado al folklore llanero venezolano: historia del joropo, instrumentos tradicionales, cultura y artistas.",
+        "url": "https://purollanoradio.com/blog.html",
+        "publisher": {
+            "@type": "RadioStation",
+            "name": "Puro Llano Radio",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png"
+            }
+        },
+        "blogPost": [
+            {
+                "@type": "BlogPosting",
+                "headline": "Historia del Joropo: El Alma Musical del Llano Venezolano",
+                "datePublished": "2026-04-05",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Puro Llano Radio"
+                }
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "El Arpa Llanera: Reina de la Orquesta Venezolana",
+                "datePublished": "2026-04-02",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Puro Llano Radio"
+                }
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "El Contrapunteo: Duelo de Coplas y Versos en el Llano",
+                "datePublished": "2026-03-28",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Puro Llano Radio"
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+
+</html>

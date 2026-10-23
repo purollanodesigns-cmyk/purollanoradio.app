@@ -1,0 +1,128 @@
+{
+  "name": "Puro Llano Radio - Música Llanera y Folklore Venezolano",
+  "short_name": "Puro Llano",
+  "description": "Escucha la mejor música llanera y folklore venezolano en vivo 24/7. Joropo, contrapunteo, arpa, cuatro y maracas desde Puerto Ayacucho, Amazonas, Venezuela.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1a1108",
+  "theme_color": "#1a1108",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": [
+    "music",
+    "entertainment",
+    "radio",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./PORTADA-APP-1024X500-2.jpg",
+      "sizes": "1024x500",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./PORTADA-APP-1024X500-2.jpg",
+      "sizes": "1024x500",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Puro Llano Radio - Pantalla Principal"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Escuchar Ahora",
+      "short_name": "Play",
+      "description": "Comenzar a escuchar Puro Llano Radio",
+      "url": "/index.html?autoplay=1",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Top 5",
+      "short_name": "Top 5",
+      "description": "Ver las 5 canciones más populares",
+      "url": "/top5.html",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Programación",
+      "short_name": "Programación",
+      "description": "Ver programación semanal",
+      "url": "/programacion.html",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Blog de Folklore",
+      "short_name": "Blog",
+      "description": "Leer artículos sobre folklore llanero",
+      "url": "/blog.html",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Acerca de",
+      "short_name": "Acerca",
+      "description": "Conoce nuestra historia y misión",
+      "url": "/acerca.html",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Artistas",
+      "short_name": "Artistas",
+      "description": "Descubre los artistas de joropo",
+      "url": "/artistas.html",
+      "icons": [
+        {
+          "src": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "handle_links": "preferred"
+}

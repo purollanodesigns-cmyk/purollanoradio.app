@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consola de Emisiones Push | Puro Llano Radio</title>
+
+    <!-- Fuentes y Estilos Base -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #fed202;
+            --primary-rgb: 254, 210, 2;
+            --secondary: #6366f1;
+            --secondary-rgb: 99, 102, 241;
+            --success: #10b981;
+            --success-rgb: 16, 185, 129;
+            --danger: #f43f5e;
+            --danger-rgb: 244, 63, 94;
+            --warning: #f59e0b;
+            --bg-dark: #070b13;
+            --glass: rgba(13, 20, 35, 0.7);
+            --glass-border: rgba(254, 210, 2, 0.15);
+            --text-light: #f1f5f9;
+            --text-muted: #64748b;
+            --glow-primary: 0 0 15px rgba(254, 210, 2, 0.3);
+            --glow-secondary: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto; /* Permitir scroll vertical */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(254, 210, 2, 0.05) 0%, transparent 40%);
+        }
+
+        /* Canvas de Partículas */
+        #hud-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1250px;
+            padding: 40px 20px;
+            z-index: 1;
+            margin: 0 auto; /* Centrado horizontal */
+        }
+
+        /* Cristalería Premium */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 35px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            transition: 0.75s;
+        }
+
+        .glass-card:hover::before {
+            left: 125%;
+        }
+
+        /* Portal de Autenticación Futurista */
+        #authOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 7, 13, 0.95);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(15px);
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .auth-container {
+            width: 420px;
+            text-align: center;
+            border-radius: 30px;
+            border: 1px solid rgba(254, 210, 2, 0.25);
+            box-shadow: 0 0 50px rgba(254, 210, 2, 0.1);
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow-primary);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111;
+        }
+
+        .auth-logo img {
+            width: 80%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab-btn.active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: var(--glow-primary);
+        }
+
+        /* Biometría (Efecto Escáner) */
+        .biometric-scanner-wrap {
+            margin: 25px auto;
+            position: relative;
+            width: 110px;
+            height: 110px;
+            cursor: pointer;
+        }
+
+        .biometric-scanner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px dashed rgba(254, 210, 2, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .biometric-scanner i {
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .scanner-line {
+            position: absolute;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            top: 10%;
+            animation: scan 2s linear infinite;
+            display: none;
+        }
+
+        .biometric-scanner-wrap.scanning .scanner-line {
+            display: block;
+        }
+
+        .biometric-scanner-wrap.scanning .biometric-scanner {
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+            animation: pulse-border 1.5s ease-in-out infinite;
+        }
+
+        .biometric-scanner-wrap.scanning i {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        @keyframes scan {
+            0%, 100% { top: 10%; }
+            50% { top: 90%; }
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-group i.input-icon {
+            position: absolute;
+            left: 15px;
+            top: 45px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .form-group input:focus + i.input-icon,
+        .form-group textarea:focus + i.input-icon {
+            color: var(--primary);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 14px 14px 42px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(254, 210, 2, 0.15);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* Dashboard HUD */
+        .admin-wrapper {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .admin-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(254, 210, 2, 0.1);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            color: var(--secondary);
+        }
+
+        /* Presets Chips */
+        .presets-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .preset-chip {
+            background: rgba(254, 210, 2, 0.08);
+            border: 1px solid rgba(254, 210, 2, 0.3);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preset-chip:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* Botones Especiales */
+        .btn-send {
+            background: linear-gradient(135deg, var(--primary) 0%, #f59e0b 100%);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(254, 210, 2, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-send:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(254, 210, 2, 0.4);
+        }
+
+        .btn-send:disabled {
+            background: var(--text-muted);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-secondary-action {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary-action:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-logout {
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: var(--danger);
+        }
+
+        .btn-logout:hover {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
+        }
+
+        /* Programación */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 22px;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #scheduleToggle:checked + .toggle-switch {
+            background: var(--primary);
+        }
+
+        #scheduleToggle:checked + .toggle-switch::after {
+            left: 24px;
+        }
+
+        .schedule-box {
+            background: rgba(254, 210, 2, 0.03);
+            border: 1px dashed rgba(254, 210, 2, 0.25);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Simulador Móvil HUD */
+        .mobile-simulator {
+            position: sticky;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .phone-frame {
+            width: 325px;
+            height: 620px;
+            background: #090e18;
+            border-radius: 44px;
+            border: 8px solid rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            background-image: linear-gradient(to bottom, rgba(7, 11, 19, 0.7), rgba(9, 14, 24, 0.95)), url('https://w0.peakpx.com/wallpaper/407/610/HD-wallpaper-dark-night-mountains-minimalist-landscape-sky.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .phone-header {
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            padding-top: 5px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .phone-notch {
+            width: 90px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+
+        /* La Notificación en el celular */
+        .mock-notification {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 25px 8px;
+            border-radius: 20px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideInNotif 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            position: relative;
+            z-index: 5;
+        }
+
+        @keyframes slideInNotif {
+            from { transform: translateY(-70px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .mock-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #000;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid rgba(254, 210, 2, 0.4);
+            box-shadow: 0 0 5px rgba(254, 210, 2, 0.2);
+        }
+
+        .mock-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .mock-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .mock-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mock-body {
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .mock-image-wrap {
+            margin-top: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 125px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: none;
+        }
+
+        .mock-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Telemetría Panel */
+        .telemetry-panel {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            margin-top: 25px;
+            width: 100%;
+            max-width: 325px;
+        }
+
+        .telemetry-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .telemetry-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .telemetry-label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .telemetry-value {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .telemetry-value.success {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .telemetry-value.warning {
+            color: var(--warning);
+        }
+
+        /* Secciones de Historial / Agendados */
+        .dashboard-footer-sections {
+            grid-column: 1 / -1;
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 900px) {
+            .dashboard-footer-sections {
+                grid-template-columns: 1fr 1.2fr;
+            }
+        }
+
+        .notify-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(254, 210, 2, 0.2) transparent;
+        }
+
+        .notify-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .notify-grid::-webkit-scrollbar-thumb {
+            background: rgba(254, 210, 2, 0.2);
+            border-radius: 4px;
+        }
+
+        .history-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(254, 210, 2, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .history-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-time {
+            font-size: 0.72rem;
+            color: var(--secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+        }
+
+        .btn-delete {
+            color: var(--danger);
+            border: none;
+            background: rgba(244, 63, 94, 0.1);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .card-body {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .card-preview-image {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 5px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .status-msg-box {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            animation: slideDown 0.3s ease;
+        }
+
+        /* Efectos Glow del Input */
+        .glowing-border {
+            position: relative;
+        }
+
+        .glowing-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-primary);
+        }
+
+        .glowing-border input:focus ~ ::after {
+            width: 100%;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Canvas de Partículas HUD -->
+    <canvas id="hud-particles"></canvas>
+
+    <div class="container">
+        <!-- PORTAL DE AUTENTICACIÓN (HUD SECURITY) -->
+        <div id="authOverlay">
+            <div class="glass-card auth-container">
+                <div class="auth-logo" onmouseenter="playSynthSound('hover')">
+                    <img src="./PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio Logo">
+                </div>
+                
+                <!-- Pestañas Acceso / Registro -->
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="tabLogin" onclick="switchAuthTab('login')" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-lock"></i> Acceso Seguro
+                    </button>
+                    <button class="auth-tab-btn" id="tabRegister" onclick="switchAuthTab('register')" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-user-plus"></i> Registrar Admin
+                    </button>
+                </div>
+
+                <!-- Formulario de Login -->
+                <div id="loginFormArea">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px;">Consola de Mando Protegida. Acceso restringido.</p>
+
+                    <div class="form-group">
+                        <label><i class="fa fa-user"></i> Usuario Operador</label>
+                        <input type="text" id="adminEmail" placeholder="admin" required autocomplete="username" onkeypress="handleAuthEnter(event, 'login')">
+                        <i class="fa fa-user input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa fa-key"></i> Clave de Acceso</label>
+                        <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password" onkeypress="handleAuthEnter(event, 'login')">
+                        <i class="fa fa-key input-icon"></i>
+                    </div>
+
+                    <!-- Escáner Biométrico Mock -->
+                    <div class="biometric-scanner-wrap" id="biometricWrap" onclick="triggerBiometricScan()" onmouseenter="playSynthSound('hover')">
+                        <div class="biometric-scanner">
+                            <i class="fa fa-fingerprint"></i>
+                            <div class="scanner-line"></div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px;">Pulsa el escáner o presiona <kbd style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">Enter</kbd> para acceder</p>
+
+                    <button class="btn-send" id="btnAuthSubmit" onclick="loginAdmin()" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-shield-alt"></i> Validar Acceso
+                    </button>
+                </div>
+
+                <!-- Formulario de Registro de Administradores -->
+                <div id="registerFormArea" class="hidden">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px;">Generar Nueva Credencial Administrativa en la Base de Datos.</p>
+                    
+                    <div class="form-group">
+                        <label><i class="fa fa-user"></i> Nombre Operador</label>
+                        <input type="text" id="regName" placeholder="Nombre completo" required onkeypress="handleAuthEnter(event, 'register')">
+                        <i class="fa fa-user input-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa fa-envelope"></i> Nuevo Email Operador</label>
+                        <input type="email" id="regEmail" placeholder="nuevo@purollanoradio.com" required onkeypress="handleAuthEnter(event, 'register')">
+                        <i class="fa fa-envelope input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa fa-key"></i> Clave Asignada (Mín. 6 caracteres)</label>
+                        <input type="password" id="regPassword" placeholder="••••••••" required onkeypress="handleAuthEnter(event, 'register')">
+                        <i class="fa fa-key input-icon"></i>
+                    </div>
+
+                    <div class="form-group" style="border: 1px dashed rgba(99, 102, 241, 0.25); padding: 15px; border-radius: 12px; background: rgba(99, 102, 241, 0.02);">
+                        <label style="color: var(--secondary);"><i class="fa fa-unlock-alt"></i> Clave Maestra de Activación (Master PIN)</label>
+                        <input type="password" id="masterPin" placeholder="Ingrese Master PIN" required style="border-color: rgba(99, 102, 241, 0.3);" onkeypress="handleAuthEnter(event, 'register')">
+                        <i class="fa fa-unlock-alt input-icon" style="top: 60px;"></i>
+                        <span style="font-size: 0.65rem; color: var(--text-muted); display: block; margin-top: 6px;">Código requerido para validar rol administrador</span>
+                    </div>
+
+                    <button class="btn-send" id="btnAuthRegister" onclick="registerAdmin()" style="background: linear-gradient(135deg, var(--secondary) 0%, #4f46e5 100%); color: white; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-user-plus"></i> Generar Credencial Admin
+                    </button>
+                </div>
+
+                <div id="loginError" class="status-msg-box hidden" style="background: rgba(244, 63, 94, 0.1); border: 1px solid var(--danger); color: var(--danger);"></div>
+            </div>
+        </div>
+
+        <!-- CONSOLA DE EMISIONES HUD (MAIN CARD) -->
+        <div class="admin-wrapper hidden" id="mainApp">
+            <!-- Formulario y Consola Principal -->
+            <main class="glass-card">
+                <div class="panel-header">
+                    <h1><i class="fa fa-broadcast-tower"></i> Consola de Emisión</h1>
+                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <button class="btn-secondary-action btn-logout" onclick="handleLogout()" onmouseenter="playSynthSound('hover')">
+                            <i class="fa fa-sign-out-alt"></i> Cerrar Consola
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chips de Preajuste Rápido -->
+                <label>Plantillas de Emisión Rápida</label>
+                <div class="presets-bar">
+                    <div class="preset-chip" onclick="applyPreset('aire')" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-microphone"></i> ¡AL AIRE!
+                    </div>
+                    <div class="preset-chip" onclick="applyPreset('musica')" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-music"></i> NUEVA CANCIÓN
+                    </div>
+                    <div class="preset-chip" onclick="applyPreset('evento')" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-star"></i> EVENTO
+                    </div>
+                    <div class="preset-chip" onclick="clearPreset()" style="border-color: var(--danger); color: var(--danger); background: rgba(244,63,94,0.05);" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-eraser"></i> LIMPIAR
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <form id="notifyForm" onsubmit="enviarNotificacion(event)">
+                    <div class="form-group">
+                        <label>Título del Mensaje</label>
+                        <input type="text" id="titulo" placeholder="Ej: ¡Estamos Al Aire! 📻" required maxlength="50" onkeyup="updatePreview()" onfocus="playSynthSound('hover')">
+                        <i class="fa fa-heading input-icon" style="top: 45px;"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cuerpo de la Notificación</label>
+                        <textarea id="mensaje" placeholder="Describe qué está sonando o qué evento sucede..." required maxlength="150" rows="3" onkeyup="updatePreview()" onfocus="playSynthSound('hover')" style="padding-left: 42px; resize: none;"></textarea>
+                        <i class="fa fa-comment-dots input-icon" style="top: 45px;"></i>
+                    </div>
+
+                    <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Enlace de redirección (URL)</label>
+                            <input type="url" id="url" placeholder="https://purollanoradio.com/..." onkeyup="updatePreview()" onfocus="playSynthSound('hover')">
+                            <i class="fa fa-link input-icon" style="top: 45px;"></i>
+                        </div>
+                        <div class="form-group">
+                            <label>Imagen adjunta (URL JPG/PNG)</label>
+                            <input type="url" id="imagen" placeholder="https://..." onkeyup="updatePreview()" onfocus="playSynthSound('hover')">
+                            <i class="fa fa-image input-icon" style="top: 45px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="toggle-container" onclick="toggleSchedule()" onmouseenter="playSynthSound('hover')">
+                        <input type="checkbox" id="scheduleToggle" class="hidden">
+                        <div class="toggle-switch"></div>
+                        <span style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">⏰ Programar para Emisión Retardada</span>
+                    </div>
+
+                    <div class="schedule-box" id="scheduleBox">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Fecha y Hora del Envío (GMT-4 / Vzla)</label>
+                            <input type="datetime-local" id="scheduledTime" style="padding-left: 15px;" onfocus="playSynthSound('hover')">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-send" id="btnSubmit" onmouseenter="playSynthSound('hover')">
+                        <i class="fa fa-paper-plane"></i> <span id="btnSubmitText">Lanzar Notificación Masiva</span>
+                    </button>
+                    
+                    <div id="statusMessage" class="status-msg-box hidden"></div>
+                </form>
+            </main>
+
+            <!-- Simulador Móvil y Telemetría HUD -->
+            <aside class="mobile-simulator">
+                <!-- Simulador -->
+                <div class="phone-frame">
+                    <div class="phone-header">
+                        <div class="phone-notch"></div>
+                    </div>
+                    
+                    <!-- Notificación Virtual -->
+                    <div class="mock-notification">
+                        <div class="mock-icon">
+                            <img src="./PUROLLANORADIO-COM-ICONO.png" alt="App Icon">
+                        </div>
+                        <div class="mock-content">
+                            <div class="mock-title" id="prevTitle">Puro Llano Radio 🤠</div>
+                            <div class="mock-body" id="prevBody">Tu mensaje aparecerá aquí en tiempo real mientras lo digitas en la consola...</div>
+                            <div class="mock-image-wrap" id="prevImageWrap">
+                                <img src="" id="prevImage" class="mock-image" alt="Notification Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 15px; font-style: italic;"><i class="fa fa-info-circle"></i> Simulación HUD en Tiempo Real</p>
+
+                <!-- Panel de Telemetría Real -->
+                <div class="telemetry-panel">
+                    <h3 style="margin-bottom: 15px;"><i class="fa fa-chart-bar"></i> Telemetría de Red</h3>
+                    
+                    <div class="telemetry-row">
+                        <span class="telemetry-label"><i class="fa fa-server"></i> API Servidor:</span>
+                        <span class="telemetry-value success" id="serverStatus">CONECTADO</span>
+                    </div>
+
+                    <div class="telemetry-row">
+                        <span class="telemetry-label"><i class="fa fa-wifi"></i> Latencia:</span>
+                        <span class="telemetry-value" id="pingValue">-- ms</span>
+                    </div>
+
+                    <div class="telemetry-row">
+                        <span class="telemetry-label"><i class="fa fa-users"></i> Audiencia Push:</span>
+                        <span class="telemetry-value success" id="deviceCounter">0 dispositivos</span>
+                    </div>
+
+                    <div class="telemetry-row">
+                        <span class="telemetry-label"><i class="fa fa-shield-alt"></i> Seguridad:</span>
+                        <span class="telemetry-value success" style="color: var(--primary);">FIREBASE OK</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Secciones Inferiores (Historiales) -->
+            <div class="dashboard-footer-sections">
+                <!-- Notificaciones Programadas -->
+                <section class="glass-card">
+                    <h2 style="color: var(--secondary);"><i class="fa fa-calendar-alt"></i> Agenda de Notificaciones (Pendientes)</h2>
+                    <div class="notify-grid" id="scheduledList">
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Sincronizando base de datos...</p>
+                    </div>
+                </section>
+
+                <!-- Log de Transmisiones -->
+                <section class="glass-card">
+                    <h2><i class="fa fa-history"></i> Log de Transmisiones (Enviadas)</h2>
+                    <div class="notify-grid" id="historyList">
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Sincronizando logs...</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js"></script>
+
+    <!-- Configuración e Inicialización -->
+    <script src="./firebase.js?v=3"></script>
+    <script src="./admin-notify.js?v=3"></script>
+
+    <!-- Canvas Animation Script -->
+    <script>
+        const canvas = document.getElementById('hud-particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.4 - 0.1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.speedX = -this.speedX;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(254, 210, 2, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talento Llanero - Promociona tu Música | Puro Llano Radio 🤠</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Únete a la primera red social de Puro Llano Radio. Promociona tu música llanera, comparte tus videos de YouTube y conecta con miles de oyentes del folklore venezolano y colombiano.">
+    <meta name="keywords"
+        content="red social llanera, promocionar cantantes llaneros, música llanera youtube, talento llanero puro llano radio">
+    <meta name="author" content="Puro Llano Radio">
+    
+    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Premium Styles CSS -->
+    <link rel="stylesheet" href="talento.css">
+
+    <!-- Firebase Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    
+    <!-- Configuración principal de Firebase de la radio -->
+    <script src="./firebase-simple.js"></script>
+</head>
+
+<body>
+    
+    <!-- Efecto visual de fondo (Sunset Glassmorphism) -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="container">
+        <!-- Navegación Superior -->
+        <nav class="top-nav">
+            <a href="https://purollanoradio.com" class="btn-back">
+                <i class="fa fa-arrow-left"></i> Volver al Inicio
+            </a>
+            <div class="nav-branding">
+                <i class="fa fa-fire flame-icon"></i> Talento Llanero
+            </div>
+        </nav>
+
+        <!-- Breadcrumbs con Schema.org -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb"
+            style="background: rgba(20, 10, 0, 0.4); padding: 15px 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(254, 210, 2, 0.15); backdrop-filter: blur(10px);">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList"
+                style="list-style: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; padding: 0;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <a itemprop="item" href="https://purollanoradio.com/"
+                        style="color: #fed202; text-decoration: none;">
+                        <span itemprop="name">Inicio</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li style="color: #fed202; font-weight: bold;">›</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <span itemprop="name" style="color: rgba(255, 255, 255, 0.7);">Talento Llanero</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Cabecera Premium -->
+        <header class="community-header">
+            <div style="display:inline-block; padding: 5px 15px; background: rgba(254,210,2,0.15); border: 1px solid var(--primary); border-radius: 20px; color: var(--primary); font-weight: bold; font-size: 0.85rem; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase;">
+                <i class="fa fa-star fa-spin" style="animation-duration: 3s;"></i> La Red Social del Folklore
+            </div>
+            <h1>El Escenario es <span>Tuyo</span></h1>
+            <p>Sube tu música, estrena tus videos de YouTube o comparte tu trayectoria. Haz que miles de llaneros conecten con tu talento. 🇻🇪🇨🇴</p>
+        </header>
+
+        <!-- Call to Action Principal: Publicador Full Width -->
+        <section class="publish-cta" style="max-width: 850px; margin: 0 auto 50px auto;">
+            <div class="composer-section glass-panel" style="border: 2px solid var(--primary); box-shadow: 0 10px 40px rgba(254,210,2,0.15); padding: 35px;">
+                <h3 style="text-align:center; font-size: 1.8rem; margin-bottom:10px; justify-content:center; border:none; padding-bottom:0;"><i class="fa fa-microphone-lines" style="color:var(--primary);"></i> Sube Inmediatamente a la Tarima</h3>
+                <p style="text-align:center; font-size:1rem; color:var(--text-muted); margin-bottom:30px;">Nosotros nos encargamos de transmitir tu talento en toda la llanura.</p>
+                
+                <form id="postForm" class="post-form">
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:15px; width:100%;">
+                        <div class="input-group" style="margin-bottom:0; min-width:0;">
+                            <label for="artistName"><i class="fa fa-user"></i> Nombre Artístico</label>
+                            <input type="text" id="artistName" placeholder="Ej. Reinaldo Armas" required maxlength="40" style="width:100%;">
+                        </div>
+
+                        <div class="input-group" style="margin-bottom:0; min-width:0;">
+                            <label for="postCategory"><i class="fa fa-list"></i> ¿Qué promocionas?</label>
+                            <select id="postCategory" required style="width:100%; max-width:100%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+                                <option value="Lanzamiento Oficial">🚀 Lanzamiento Oficial</option>
+                                <option value="Biografía / Historia">📖 Biografía o Trayectoria</option>
+                                <option value="Presentación en Vivo">🎶 Presentación en Vivo</option>
+                                <option value="Cover / Versión">🎤 Cover o Popurrí</option>
+                                <option value="Entrevista">🎙️ Entrevista</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom:0; min-width:0;">
+                            <label for="postImage"><i class="fa fa-image"></i> Portada Promocional</label>
+                            <input type="file" id="postImage" accept="image/png, image/jpeg, image/webp" style="padding: 8px; border: 1px dashed rgba(254, 210, 2, 0.4); width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                            <div id="imagePreviewContainer" style="display:none; margin-top:10px; position:relative; width:60px; height:60px; border-radius:8px; overflow:hidden; border:2px solid var(--primary);">
+                                <img id="imagePreviewImg" src="" style="width:100%; height:100%; object-fit:cover;">
+                                <button type="button" id="removePreviewBtn" style="position:absolute; top:0; right:0; background:rgba(255,0,0,0.8); color:white; border:none; width:18px; height:18px; font-size:10px; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
+                            </div>
+                            <small style="color:var(--text-muted); font-size:0.75rem; margin-top:5px;">Opcional (Max 2MB)</small>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom:0; min-width:0;">
+                            <label for="youtubeLink"><i class="fa fa-youtube"></i> Enlace de YouTube</label>
+                            <input type="url" id="youtubeLink" placeholder="https://youtube.com/watch?v=..." style="width:100%;">
+                            <small class="xss-warning"><i class="fa fa-shield-alt"></i> Opcional</small>
+                        </div>
+                        
+                        <div class="input-group" style="margin-bottom:0; min-width:0; grid-column: 1 / -1;">
+                            <label for="contactWhatsapp"><i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp para Contrataciones</label>
+                            <input type="tel" id="contactWhatsapp" placeholder="Ej. +584141234567 o +57300..." pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" title="El teléfono debe tener un formato válido. Ej: +58..." style="width:100%; border-color: rgba(37, 211, 102, 0.4);">
+                            <small style="color:var(--text-muted); font-size:0.75rem; margin-top:5px;">Permite que el público o promotores te contacten directamente para parrandas. (Opcional)</small>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-top:25px;">
+                        <label for="postMessage"><i class="fa fa-pen"></i> Cuéntale al mundo tu historia</label>
+                        <textarea id="postMessage" rows="4" placeholder="¡Saludos familia llanera! Aquí les dejo mi más reciente sencillo..." required maxlength="350"></textarea>
+                        <div class="char-count" style="text-align:right; font-size:0.85rem; color:var(--text-muted); margin-top:5px;"><span id="charCount">0</span><span id="charLimit">/350</span></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn" style="font-size:1.3rem; padding:18px; text-transform:uppercase; letter-spacing:2px; margin-top:10px;">
+                        Publicar al Mundo <i class="fa fa-rocket" style="margin-left:8px;"></i>
+                    </button>
+                    
+                    <div id="formStatus" class="form-status"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Carrusel de Biografías Destacadas -->
+        <section class="bios-section" id="biosSection" style="display:none; margin-bottom: 50px;">
+            <h2 style="color:var(--primary); margin-bottom:20px; font-size:1.6rem; padding-left:10px; border-left:4px solid var(--primary);"><i class="fa fa-book-open" style="margin-right:8px;"></i> Biografías y Trayectorias</h2>
+            <div class="bios-carousel" id="biosCarousel">
+                <!-- Se inyectan las tarjetas de biografía por JS -->
+            </div>
+        </section>
+
+        <!-- Feed Principal (Muro de Lanzamientos) -->
+        <section class="feed-wrapper" style="max-width: 850px; margin: 0 auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom: 1px solid rgba(254,210,2,0.2); padding-bottom: 15px;">
+                <h2 style="color:var(--primary); font-size:1.8rem; margin:0; display:flex; align-items:center; gap: 10px;">
+                    <i class="fa fa-music"></i> Muro de Talentos
+                </h2>
+                <div style="display:flex; align-items:center; gap: 8px; font-size:0.85rem; color:var(--text-muted); background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success);"></div>
+                    Live Updates
+                </div>
+            </div>
+            
+            <main class="feed-section">
+                <!-- Skeleton Loading State -->
+                <div id="loadingFeed" class="loading-state">
+                    <i class="fa fa-spinner fa-spin"></i> Cargando talentos del llano...
+                </div>
+                
+                <!-- Contenedor dinámico de Publicaciones -->
+                <div id="postsContainer" class="posts-list">
+                    <!-- Los posts renderizados por JS aparecerán aquí -->
+                </div>
+            </main>
+        </section>
+
+        <!-- Footer Oficial Puro Llano -->
+        <footer style="text-align:center;padding:30px 20px;margin-top:40px;border-top:1px solid rgba(254,210,2,0.2);color:rgba(255,255,255,0.6);font-size:0.9rem;font-family:'Outfit','Poppins',sans-serif; padding-bottom: 90px;">
+            <p>&copy; 2022 - 2026 <strong style="color:#fed202;">PURO LLANO RADIO</strong> | Todos los derechos reservados</p>
+            <p>Promoviendo el folklore llanero venezolano desde Puerto Ayacucho, Amazonas 🇻🇪</p>
+        </footer>
+    </div>
+
+    <!-- Botón CTA Flotante -->
+    <button class="floating-action-btn" id="floatingCTA" onclick="document.getElementById('postForm').scrollIntoView({behavior: 'smooth'})" title="Subir Contenido">
+        <i class="fa fa-microphone-lines"></i>
+    </button>
+
+    <!-- Contenedor general de 'Toasts' (Notificaciones dinámicas in-app) -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Script Controlador (Lógica de Negocio y Seguridad) -->
+    <script src="talento.js"></script>
+</body>
+</html>
