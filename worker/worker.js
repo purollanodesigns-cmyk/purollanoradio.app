@@ -221,14 +221,31 @@ async function handleAdminNotifications(request, env) {
     if(action==='send') {
       let n; try { n=validateNotification(body.notification); } catch(e) { return json({error:e.message},400,cors); }
       const tokensData=await firebaseRequest(`${db}/push_tokens.json`,accessToken);
-      const tokens=[...new Set(tokensData&&typeof tokensData==='object'?Object.values(tokensData).map(v=>typeof v==='string'?v:v?.token).filter(v=>typeof v==='string'&&v.length>0):[])];
-      if(!tokens.length) return json({error:'No hay dispositivos suscritos. No se guardó como enviado.'},409,cors);
+      const tokenEntries = tokensData && typeof tokensData === 'object' ? Object.entries(tokensData) : [];
+      const tokens=[...new Set(tokenEntries.map(([_, v]) => typeof v === 'string' ? v : v?.token).filter(v => typeof v === 'string' && v.length > 0))];
+      if(!tokens.length) return json({error:'No hay dispositivos suscritos en este momento. Ingresa a la web y activa las notificaciones para registrar tu dispositivo.'},409,cors);
       let success=0,failed=0;
-      for(const token of tokens){try{await sendPushNotification(env,accessToken,token,{title:n.title,body:n.body,image:n.image||undefined,url:n.url||'/'});success++}catch{failed++}}
-      if(!success||failed) return json({error:`Envío parcial: ${success} exitosos y ${failed} fallidos. No se registró como envío completo; revisa FCM antes de reintentar.` ,sent:success,failed},502,cors);
-      const record={...n,timestamp:Date.now(),sentAt:Date.now(),sentDetails:{success, failure:0},sentBy:user.localId};
+      for(const token of tokens){
+        try{
+          await sendPushNotification(env,accessToken,token,{title:n.title,body:n.body,image:n.image||undefined,url:n.url||'/'});
+          success++;
+        }catch(fcmErr){
+          failed++;
+          // Limpiar token inválido o no registrado de Firebase para depurar la lista
+          const tokenKey = await hashPushToken(token);
+          await firebaseRequest(`${db}/push_tokens/${tokenKey}.json`, accessToken, { method: 'DELETE' }).catch(() => {});
+        }
+      }
+      if(success === 0 && failed > 0) {
+        return json({
+          error: `Los dispositivos registrados (${failed}) tenían tokens vencidos o de prueba y fueron depurados. Por favor, abre la web en tu navegador y pulsa "Activar Notificaciones" para registrar tu dispositivo actual.`,
+          sent: 0,
+          failed
+        }, 502, cors);
+      }
+      const record={...n,timestamp:Date.now(),sentAt:Date.now(),sentDetails:{success, failure:failed},sentBy:user.localId};
       await firebaseRequest(`${db}/notifications_history.json`,accessToken,{method:'POST',body:JSON.stringify(record)});
-      return json({ok:true,sent:success},200,cors);
+      return json({ok:true,sent:success,failed},200,cors);
     }
     if(action==='cancel'||action==='delete') {
       const id=typeof body.id==='string'?body.id:'';
