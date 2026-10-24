@@ -6,6 +6,7 @@
  */
 
 const OAUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+const CHAT_ALLOWED_ORIGINS = new Set(['https://purollanoradio.com', 'https://www.purollanoradio.com', 'https://purollanoradio.app', 'https://www.purollanoradio.app']);
 // Host confirmado por el operador en Firebase Console.
 const FIREBASE_DATABASE_URL = 'https://puro-llano-radio-f7166-default-rtdb.firebaseio.com';
 const OAUTH_SCOPES = [
@@ -18,29 +19,102 @@ export default {
     ctx.waitUntil(processNotifications(env));
   },
 
-  // Endpoint manual: solo POST + Authorization: Bearer <CRON_SECRET>.
-  // Nunca se acepta el secreto en query params.
+  // Rutas independientes: el chat público NO recibe ni necesita CRON_SECRET.
   async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === '/chat-message') {
+      return handlePublicChatMessage(request, env);
+    }
+
+    // Endpoint manual de cron: solo POST + Authorization: Bearer <CRON_SECRET>.
     if (request.method !== 'POST') {
       return json({ error: 'Método no permitido' }, 405, { Allow: 'POST' });
     }
-
     const configuredSecret = env.CRON_SECRET;
     const authorization = request.headers.get('Authorization') || '';
     if (!configuredSecret || authorization !== `Bearer ${configuredSecret}`) {
       return json({ error: 'No autorizado' }, 401);
     }
-
     try {
       const summary = await processNotifications(env);
       return json({ ok: true, ...summary }, 200);
     } catch (_error) {
-      // No exponer detalles internos, credenciales, tokens ni respuestas upstream.
       console.error('[Cron] Falló el procesamiento. Revisar configuración y permisos.');
       return json({ error: 'Error interno al procesar notificaciones' }, 500);
     }
   }
 };
+
+
+// Endpoint limitado a insertar mensajes normales. Nunca actúa como proxy genérico.
+// Antes de producción, añadir rate limiting en Cloudflare para POST /chat-message.
+async function handlePublicChatMessage(request, env) {
+  const origin = request.headers.get('Origin') || '';
+  const corsHeaders = origin && CHAT_ALLOWED_ORIGINS.has(origin)
+    ? { 'Access-Control-Allow-Origin': origin, 'Vary': 'Origin', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' }
+    : {};
+
+  if (request.method === 'OPTIONS') {
+    if (!CHAT_ALLOWED_ORIGINS.has(origin)) return json({ error: 'Origen no permitido' }, 403);
+    return new Response(null, { status: 204, headers: { ...corsHeaders, 'Cache-Control': 'no-store' } });
+  }
+  if (request.method !== 'POST') return json({ error: 'Método no permitido' }, 405, { Allow: 'POST, OPTIONS', ...corsHeaders });
+  if (!CHAT_ALLOWED_ORIGINS.has(origin)) return json({ error: 'Origen no permitido' }, 403);
+  if (!request.headers.get('Content-Type')?.toLowerCase().startsWith('application/json')) {
+    return json({ error: 'Se requiere application/json' }, 415, corsHeaders);
+  }
+
+  let input;
+  try {
+    const raw = await request.text();
+    if (raw.length > 4096) return json({ error: 'Solicitud demasiado grande' }, 413, corsHeaders);
+    input = JSON.parse(raw);
+  } catch (_error) {
+    return json({ error: 'JSON inválido' }, 400, corsHeaders);
+  }
+
+  const username = typeof input.username === 'string' ? input.username.trim() : '';
+  const userId = typeof input.userId === 'string' ? input.userId.trim() : '';
+  const text = typeof input.text === 'string' ? input.text.trim() : '';
+  if (username.length < 2 || username.length > 20 || /[<>\u0000-\u001f]/.test(username)) {
+    return json({ error: 'Nombre inválido (2–20 caracteres)' }, 400, corsHeaders);
+  }
+  if (!/^user_[a-z0-9]+_\d{10,}$/.test(userId) || userId.length > 64) {
+    return json({ error: 'Identificador de usuario inválido' }, 400, corsHeaders);
+  }
+  if (!text || text.length > 500 || /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(text)) {
+    return json({ error: 'Mensaje inválido (1–500 caracteres)' }, 400, corsHeaders);
+  }
+
+  try {
+    validateEnv(env);
+    const accessToken = await getGoogleAccessToken(env);
+    const now = Date.now();
+    const message = {
+      id: `msg_${now}`,
+      userId,
+      username,
+      text,
+      timestamp: now,
+      avatar: chatAvatarColor(userId),
+      type: 'normal'
+    };
+    const result = await firebaseRequest(`${FIREBASE_DATABASE_URL}/chat/messages.json`, accessToken, {
+      method: 'POST', body: JSON.stringify(message)
+    });
+    return json({ ok: true, key: result && result.name, message }, 201, corsHeaders);
+  } catch (_error) {
+    console.error('[Chat] No se pudo guardar un mensaje.');
+    return json({ error: 'No se pudo enviar el mensaje' }, 500, corsHeaders);
+  }
+}
+
+function chatAvatarColor(userId) {
+  const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#fee140', '#30cfd0'];
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+  return colors[Math.abs(hash) % colors.length];
+}
 
 async function processNotifications(env) {
   validateEnv(env);
@@ -57,9 +131,16 @@ async function processNotifications(env) {
     return { processed: 0, status: 'no_pending_notifications' };
   }
 
-  const tokensData = await firebaseRequest(`${dbUrl}/pushTokens.json`, accessToken);
+  let tokensData = await firebaseRequest(`${dbUrl}/push_tokens.json`, accessToken);
+  if (!tokensData || typeof tokensData !== 'object' || Object.keys(tokensData).length === 0) {
+    tokensData = await firebaseRequest(`${dbUrl}/pushTokens.json`, accessToken);
+  }
   const tokens = tokensData && typeof tokensData === 'object'
-    ? [...new Set(Object.values(tokensData).filter(value => typeof value === 'string' && value.length > 0))]
+    ? [...new Set(
+        Object.values(tokensData)
+          .map(val => (typeof val === 'string' ? val : (val && val.token)))
+          .filter(val => typeof val === 'string' && val.length > 0)
+      )]
     : [];
 
   if (tokens.length === 0) {
@@ -104,14 +185,22 @@ async function processNotifications(env) {
       continue;
     }
 
+    const historyPayload = JSON.stringify({
+      ...item,
+      sentAt: now,
+      sentDetails: { success: successCount, failure: 0 }
+    });
+
+    await firebaseRequest(`${dbUrl}/notifications_history.json`, accessToken, {
+      method: 'POST',
+      body: historyPayload
+    });
+
     await firebaseRequest(`${dbUrl}/notificationsHistory.json`, accessToken, {
       method: 'POST',
-      body: JSON.stringify({
-        ...item,
-        sentAt: now,
-        sentDetails: { success: successCount, failure: 0 }
-      })
+      body: historyPayload
     });
+
     await firebaseRequest(`${dbUrl}/scheduledNotifications/${encodeURIComponent(key)}.json`, accessToken, {
       method: 'DELETE'
     });

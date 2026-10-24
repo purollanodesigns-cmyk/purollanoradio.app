@@ -1,0 +1,92 @@
+{
+  "rules": {
+    "radio_history": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": true,
+        "leader": {
+          ".indexOn": ["timestamp"]
+        }
+      }
+    },
+    "radio_listeners": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "visits": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "chat": {
+      "messages": {
+        ".read": true,
+        ".write": true,
+        ".indexOn": ["timestamp"]
+      },
+      "users": {
+        ".read": true,
+        ".write": true
+      },
+      "presence": {
+        ".read": true,
+        ".write": true
+      },
+      "typing": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "push_tokens": {
+      ".read": true,
+      ".write": true
+    },
+    "pushTokens": {
+      ".read": true,
+      ".write": true
+    },
+    "notifications_history": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["sentAt", "timestamp"]
+    },
+    "notificationsHistory": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["sentAt", "timestamp"]
+    },
+    "scheduledNotifications": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["scheduledTime"]
+    },
+    "scheduled_notifications": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["scheduledTime"]
+    },
+    "admin_users": {
+      ".read": true,
+      ".write": true
+    },
+    "talento_posts": {
+      ".read": true,
+      ".write": true
+    },
+    "usuarios": {
+      ".read": true,
+      "$uid": {
+        ".write": true
+      }
+    },
+    "perfiles": {
+      ".read": true,
+      "$uid": {
+        ".write": true
+      }
+    }
+  }
+}

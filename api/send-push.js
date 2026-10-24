@@ -35,17 +35,32 @@ module.exports = async (req, res) => {
 
     // 2. Obtener todos los tokens de dispositivos del Realtime Database
     try {
-        const tokensRef = admin.database().ref('pushTokens');
-        const snapshot = await tokensRef.once('value');
-        const tokensData = snapshot.val();
+        let tokensRef = admin.database().ref('push_tokens');
+        let snapshot = await tokensRef.once('value');
+        let tokensData = snapshot.val();
+
+        if (!tokensData) {
+            tokensRef = admin.database().ref('pushTokens');
+            snapshot = await tokensRef.once('value');
+            tokensData = snapshot.val();
+        }
 
         if (!tokensData) {
             return res.status(200).json({ sent: 0, failed: 0, message: 'No hay dispositivos suscritos registrados.' });
         }
 
-        // Extraer los tokens únicos
-        const registrationTokens = Object.values(tokensData);
-        console.log(`📡 [Vercel API] Preparando envío masivo a ${registrationTokens.length} dispositivos.`);
+        // Extraer los tokens únicos en formato string
+        const registrationTokens = [...new Set(
+            Object.values(tokensData)
+                .map(val => (typeof val === 'string' ? val : (val && val.token)))
+                .filter(val => typeof val === 'string' && val.length > 0)
+        )];
+
+        if (registrationTokens.length === 0) {
+            return res.status(200).json({ sent: 0, failed: 0, message: 'No hay tokens válidos registrados.' });
+        }
+
+        console.log(`📡 [API] Preparando envío masivo a ${registrationTokens.length} dispositivos.`);
 
         // 3. Construir el mensaje Multicast
         const message = {

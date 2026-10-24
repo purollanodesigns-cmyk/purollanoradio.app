@@ -392,11 +392,6 @@ function displayChatMessage(message) {
             <div class="chat-message-text">${messageContent}</div>
             ${message.type === 'system' ? '' : `
                 <div class="chat-message-actions">
-                    ${isOwnMessage ? `
-                        <button class="action-btn" onclick="deleteChatMessage(this)" title="Eliminar">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    ` : ''}
                     <button class="action-btn" onclick="mentionChatUser('${escapeChatHtml(message.username)}')" title="Mencionar">
                         <i class="fa fa-at"></i>
                     </button>
@@ -444,41 +439,42 @@ function sendChatMessage() {
         return;
     }
 
-    const messageData = {
-        id: 'msg_' + Date.now(),
-        userId: chatUserId,
-        username: chatUser,
-        text: text,
-        timestamp: Date.now(),
-        avatar: generateChatAvatarColor(chatUserId),
-        type: 'normal'
-    };
+    // El envío se realiza mediante el Worker; Firebase cliente queda solo para lectura.
+    const endpoint = window.CHAT_MESSAGE_ENDPOINT;
+    if (typeof endpoint !== 'string' || !/^https:\/\//.test(endpoint)) {
+        showChatToast('⚠️ El chat necesita configuración del servidor');
+        console.error('Configura window.CHAT_MESSAGE_ENDPOINT con la URL real del Worker.');
+        return;
+    }
 
-    chatMessagesRef.push(messageData);
-
-    // Limpiar input y resetear contador
-    input.value = '';
-    const charCountEl = document.getElementById('chatCharCount');
-    if (charCountEl) charCountEl.innerText = '0';
-
-    stopChatTyping();
-    input.focus();
+    input.disabled = true;
+    fetch(endpoint.replace(/\/$/, '') + '/chat-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: chatUser, userId: chatUserId, text })
+    })
+        .then(async response => {
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudo enviar');
+            input.value = '';
+            const charCountEl = document.getElementById('chatCharCount');
+            if (charCountEl) charCountEl.innerText = '0';
+            stopChatTyping();
+        })
+        .catch(error => {
+            console.error('Error enviando mensaje al Worker:', error);
+            showChatToast('⚠️ No se pudo enviar. Intenta de nuevo.');
+        })
+        .finally(() => {
+            input.disabled = false;
+            input.focus();
+        });
 }
 
 function addSystemMessage(text) {
-    if (!chatMessagesRef) return;
-
-    const systemMessage = {
-        id: 'sys_' + Date.now(),
-        userId: 'system',
-        username: 'Sistema',
-        text: text,
-        timestamp: Date.now(),
-        avatar: '#6c757d',
-        type: 'system'
-    };
-
-    chatMessagesRef.push(systemMessage);
+    // No insertar mensajes de sistema desde el navegador: un cliente no debe
+    // poder hacerse pasar por el servidor. Se conserva la función por compatibilidad.
+    console.info('[Chat] Aviso local:', String(text).slice(0, 160));
 }
 
 function deleteChatMessage(buttonElement) {
