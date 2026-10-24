@@ -41,10 +41,24 @@ module.exports = async (req, res) => {
         }
 
         // 2. Obtener tokens de suscriptores
-        const tokensSnapshot = await tokensRef.once('value');
-        const tokensData = tokensSnapshot.val();
+        let tokensSnapshot = await db.ref('push_tokens').once('value');
+        let tokensData = tokensSnapshot.val();
+        if (!tokensData) {
+            tokensSnapshot = await db.ref('pushTokens').once('value');
+            tokensData = tokensSnapshot.val();
+        }
+
         if (!tokensData) return res.status(200).json({ message: 'No hay tokens registrados.' });
-        const registrationTokens = Object.values(tokensData);
+
+        const registrationTokens = [...new Set(
+            Object.values(tokensData)
+                .map(val => (typeof val === 'string' ? val : (val && val.token)))
+                .filter(val => typeof val === 'string' && val.length > 0)
+        )];
+
+        if (registrationTokens.length === 0) {
+            return res.status(200).json({ message: 'No hay tokens válidos registrados.' });
+        }
 
         const results = [];
 
@@ -55,7 +69,7 @@ module.exports = async (req, res) => {
             console.log(`🚀 [Cron] Enviando programada: "${item.title}"`);
 
             const message = {
-                notification: { title: item.title, body: item.body },
+                notification: { title: item.title, body: item.body || '' },
                 data: { url: item.url || '/' },
                 tokens: registrationTokens
             };
@@ -64,12 +78,14 @@ module.exports = async (req, res) => {
             // Enviar Push
             const response = await admin.messaging().sendEachForMulticast(message);
             
-            // Mover a Historial y marcar como enviada
-            await historyRef.push({
+            // Mover a Historial y marcar como enviada (en ambas rutas)
+            const historyItem = {
                 ...item,
                 sentAt: admin.database.ServerValue.TIMESTAMP,
                 sentDetails: { success: response.successCount, failure: response.failureCount }
-            });
+            };
+            await db.ref('notifications_history').push(historyItem);
+            await db.ref('notificationsHistory').push(historyItem);
 
             // Eliminar de pendientes
             await scheduledRef.child(key).remove();
