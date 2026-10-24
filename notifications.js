@@ -359,6 +359,8 @@
                 if (savedToken) {
                     currentToken = savedToken;
                     setUISubscribed();
+                    // Re-sincronizar siempre con el Worker para garantizar que el servidor tenga el token activo
+                    saveTokenToDatabase(savedToken);
                 } else {
                     // Permiso concedido pero sin token, intentar obtenerlo
                     getFirebaseToken().then(function (token) {

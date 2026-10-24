@@ -201,11 +201,10 @@ async function handleAdminNotifications(request, env) {
       const [history,scheduled,tokens]=await Promise.all([
         firebaseRequest(`${db}/notifications_history.json?orderBy=%22timestamp%22&limitToLast=30`,accessToken),
         firebaseRequest(`${db}/scheduledNotifications.json?orderBy=%22scheduledTime%22`,accessToken),
-        firebaseRequest(`${db}/push_tokens.json`,accessToken)
+        getAllPushTokens(db,accessToken)
       ]);
       const normalize=(value)=>value&&typeof value==='object'?Object.entries(value).map(([id,item])=>({id,...(item||{})})):[];
-      const tokenValues=tokens&&typeof tokens==='object'?Object.values(tokens).map(v=>typeof v==='string'?v:v?.token).filter(v=>typeof v==='string'&&v.length>0):[];
-      return json({ok:true,role:account.role,history:normalize(history).sort((a,b)=>(b.timestamp||b.sentAt||0)-(a.timestamp||a.sentAt||0)).slice(0,30),scheduled:normalize(scheduled).filter(x=>x.sent!==true).sort((a,b)=>(a.scheduledTime||0)-(b.scheduledTime||0)),subscribers:new Set(tokenValues).size},200,cors);
+      return json({ok:true,role:account.role,history:normalize(history).sort((a,b)=>(b.timestamp||b.sentAt||0)-(a.timestamp||a.sentAt||0)).slice(0,30),scheduled:normalize(scheduled).filter(x=>x.sent!==true).sort((a,b)=>(a.scheduledTime||0)-(b.scheduledTime||0)),subscribers:tokens.length},200,cors);
     }
     const raw=await request.text(); if(raw.length>8192) return json({error:'Solicitud demasiado grande'},413,cors);
     let body; try{body=JSON.parse(raw)}catch{return json({error:'JSON inválido'},400,cors)}
@@ -220,9 +219,7 @@ async function handleAdminNotifications(request, env) {
     }
     if(action==='send') {
       let n; try { n=validateNotification(body.notification); } catch(e) { return json({error:e.message},400,cors); }
-      const tokensData=await firebaseRequest(`${db}/push_tokens.json`,accessToken);
-      const tokenEntries = tokensData && typeof tokensData === 'object' ? Object.entries(tokensData) : [];
-      const tokens=[...new Set(tokenEntries.map(([_, v]) => typeof v === 'string' ? v : v?.token).filter(v => typeof v === 'string' && v.length > 0))];
+      const tokens = await getAllPushTokens(db, accessToken);
       if(!tokens.length) return json({error:'No hay dispositivos suscritos en este momento. Ingresa a la web y activa las notificaciones para registrar tu dispositivo.'},409,cors);
       let success=0,failed=0;
       for(const token of tokens){
@@ -233,7 +230,10 @@ async function handleAdminNotifications(request, env) {
           failed++;
           // Limpiar token inválido o no registrado de Firebase para depurar la lista
           const tokenKey = await hashPushToken(token);
-          await firebaseRequest(`${db}/push_tokens/${tokenKey}.json`, accessToken, { method: 'DELETE' }).catch(() => {});
+          await Promise.allSettled([
+            firebaseRequest(`${db}/push_tokens/${tokenKey}.json`, accessToken, { method: 'DELETE' }),
+            firebaseRequest(`${db}/pushTokens/${tokenKey}.json`, accessToken, { method: 'DELETE' })
+          ]);
         }
       }
       if(success === 0 && failed > 0) {
@@ -265,6 +265,21 @@ function validateNotification(value) {
   if(title.length<1||title.length>120||body.length>2000||!body) throw new Error('Título o mensaje inválido');
   for(const [label,value] of [['URL',url],['imagen',image]]) if(value && (!/^https:\/\//i.test(value) || value.length>2048)) throw new Error(`${label} debe ser una URL HTTPS`);
   return {title,body,url:url||'/',image:image||null};
+}
+
+// Obtiene todos los tokens registrados unificando push_tokens (snake_case) y pushTokens (camelCase)
+async function getAllPushTokens(db, accessToken) {
+  const [snake, camel] = await Promise.all([
+    firebaseRequest(`${db}/push_tokens.json`, accessToken).catch(() => null),
+    firebaseRequest(`${db}/pushTokens.json`, accessToken).catch(() => null)
+  ]);
+  const extract = (obj) => {
+    if (!obj || typeof obj !== 'object') return [];
+    return Object.values(obj)
+      .map(v => typeof v === 'string' ? v : v?.token || v?.fcmToken)
+      .filter(t => typeof t === 'string' && t.length > 50);
+  };
+  return [...new Set([...extract(snake), ...extract(camel)])];
 }
 
 // Registra un token FCM enviado por el cliente.
@@ -700,11 +715,7 @@ async function processNotifications(env) {
     return { processed: 0, status: 'no_pending_notifications' };
   }
 
-  const tokensData = await firebaseRequest(`${dbUrl}/push_tokens.json`, accessToken);
-  const tokens = tokensData && typeof tokensData === 'object'
-    ? [...new Set(Object.values(tokensData).map(value => typeof value === 'string' ? value : value && typeof value.token === 'string' ? value.token : null).filter(value => typeof value === 'string' && value.length > 0))]
-    : [];
-
+  const tokens = await getAllPushTokens(dbUrl, accessToken);
   if (tokens.length === 0) {
     console.log('[Cron] No hay tokens registrados; se conservan las notificaciones pendientes.');
     return { processed: 0, status: 'no_push_tokens' };
