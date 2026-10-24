@@ -152,59 +152,47 @@
     // ── Lógica de Firebase Cloud Messaging ───────────────────────────────
 
     /**
-     * Guarda el token FCM en Firebase Realtime Database.
-     * Permite al administrador enviar notificaciones desde Firebase Console.
+     * Guarda el token FCM en Firebase a través del Cloudflare Worker (Admin SDK).
+     * El cliente ya no escribe en Firebase directamente para mayor seguridad.
      * @param {string} token - Token FCM del dispositivo
      */
     function saveTokenToDatabase(token) {
-        try {
-            var pushTokensRef = window.firebaseRefs && window.firebaseRefs.pushTokens;
-            if (!pushTokensRef) {
-                console.warn('⚠️ [Notify] pushTokens ref no disponible');
-                return;
-            }
-
-            var tokenKey = hashToken(token);
-            var tokenData = {
-                token: token,
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                userAgent: navigator.userAgent.substring(0, 150),
-                language: navigator.language || 'es'
-            };
-
-            pushTokensRef.child(tokenKey).set(tokenData)
-                .then(function () {
-                    console.log('✅ [Notify] Token FCM guardado en RTDB');
-                })
-                .catch(function (error) {
-                    console.error('❌ [Notify] Error al guardar token:', error);
-                });
-
-        } catch (error) {
-            console.error('❌ [Notify] Error general al guardar token:', error);
+        var endpoint = window.CHAT_MESSAGE_ENDPOINT;
+        if (typeof endpoint !== 'string' || !/^https:\/\//i.test(endpoint)) {
+            console.warn('⚠️ [Notify] CHAT_MESSAGE_ENDPOINT no configurado; no se puede guardar el token.');
+            return;
         }
+
+        fetch(endpoint.replace(/\/$/, '') + '/register-push-token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: token })
+        })
+            .then(function (response) {
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                return response.json();
+            })
+            .then(function (result) {
+                if (result && result.ok) {
+                    console.log('✅ [Notify] Token FCM guardado vía Worker');
+                } else {
+                    throw new Error('Respuesta del Worker inválida');
+                }
+            })
+            .catch(function (error) {
+                console.error('❌ [Notify] Error al guardar token vía Worker:', error.message || error);
+            });
     }
 
     /**
-     * Elimina un token FCM de Firebase RTDB (cuando se revoca el permiso).
-     * @param {string} token - Token FCM a eliminar
+     * La eliminación de tokens se hace automáticamente en el Worker cuando FCM
+     * retorna un error "token no válido" al intentar enviar una notificación.
+     * Esta función se mantiene por compatibilidad pero no realiza acción alguna.
+     * @param {string} token - Token FCM a eliminar (no usado)
      */
     function removeTokenFromDatabase(token) {
-        try {
-            var pushTokensRef = window.firebaseRefs && window.firebaseRefs.pushTokens;
-            if (!pushTokensRef || !token) return;
-
-            var tokenKey = hashToken(token);
-            pushTokensRef.child(tokenKey).remove()
-                .then(function () {
-                    console.log('🗑️ [Notify] Token eliminado de RTDB');
-                })
-                .catch(function (error) {
-                    console.error('❌ [Notify] Error al eliminar token:', error);
-                });
-        } catch (error) {
-            console.error('❌ [Notify] Error al intentar eliminar token:', error);
-        }
+        // No-op: el Worker limpia tokens inválidos durante el envío de notificaciones.
+        console.log('ℹ️ [Notify] Limpieza de token delegada al Worker en el próximo envío.');
     }
 
     /**

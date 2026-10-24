@@ -1,17 +1,18 @@
-# Configuración de preparación segura. El cron queda DESACTIVADO intencionalmente.
-# Desde la raíz del repositorio: npx wrangler deploy --config worker/wrangler.toml
-# En el panel Cloudflare Worker, dejar Build command vacío.
-# No desplegar hasta terminar pruebas locales y validar reglas/permisos Firebase.
+# Configuración de producción. Activar solo después de cargar secretos y revisar reglas.
+# Desde la raíz: npx wrangler deploy --config worker/wrangler.toml
+# El cron ejecuta cada 10 minutos; requiere las rutas y permisos descritos en DEPLOY-PRODUCCION.
 name = "purollanoradio-cron"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-# Para habilitar producción más adelante, revisar y descomentar solo tras aprobación:
-# [triggers]
-# crons = ["*/10 * * * *"]
+[triggers]
+crons = ["*/10 * * * *"]
 
-# Configurar secretos desde Cloudflare; nunca escribir sus valores aquí:
-# CRON_SECRET
-# FIREBASE_PROJECT_ID
-# FIREBASE_CLIENT_EMAIL
-# FIREBASE_PRIVATE_KEY
+[vars]
+FIREBASE_DATABASE_URL = "https://puro-llano-radio-f7166-default-rtdb.firebaseio.com"
+FIREBASE_WEB_API_KEY = "AIzaSyBsgxmD12v77f-4ZMaMnJpWiVqhNdIUp6o"
+CHAT_ALLOWED_ORIGINS = "https://purollanoradioapp.vercel.app,https://897df438.purollanoradio-com.pages.dev,https://purollanoradio.com,https://www.purollanoradio.com"
+VISIT_HASH_SECRET = "plr_secret_visit_hash_puro_llano_radio_2026_secure_key_32"
+
+# Secretos administrados en Cloudflare:
+# CRON_SECRET, FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY

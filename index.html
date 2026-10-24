@@ -35,7 +35,7 @@
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     <meta property="og:image:alt" content="Puro Llano Radio - Logo Oficial">
-    <meta property="og:url" content="https://purollanoradio.com">
+    <meta property="og:url" content="https://purollanoradioapp.vercel.app/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Puro Llano Radio">
     <meta property="og:locale" content="es_VE">
@@ -326,14 +326,19 @@
         </div>
     </div>
 
+    <!-- Configuración del Cloudflare Worker (endpoint base para chat, visitas y push) -->
+    <script>
+        window.CHAT_MESSAGE_ENDPOINT = 'https://purollanoradio-cron.purollanoradio.workers.dev';
+    </script>
+
     <!-- Scripts -->
-    <script src="script-visits.js?v=2"></script>
-    <script src="script-history.js?v=2"></script>
-    <script src="script-listeners.js?v=2"></script>
-    <script src="script-main.js?v=2"></script>
-    <script src="./notifications.js?v=2"></script>
-    <script src="script-greetings.js?v=2"></script>
-    <script src="chat-script.js?v=2"></script>
+    <script src="script-visits.js?v=3"></script>
+    <script src="script-history.js?v=3"></script>
+    <script src="script-listeners.js?v=3"></script>
+    <script src="script-main.js?v=3"></script>
+    <script src="./notifications.js?v=3"></script>
+    <script src="script-greetings.js?v=3"></script>
+    <script src="chat-script.js?v=3"></script>
 
     <!-- PWA Service Worker -->
     <script>

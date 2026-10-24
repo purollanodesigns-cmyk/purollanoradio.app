@@ -227,16 +227,7 @@
                     const newContractRef = db.ref('contrataciones').push();
                     await newContractRef.set(contratacionData);
                     
-                    const artistRef = db.ref('perfiles/' + artistaId + '/contrataciones');
-                    await artistRef.transaction((current) => {
-                        if (current === null) {
-                            return [newContractRef.key];
-                        } else if (Array.isArray(current)) {
-                            return [...current, newContractRef.key];
-                        } else {
-                            return [current, newContractRef.key];
-                        }
-                    });
+                    // La solicitud queda registrada en /contrataciones; no se duplica en el perfil público.
                     
                     window.showToast('¡Solicitud enviada! El artista te contactará pronto.', 'fa-check');
                     

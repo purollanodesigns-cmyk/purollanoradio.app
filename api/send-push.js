@@ -8,7 +8,7 @@ if (!admin.apps.length) {
                 projectId: process.env.FIREBASE_PROJECT_ID,
                 clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
                 // Procesar la clave privada para asegurar saltos de línea correctos
-                privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
             }),
             databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}-default-rtdb.firebaseio.com`
         });
@@ -25,42 +25,35 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Método no permitido. Use POST.' });
     }
 
-    const { title, body, image, url, pin } = req.body;
+    const { title, body, image, url } = req.body || {};
 
-    // 1. Verificar PIN de seguridad (Previene spam externo)
-    const ADMIN_PIN = process.env.ADMIN_PIN || 'PuroLlano2024';
-    if (pin !== ADMIN_PIN) {
-        return res.status(401).json({ error: 'Relájate, gallo. PIN de administrador incorrecto.' });
-    }
-
-    // 2. Obtener todos los tokens de dispositivos del Realtime Database
+    // Exigir un token Firebase ID válido y un registro de administrador autorizado.
     try {
-        let tokensRef = admin.database().ref('push_tokens');
-        let snapshot = await tokensRef.once('value');
-        let tokensData = snapshot.val();
-
-        if (!tokensData) {
-            tokensRef = admin.database().ref('pushTokens');
-            snapshot = await tokensRef.once('value');
-            tokensData = snapshot.val();
+        if (!admin.apps.length) return res.status(503).json({ error: 'Servicio de notificaciones no configurado.' });
+        const authorization = req.headers.authorization || '';
+        const match = authorization.match(/^Bearer\s+(.+)$/i);
+        if (!match) return res.status(401).json({ error: 'Sesión requerida.' });
+        let decoded;
+        try { decoded = await admin.auth().verifyIdToken(match[1], true); }
+        catch (_error) { return res.status(401).json({ error: 'Sesión Firebase inválida o expirada.' }); }
+        const adminSnapshot = await admin.database().ref(`admin_users/${decoded.uid}`).once('value');
+        const adminRecord = adminSnapshot.val();
+        if (!adminRecord || adminRecord.role !== 'admin' || adminRecord.active === false) {
+            return res.status(403).json({ error: 'Se requiere una cuenta administradora autorizada.' });
         }
+
+        // Obtener tokens después de verificar los permisos.
+        const tokensRef = admin.database().ref('push_tokens');
+        const snapshot = await tokensRef.once('value');
+        const tokensData = snapshot.val();
 
         if (!tokensData) {
             return res.status(200).json({ sent: 0, failed: 0, message: 'No hay dispositivos suscritos registrados.' });
         }
 
-        // Extraer los tokens únicos en formato string
-        const registrationTokens = [...new Set(
-            Object.values(tokensData)
-                .map(val => (typeof val === 'string' ? val : (val && val.token)))
-                .filter(val => typeof val === 'string' && val.length > 0)
-        )];
-
-        if (registrationTokens.length === 0) {
-            return res.status(200).json({ sent: 0, failed: 0, message: 'No hay tokens válidos registrados.' });
-        }
-
-        console.log(`📡 [API] Preparando envío masivo a ${registrationTokens.length} dispositivos.`);
+        // Extraer los tokens únicos
+        const registrationTokens = [...new Set(Object.values(tokensData).map(value => typeof value === 'string' ? value : value && typeof value.token === 'string' ? value.token : null).filter(Boolean))];
+        console.log(`📡 [Vercel API] Preparando envío masivo a ${registrationTokens.length} dispositivos.`);
 
         // 3. Construir el mensaje Multicast
         const message = {

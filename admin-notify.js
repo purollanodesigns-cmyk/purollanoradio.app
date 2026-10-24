@@ -5,28 +5,105 @@
    dependencia de Firebase Auth. Acceso validado contra Firebase Database.
    ========================================================================== */
 
-// ── CREDENCIALES DE ACCESO (Hash simple de seguridad) ─────────────────────
-// Para cambiar la contraseña, modifica estos valores:
-// Usuario:  admin
-// Password: usa la función hashPin() para generar el hash de tu clave
-// CLAVE MAESTRA ACTUAL: PuroLlano2026!
-
+// Autenticación real: Firebase Authentication + autorización del Worker.
 const ADMIN_CONFIG = {
-    user: 'admin',
-    // Hash SHA-256 simplificado de "PuroLlano2026!" 
-    // (generado abajo con la función hashStr)
-    pinHash: null, // se calcula en tiempo de ejecución
-    masterPin: 'PuroLlano2026!',
     sessionKey: 'prl_admin_session',
-    sessionDuration: 4 * 60 * 60 * 1000 // 4 horas en ms
+    sessionDuration: 4 * 60 * 60 * 1000
 };
 
-// Credenciales válidas (se validan localmente + contra Firebase DB)
-const VALID_CREDENTIALS = [
-    { user: 'admin',             pin: 'PuroLlano2026!' },
-    { user: 'purollano',         pin: 'Radio2026!' },
-    { user: 'operador',          pin: 'Llano@2026' }
-];
+function adminEndpoint(path) {
+    const base = String(window.CHAT_MESSAGE_ENDPOINT || '').replace(/\/$/, '');
+    if (!/^https:\/\//i.test(base)) throw new Error('Falta configurar window.CHAT_MESSAGE_ENDPOINT con la URL HTTPS real del Worker.');
+    return `${base}${path}`;
+}
+
+async function getAdminToken() {
+    const user = firebase.auth().currentUser;
+    if (!user) throw new Error('Inicia sesión para continuar.');
+    return user.getIdToken();
+}
+
+let currentAdminRole = null;
+async function checkAdminAuthorization(user) {
+    const token = await user.getIdToken();
+    const response = await fetch(adminEndpoint('/admin-auth'), { headers: { Authorization: `Bearer ${token}` } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) {
+        await firebase.auth().signOut();
+        throw new Error(result.error || 'Esta cuenta no tiene permisos de administrador.');
+    }
+    currentAdminRole = result.role || 'operator';
+    const registerTab = document.getElementById('tabRegister');
+    if (registerTab) registerTab.style.display = currentAdminRole === 'admin' ? '' : 'none';
+    if (currentAdminRole !== 'admin' && document.getElementById('registerFormArea') && !document.getElementById('registerFormArea').classList.contains('hidden')) switchAuthTab('login');
+    return result;
+}
+
+async function loginAdmin() {
+    const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+    const password = document.getElementById('adminPassword').value;
+    const btn = document.getElementById('btnAuthSubmit');
+    if (!email || !password) return showLoginError('Introduce tu correo y contraseña.');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Autenticando...';
+    try {
+        const credential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        await checkAdminAuthorization(credential.user);
+        playSynthSound('success');
+        document.getElementById('authOverlay').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('loginError').classList.add('hidden');
+        initAdminPanel();
+    } catch (error) {
+        playSynthSound('error');
+        showLoginError(error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password'
+            ? 'Correo o contraseña incorrectos.' : (error.message || 'No se pudo iniciar sesión.'));
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa fa-shield-alt"></i> Validar Acceso';
+    }
+}
+
+async function registerAdmin() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim().toLowerCase();
+    const password = document.getElementById('regPassword').value;
+    const btn = document.getElementById('btnAuthRegister');
+    if (!name || !email || !password) return showLoginError('Completa nombre, correo y contraseña.');
+    if (password.length < 12) return showLoginError('Usa una contraseña de al menos 12 caracteres.');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Creando cuenta...';
+    try {
+        const token = await getAdminToken();
+        const response = await fetch(adminEndpoint('/admin-users'), {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) throw new Error(result.error || 'No se pudo crear la cuenta.');
+        playSynthSound('success');
+        alert(`Cuenta creada para ${email}. Por seguridad, la contraseña no se muestra ni se guarda en la base de datos.`);
+        document.getElementById('regName').value = '';
+        document.getElementById('regEmail').value = '';
+        document.getElementById('regPassword').value = '';
+        switchAuthTab('login');
+    } catch (error) {
+        showLoginError(error.message || 'Error al crear la cuenta.');
+        playSynthSound('error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa fa-user-plus"></i> Crear cuenta de operador';
+    }
+}
+
+function checkExistingSession() {
+    return !!(firebase?.auth?.().currentUser);
+}
+
+function handleLogout() {
+    playSynthSound('click');
+    firebase.auth().signOut().finally(() => location.reload());
+}
 
 // ── SISTEMA DE SINTETIZADOR DE AUDIO (WEB AUDIO API) ──────────────────────
 
@@ -98,211 +175,21 @@ function playSynthSound(type) {
     }
 }
 
-// ── AUTENTICACIÓN LOCAL + FIREBASE DB ──────────────────────────────────────
-
-/**
- * Verifica si hay una sesión válida guardada en sessionStorage.
- */
-function checkExistingSession() {
-    try {
-        const session = JSON.parse(sessionStorage.getItem(ADMIN_CONFIG.sessionKey) || 'null');
-        if (session && session.expires > Date.now()) {
-            return true;
-        }
-        sessionStorage.removeItem(ADMIN_CONFIG.sessionKey);
-        return false;
-    } catch {
-        return false;
-    }
-}
-
-/**
- * Guarda una sesión con tiempo de expiración en sessionStorage.
- */
-function saveSession(username) {
-    const session = {
-        user: username,
-        expires: Date.now() + ADMIN_CONFIG.sessionDuration,
-        ts: Date.now()
-    };
-    sessionStorage.setItem(ADMIN_CONFIG.sessionKey, JSON.stringify(session));
-}
-
-/**
- * Valida las credenciales localmente y accede al panel.
- */
-function loginAdmin() {
-    const userInput = document.getElementById('adminEmail').value.trim().toLowerCase();
-    const pinInput  = document.getElementById('adminPassword').value;
-    const errorEl   = document.getElementById('loginError');
-    const btnSubmit = document.getElementById('btnAuthSubmit');
-    const biometricWrap = document.getElementById('biometricWrap');
-
-    if (!userInput || !pinInput) {
-        showLoginError('⚠️ Ingresa usuario y clave para continuar.');
-        playSynthSound('error');
-        return;
-    }
-
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Autenticando...';
-    errorEl.classList.add('hidden');
-    biometricWrap.classList.add('scanning');
-    playSynthSound('scan');
-
-    // Simular escaneo biométrico
-    setTimeout(() => {
-        // Buscar credencial válida (acepta email completo o solo la parte antes del @)
-        const normalizedInput = userInput.includes('@') ? userInput.split('@')[0] : userInput;
-        
-        const match = VALID_CREDENTIALS.find(c => 
-            (c.user === userInput || c.user === normalizedInput) && 
-            c.pin === pinInput
-        );
-
-        if (match) {
-            // Acceso concedido
-            saveSession(match.user);
-            playSynthSound('success');
-            document.getElementById('authOverlay').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            errorEl.classList.add('hidden');
-            initAdminPanel();
-        } else {
-            playSynthSound('error');
-            showLoginError('❌ Usuario o contraseña incorrectos. Intenta de nuevo.');
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="fa fa-shield-alt"></i> Validar Acceso';
-            biometricWrap.classList.remove('scanning');
-        }
-    }, 1500);
-}
-
-/**
- * Registra un nuevo operador con Master PIN. Guarda en Firebase DB (sin Auth).
- */
-function registerAdmin() {
-    const name     = document.getElementById('regName').value.trim();
-    const email    = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value;
-    const masterPin = document.getElementById('masterPin').value.trim();
-    const btnRegister = document.getElementById('btnAuthRegister');
-
-    if (!name || !email || !password || !masterPin) {
-        showLoginError('⚠️ Todos los campos son obligatorios.');
-        playSynthSound('error');
-        return;
-    }
-
-    if (masterPin !== ADMIN_CONFIG.masterPin) {
-        showLoginError('❌ Clave Maestra (Master PIN) incorrecta.');
-        playSynthSound('error');
-        return;
-    }
-
-    if (password.length < 6) {
-        showLoginError('⚠️ La clave debe tener al menos 6 caracteres.');
-        playSynthSound('error');
-        return;
-    }
-
-    btnRegister.disabled = true;
-    btnRegister.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Registrando...';
-
-    // Guardar en Firebase Database bajo /admin_users/
-    const waitForDB = () => {
-        if (!window.firebaseReady) {
-            setTimeout(waitForDB, 500);
-            return;
-        }
-
-        const userKey = email.replace(/[.#$[\]]/g, '_');
-        const adminUsersRef = firebase.database().ref(`admin_users/${userKey}`);
-
-        adminUsersRef.set({
-            nombre: name,
-            email: email,
-            username: email.split('@')[0],
-            rol: 'admin',
-            registrado: firebase.database.ServerValue.TIMESTAMP
-        })
-        .then(() => {
-            playSynthSound('success');
-            // Añadir a las credenciales locales en memoria
-            VALID_CREDENTIALS.push({ user: email.split('@')[0], pin: password });
-            VALID_CREDENTIALS.push({ user: email, pin: password });
-            
-            alert(`✅ Operador "${name}" registrado exitosamente.\n\nUsuario: ${email.split('@')[0]}\nClave: ${password}\n\nYa puedes iniciar sesión.`);
-            switchAuthTab('login');
-            document.getElementById('adminEmail').value = email.split('@')[0];
-            document.getElementById('adminPassword').value = password;
-            // Limpiar registro
-            document.getElementById('regName').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('masterPin').value = '';
-        })
-        .catch(err => {
-            showLoginError('❌ Error al guardar en base de datos: ' + err.message);
-            playSynthSound('error');
-        })
-        .finally(() => {
-            btnRegister.disabled = false;
-            btnRegister.innerHTML = '<i class="fa fa-user-plus"></i> Generar Credencial Admin';
-        });
-    };
-
-    waitForDB();
-}
-
-/**
- * Cierra la sesión del panel.
- */
-function handleLogout() {
-    playSynthSound('click');
-    sessionStorage.removeItem(ADMIN_CONFIG.sessionKey);
-    location.reload();
-}
-
-// ── VISTA DE PESTAÑAS (LOGIN / REGISTRO) ───────────────────────────────────
-
+// ── INTERFAZ DE AUTENTICACIÓN ───────────────────────────────────────────────
 function switchAuthTab(tab) {
     playSynthSound('click');
-    const tabLogin       = document.getElementById('tabLogin');
-    const tabRegister    = document.getElementById('tabRegister');
-    const loginFormArea  = document.getElementById('loginFormArea');
-    const registerFormArea = document.getElementById('registerFormArea');
-    const errorEl        = document.getElementById('loginError');
-
-    errorEl.classList.add('hidden');
-
-    if (tab === 'login') {
-        tabLogin.classList.add('active');
-        tabRegister.classList.remove('active');
-        loginFormArea.classList.remove('hidden');
-        registerFormArea.classList.add('hidden');
-    } else {
-        tabLogin.classList.remove('active');
-        tabRegister.classList.add('active');
-        loginFormArea.classList.add('hidden');
-        registerFormArea.classList.remove('hidden');
-    }
+    document.getElementById('loginError').classList.add('hidden');
+    const isLogin = tab === 'login';
+    document.getElementById('tabLogin').classList.toggle('active', isLogin);
+    document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+    document.getElementById('loginFormArea').classList.toggle('hidden', !isLogin);
+    document.getElementById('registerFormArea').classList.toggle('hidden', isLogin);
 }
-
-function triggerBiometricScan() {
-    const userInput = document.getElementById('adminEmail').value.trim();
-    const pinInput  = document.getElementById('adminPassword').value;
-    if (!userInput || !pinInput) {
-        showLoginError('⚠️ Introduce primero el usuario y contraseña, luego usa el lector.');
-        playSynthSound('error');
-        return;
-    }
-    loginAdmin();
-}
-
-function handleAuthEnter(e, type) {
-    if (e.key === 'Enter') {
-        type === 'login' ? loginAdmin() : registerAdmin();
+function triggerBiometricScan() { loginAdmin(); }
+function handleAuthEnter(event, type) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        if (type === 'register') registerAdmin(); else loginAdmin();
     }
 }
 
@@ -311,21 +198,27 @@ function handleAuthEnter(e, type) {
 let firebaseReady = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar sesión existente
-    if (checkExistingSession()) {
-        document.getElementById('authOverlay').classList.add('hidden');
-        document.getElementById('mainApp').classList.remove('hidden');
-        initAdminPanel();
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+        showLoginError('Firebase Authentication no está disponible.');
+        return;
     }
-
-    // Esperar a Firebase Database (no requiere Auth)
-    const waitForFirebase = setInterval(() => {
-        if (typeof firebase !== 'undefined' && firebase.database) {
-            clearInterval(waitForFirebase);
-            window.firebaseReady = true;
-            console.log('✅ Firebase Database listo para el panel admin');
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (!user) {
+            document.getElementById('authOverlay').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            return;
         }
-    }, 300);
+        try {
+            await checkAdminAuthorization(user);
+            document.getElementById('authOverlay').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            initAdminPanel();
+        } catch (error) {
+            showLoginError(error.message || 'Cuenta sin autorización de administrador.');
+            document.getElementById('authOverlay').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+    });
 });
 
 // ── EXPONER FUNCIONES GLOBALES ─────────────────────────────────────────────
@@ -347,33 +240,37 @@ window.playSynthSound      = playSynthSound;
 
 // ── REFERENCIAS DE FIREBASE ────────────────────────────────────────────────
 
-let dbRef;
-let scheduledRef;
-let tokensRef;
+let adminSnapshot = { history: [], scheduled: [], subscribers: 0 };
+let adminRefreshTimer = null;
 
 function initAdminPanel() {
-    const waitForRefs = setInterval(() => {
-        if (typeof firebase !== 'undefined' && firebase.database) {
-            clearInterval(waitForRefs);
-            try {
-                // Usar referencia directa a Firebase DB (sin Auth)
-                dbRef          = firebase.database().ref('notifications_history');
-                scheduledRef   = firebase.database().ref('scheduledNotifications');
-                tokensRef      = firebase.database().ref('push_tokens');
+    refreshAdminData().catch(err => showStatus(err.message || 'No se pudieron cargar los datos del panel.', 'error'));
+    if (adminRefreshTimer) clearInterval(adminRefreshTimer);
+    adminRefreshTimer = setInterval(() => refreshAdminData().catch(() => {}), 15000);
+    updatePreview();
+    checkServerHealth();
+    setInterval(checkServerHealth, 15000);
+}
 
-                listenToHistory();
-                listenToScheduled();
-                countSubscribers();
-                updatePreview();
-                checkServerHealth();
-                setInterval(checkServerHealth, 15000);
+async function adminApi(action, payload = null) {
+    const token = await getAdminToken();
+    const response = await fetch(adminEndpoint('/admin-notifications'), {
+        method: payload ? 'POST' : 'GET',
+        headers: { Authorization: `Bearer ${token}`, ...(payload ? { 'Content-Type': 'application/json' } : {}) },
+        ...(payload ? { body: JSON.stringify({ action, ...payload }) } : {})
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error || `Error del servidor (${response.status})`);
+    return result;
+}
 
-                console.log('✅ Panel Admin inicializado correctamente.');
-            } catch (err) {
-                console.error('❌ Error inicializando panel:', err);
-            }
-        }
-    }, 400);
+async function refreshAdminData() {
+    const data = await adminApi('read');
+    adminSnapshot = data;
+    renderScheduled(data.scheduled || []);
+    renderHistory(data.history || []);
+    const el = document.getElementById('deviceCounter');
+    if (el) el.textContent = `${data.subscribers || 0} dispositivos`;
 }
 
 // ── TELEMETRÍA ─────────────────────────────────────────────────────────────
@@ -405,15 +302,6 @@ function checkServerHealth() {
                 pingEl.style.color = '#f59e0b';
             }
         });
-}
-
-function countSubscribers() {
-    if (!tokensRef) return;
-    tokensRef.on('value', (snap) => {
-        const count = snap.numChildren() || 0;
-        const el = document.getElementById('deviceCounter');
-        if (el) el.innerHTML = `${count} dispositivos`;
-    });
 }
 
 // ── PREVISUALIZACIÓN Y PRESETS ─────────────────────────────────────────────
@@ -479,187 +367,72 @@ function toggleSchedule() {
 
 // ── ENVÍO DE NOTIFICACIONES ────────────────────────────────────────────────
 
-function enviarNotificacion(e) {
+async function enviarNotificacion(e) {
     e.preventDefault();
-    if (!dbRef) {
-        showStatus('❌ Base de datos no conectada. Espera un momento y vuelve a intentarlo.', 'error');
-        return;
-    }
-
-    const btnSubmit   = document.getElementById('btnSubmit');
+    const btn = document.getElementById('btnSubmit');
     const isScheduled = document.getElementById('scheduleToggle').checked;
     const scheduledTime = document.getElementById('scheduledTime').value;
-
-    if (isScheduled && !scheduledTime) {
-        showStatus('⚠️ Selecciona fecha y hora para la agenda.', 'error');
-        playSynthSound('error');
-        return;
-    }
-
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Transmitiendo...';
-
-    const notifData = {
-        title:     document.getElementById('titulo').value.trim(),
-        body:      document.getElementById('mensaje').value.trim(),
-        url:       document.getElementById('url').value.trim() || null,
-        image:     document.getElementById('imagen').value.trim() || null,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
+    if (isScheduled && !scheduledTime) return showStatus('Selecciona fecha y hora para la agenda.', 'error');
+    const notification = {
+      title: document.getElementById('titulo').value.trim(), body: document.getElementById('mensaje').value.trim(),
+      url: document.getElementById('url').value.trim() || '/', image: document.getElementById('imagen').value.trim() || ''
     };
-
-    const resetBtn = () => {
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = '<i class="fa fa-paper-plane"></i> <span id="btnSubmitText">Lanzar Notificación Masiva</span>';
-    };
-
-    if (isScheduled) {
-        notifData.scheduledTime = new Date(scheduledTime).getTime();
-        notifData.sent = false;
-
-        scheduledRef.push(notifData)
-            .then(() => {
-                playSynthSound('success');
-                showStatus('📅 Notificación agendada exitosamente.', 'success');
-                document.getElementById('notifyForm').reset();
-                document.getElementById('scheduleToggle').checked = false;
-                toggleSchedule();
-                updatePreview();
-            })
-            .catch(err => {
-                showStatus('❌ Error al agendar: ' + err.message, 'error');
-                playSynthSound('error');
-            })
-            .finally(resetBtn);
-    } else {
-        dbRef.push(notifData)
-            .then(() => {
-                showStatus('🛰️ Señal guardada. Enviando push...', 'info');
-
-                // Intentar enviar via API server. Si no está disponible, sigue funcionando.
-                return fetch('/api/send-push', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: notifData.title,
-                        body:  notifData.body,
-                        url:   notifData.url,
-                        image: notifData.image,
-                        pin:   ADMIN_CONFIG.masterPin  // PIN como autenticación del servidor
-                    })
-                });
-            })
-            .then(res => res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`)))
-            .then(data => {
-                if (data.error) throw new Error(data.error);
-                playSynthSound('success');
-                showStatus(`🚀 Enviado a ${data.sent || 0} dispositivos.`, 'success');
-                document.getElementById('notifyForm').reset();
-                updatePreview();
-            })
-            .catch(err => {
-                // Si la API falla, la notificación fue igual guardada en DB
-                playSynthSound('success');
-                showStatus('✅ Notificación guardada. API de push no disponible localmente.', 'info');
-                document.getElementById('notifyForm').reset();
-                updatePreview();
-            })
-            .finally(resetBtn);
-    }
+    if (!notification.title || !notification.body) return showStatus('El título y el mensaje son obligatorios.', 'error');
+    btn.disabled = true; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Procesando...';
+    try {
+      if (isScheduled) {
+        await adminApi('schedule', { notification, scheduledTime: new Date(scheduledTime).getTime() });
+        showStatus('Notificación agendada correctamente.', 'success');
+      } else {
+        showStatus('Enviando notificación...', 'info');
+        const result = await adminApi('send', { notification });
+        showStatus(`Notificación enviada a ${result.sent} dispositivos.`, 'success');
+      }
+      playSynthSound('success'); document.getElementById('notifyForm').reset();
+      document.getElementById('scheduleToggle').checked = false; toggleSchedule(); updatePreview();
+      await refreshAdminData();
+    } catch (err) { playSynthSound('error'); showStatus(err.message || 'No se pudo procesar la notificación.', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = '<i class="fa fa-paper-plane"></i> <span id="btnSubmitText">Lanzar Notificación Masiva</span>'; }
 }
 
-// ── HISTORIAL Y AGENDADOS ──────────────────────────────────────────────────
-
-function listenToScheduled() {
-    if (!scheduledRef) return;
-    const listEl = document.getElementById('scheduledList');
-
-    scheduledRef.orderByChild('scheduledTime').on('value', (snap) => {
-        listEl.innerHTML = '';
-        const items = [];
-        snap.forEach(child => {
-            const data = child.val();
-            if (!data.sent) items.push({ id: child.key, ...data });
-        });
-
-        if (items.length === 0) {
-            listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;padding:10px;">Sin emisiones agendadas.</p>';
-            return;
-        }
-
-        items.forEach(item => {
-            const date = new Date(item.scheduledTime).toLocaleString('es-ES', {
-                day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-            });
-            const card = document.createElement('div');
-            card.className = 'history-card';
-            card.style.borderLeft = '3px solid var(--secondary)';
-            card.innerHTML = `
-                <div class="history-card-header">
-                    <span class="card-time"><i class="fa fa-clock"></i> ${date}</span>
-                    <button class="btn-delete" onclick="cancelarProgramada('${item.id}')" title="Cancelar">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-                <div class="card-title">${escapeHTML(item.title)}</div>
-                <div class="card-body">${escapeHTML(item.body)}</div>
-                ${item.image ? `<img src="${item.image}" class="card-preview-image" alt="">` : ''}
-            `;
-            listEl.appendChild(card);
-        });
+function renderScheduled(items) {
+    const listEl = document.getElementById('scheduledList'); if (!listEl) return;
+    listEl.replaceChildren();
+    if (!items.length) { listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;padding:10px;">Sin emisiones agendadas.</p>'; return; }
+    items.forEach(item => {
+      const date = new Date(item.scheduledTime).toLocaleString('es-ES',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const card=document.createElement('div'); card.className='history-card'; card.style.borderLeft='3px solid var(--secondary)';
+      const header=document.createElement('div'); header.className='history-card-header';
+      const time=document.createElement('span'); time.className='card-time'; time.textContent=`◷ ${date}`;
+      const del=document.createElement('button'); del.className='btn-delete'; del.title='Cancelar'; del.textContent='×'; del.addEventListener('click',()=>cancelarProgramada(item.id));
+      header.append(time,del); const title=document.createElement('div'); title.className='card-title'; title.textContent=item.title||'';
+      const body=document.createElement('div'); body.className='card-body'; body.textContent=item.body||''; card.append(header,title,body);
+      if(item.image){try{const u=new URL(item.image);if(u.protocol==='https:'){const img=document.createElement('img');img.src=u.href;img.className='card-preview-image';img.alt='';img.referrerPolicy='no-referrer';card.append(img)}}catch{}}
+      listEl.append(card);
     });
 }
-
-function cancelarProgramada(id) {
-    playSynthSound('click');
-    if (confirm('¿Descartar esta emisión programada?')) {
-        scheduledRef.child(id).remove().then(() => playSynthSound('success'));
-    }
+async function cancelarProgramada(id) {
+    if (!confirm('¿Descartar esta emisión programada?')) return;
+    try { await adminApi('cancel',{id}); playSynthSound('success'); await refreshAdminData(); }
+    catch(err){ alert(err.message || 'No se pudo cancelar.'); }
 }
-
-function listenToHistory() {
-    if (!dbRef) return;
-    const listEl = document.getElementById('historyList');
-
-    dbRef.orderByChild('timestamp').limitToLast(15).on('value', (snap) => {
-        listEl.innerHTML = '';
-        const items = [];
-        snap.forEach(child => items.push({ id: child.key, ...child.val() }));
-        items.reverse();
-
-        if (items.length === 0) {
-            listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;padding:10px;">Sin registros en el log.</p>';
-            return;
-        }
-
-        items.forEach(item => {
-            const date = new Date(item.timestamp).toLocaleString('es-ES', {
-                day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-            });
-            const card = document.createElement('div');
-            card.className = 'history-card';
-            card.innerHTML = `
-                <div class="history-card-header">
-                    <span class="card-time" style="color:var(--primary);"><i class="fa fa-paper-plane"></i> ${date}</span>
-                    <button class="btn-delete" onclick="borrarNotificacion('${item.id}')" title="Eliminar">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </div>
-                <div class="card-title">${escapeHTML(item.title)}</div>
-                <div class="card-body">${escapeHTML(item.body)}</div>
-                ${item.image ? `<img src="${item.image}" class="card-preview-image" alt="">` : ''}
-            `;
-            listEl.appendChild(card);
-        });
+function renderHistory(items) {
+    const listEl=document.getElementById('historyList'); if(!listEl)return; listEl.replaceChildren();
+    if(!items.length){listEl.innerHTML='<p style="color:var(--text-muted);font-size:0.8rem;padding:10px;">Sin registros en el log.</p>';return;}
+    items.forEach(item=>{
+      const stamp=item.sentAt||item.timestamp||0; const date=new Date(stamp).toLocaleString('es-ES',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const card=document.createElement('div');card.className='history-card';const header=document.createElement('div');header.className='history-card-header';
+      const time=document.createElement('span');time.className='card-time';time.textContent=`➤ ${date}`;
+      const del=document.createElement('button');del.className='btn-delete';del.title='Eliminar historial';del.textContent='×';del.addEventListener('click',()=>borrarNotificacion(item.id));
+      header.append(time,del);const title=document.createElement('div');title.className='card-title';title.textContent=item.title||'';const body=document.createElement('div');body.className='card-body';body.textContent=item.body||'';card.append(header,title,body);
+      if(item.image){try{const u=new URL(item.image);if(u.protocol==='https:'){const img=document.createElement('img');img.src=u.href;img.className='card-preview-image';img.alt='';img.referrerPolicy='no-referrer';card.append(img)}}catch{}}
+      listEl.append(card);
     });
 }
-
-function borrarNotificacion(id) {
-    playSynthSound('click');
-    if (confirm('¿Eliminar este registro?')) {
-        dbRef.child(id).remove()
-            .then(() => playSynthSound('success'))
-            .catch(err => alert('Error: ' + err.message));
-    }
+async function borrarNotificacion(id) {
+    if (!confirm('¿Eliminar este registro del historial?')) return;
+    try { await adminApi('delete',{id}); playSynthSound('success'); await refreshAdminData(); }
+    catch(err){ alert(err.message || 'No se pudo eliminar el registro.'); }
 }
 
 // ── UTILIDADES ─────────────────────────────────────────────────────────────

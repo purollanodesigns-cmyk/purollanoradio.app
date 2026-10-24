@@ -226,34 +226,36 @@ function joinChatInterno() {
 /**
  * Registra la presencia del usuario en Firebase.
  */
+function chatStateEndpoint() {
+    const endpoint = window.CHAT_MESSAGE_ENDPOINT;
+    return typeof endpoint === 'string' && /^https:\/\//i.test(endpoint)
+        ? endpoint.replace(/\/$/, '')
+        : '';
+}
+
+function sendChatState(path, payload, keepalive = false) {
+    const endpoint = chatStateEndpoint();
+    if (!endpoint || !chatUserId || !chatUser) return Promise.resolve(false);
+    return fetch(`${endpoint}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: chatUserId, username: chatUser, ...payload }),
+        keepalive
+    }).then(response => response.ok).catch(() => false);
+}
+
+/** Registra presencia mediante el Worker, no con permisos de escritura del navegador. */
 function setupChatPresence() {
-    if (!chatUserId || !chatPresenceRef) return;
-
-    const userPresenceRef = chatPresenceRef.child(chatUserId);
-
-    const presenceData = {
-        userId: chatUserId,
-        username: chatUser,
-        online: true,
-        lastSeen: Date.now(),
-        avatar: generateChatAvatarColor(chatUserId)
-    };
-
-    userPresenceRef.set(presenceData);
-
-    // Heartbeat: actualizar lastSeen cada 30 segundos
-    setInterval(() => {
-        if (chatUserId) {
-            userPresenceRef.update({ lastSeen: Date.now() });
-        }
-    }, 30000);
-
-    // Limpiar presencia al cerrar la pestaña/ventana
+    if (!chatUserId) return;
+    const updatePresence = () => sendChatState('chat-presence', { action: 'online' });
+    updatePresence();
+    // Heartbeat: el listado oculta usuarios cuyo lastSeen tenga más de cinco minutos.
+    const heartbeat = setInterval(updatePresence, 30000);
     window.addEventListener('beforeunload', () => {
-        userPresenceRef.remove();
+        clearInterval(heartbeat);
+        sendChatState('chat-presence', { action: 'offline' }, true);
+        sendChatState('chat-typing', { action: 'stop' }, true);
     });
-
-    chatUserPresence = userPresenceRef;
 }
 
 /**
@@ -477,32 +479,6 @@ function addSystemMessage(text) {
     console.info('[Chat] Aviso local:', String(text).slice(0, 160));
 }
 
-function deleteChatMessage(buttonElement) {
-    if (!buttonElement) return;
-
-    // Subir al elemento padre .chat-message
-    const messageDiv = buttonElement.closest('.chat-message');
-    if (!messageDiv) return;
-
-    const firebaseKey = messageDiv.dataset.firebaseKey;
-    if (!firebaseKey) {
-        showChatToast('⚠️ No se pudo identificar el mensaje');
-        return;
-    }
-
-    if (confirm('¿Eliminar este mensaje?')) {
-        chatMessagesRef.child(firebaseKey).remove()
-            .then(() => {
-                messageDiv.remove();
-                showChatToast('Mensaje eliminado');
-            })
-            .catch((error) => {
-                console.error('Error eliminando mensaje:', error);
-                showChatToast('⚠️ Error al eliminar el mensaje');
-            });
-    }
-}
-
 // ==========================================================================
 // TYPING INDICATOR
 // ==========================================================================
@@ -512,32 +488,20 @@ function setupChatTypingDetection() {
     if (!input) return;
 
     input.addEventListener('input', () => {
-        if (!chatTypingRef || !chatUserId) return;
-
+        if (!chatUserId) return;
         if (!chatIsTyping) {
             chatIsTyping = true;
-            chatTypingRef.child(chatUserId).set({
-                userId: chatUserId,
-                username: chatUser,
-                timestamp: Date.now()
-            });
+            sendChatState('chat-typing', { action: 'typing' });
         }
-
         clearTimeout(chatTypingTimeout);
-        chatTypingTimeout = setTimeout(() => {
-            stopChatTyping();
-        }, 2000);
+        chatTypingTimeout = setTimeout(stopChatTyping, 2000);
     });
-
-    input.addEventListener('blur', () => {
-        stopChatTyping();
-    });
+    input.addEventListener('blur', stopChatTyping);
 }
 
 function stopChatTyping() {
-    if (!chatTypingRef || !chatUserId) return;
-
-    chatTypingRef.child(chatUserId).remove();
+    if (!chatUserId) return;
+    if (chatIsTyping) sendChatState('chat-typing', { action: 'stop' });
     chatIsTyping = false;
 }
 
@@ -547,7 +511,7 @@ function listenToChatTyping() {
     chatTypingRef.on('value', (snapshot) => {
         const typingUsers = snapshot.val() || {};
         const typingList = Object.values(typingUsers)
-            .filter(u => u.userId !== chatUserId)
+            .filter(u => u && u.userId !== chatUserId && Number.isFinite(u.timestamp) && Date.now() - u.timestamp < 10000)
             .map(u => u.username);
 
         const indicator = document.getElementById('chatTypingIndicator');
@@ -786,4 +750,3 @@ window.insertEmojiChat = insertEmojiChat;
 window.handleChatKeyPress = handleChatKeyPress;
 window.sendChatMessage = sendChatMessage;
 window.mentionChatUser = mentionChatUser;
-window.deleteChatMessage = deleteChatMessage;

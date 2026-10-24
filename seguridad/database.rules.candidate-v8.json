@@ -1,0 +1,141 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "radio_history": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false,
+        ".indexOn": [
+          "timestamp"
+        ],
+        "leader": {
+          ".read": true,
+          ".write": false,
+          ".indexOn": [
+            "timestamp"
+          ]
+        }
+      }
+    },
+    "radio_listeners": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false
+      }
+    },
+    "visits": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false
+      }
+    },
+    "chat": {
+      "messages": {
+        ".read": true,
+        ".write": false,
+        ".indexOn": [
+          "timestamp"
+        ]
+      },
+      "users": {
+        ".read": true,
+        ".write": false
+      },
+      "presence": {
+        ".read": true,
+        ".write": false
+      },
+      "typing": {
+        ".read": true,
+        ".write": false
+      }
+    },
+    "notifications_history": {
+      ".read": true,
+      ".write": false,
+      ".indexOn": [
+        "timestamp"
+      ]
+    },
+    "push_tokens": {
+      ".read": false,
+      ".write": false
+    },
+    "blog_comments": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": "auth != null",
+        ".indexOn": [
+          "timestamp"
+        ],
+        "$commentId": {
+          ".validate": "newData.hasChildren(['timestamp', 'text']) && newData.child('timestamp').isNumber() && newData.child('text').isString() && newData.child('text').val().length <= 2000"
+        }
+      }
+    },
+    "talento_posts": {
+      ".read": true,
+      ".write": "auth != null",
+      ".indexOn": [
+        "timestamp"
+      ]
+    },
+    "usuarios": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('usuarios').child(auth.uid).child('rol').val() === 'admin')",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['uid']) && newData.child('uid').val() === $uid && (!newData.child('rol').exists() || newData.child('rol').val() === 'artista')"
+      }
+    },
+    "perfiles": {
+      "$uid": {
+        ".read": true,
+        ".write": "auth != null && auth.uid === $uid",
+        "visitasPerfil": {
+          ".read": true,
+          ".write": false
+        },
+        "contrataciones": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": false
+        }
+      }
+    },
+    "contrataciones": {
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'",
+      ".write": "auth != null",
+      "$contractId": {
+        ".validate": "newData.hasChildren(['fechaSolicitud', 'estado']) && newData.child('fechaSolicitud').isNumber() && newData.child('estado').val() === 'pendiente'"
+      }
+    },
+    "blog_posts": {
+      ".read": true,
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+    },
+    "media_library": {
+      ".read": true,
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+    },
+    "admin_users": {
+      ".read": false,
+      ".write": false
+    },
+    "scheduledNotifications": {
+      ".read": false,
+      ".write": false
+    },
+    "notificationsHistory": {
+      ".read": false,
+      ".write": false
+    },
+    "pushTokens": {
+      ".read": false,
+      ".write": false
+    },
+    "visit_dedupe": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

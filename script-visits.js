@@ -32,11 +32,11 @@
      * @returns {string} Fecha formateada
      */
     function getTodayDateKey() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        const parts = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'America/Caracas', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).formatToParts(new Date());
+        const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+        return `${values.year}-${values.month}-${values.day}`;
     }
 
     /**
@@ -106,59 +106,34 @@
      * contado hoy. Usa transacciones atómicas para evitar race conditions.
      */
     function registerVisit() {
-        try {
-            var refs = window.firebaseRefs && window.firebaseRefs.visits;
-            if (!refs) {
-                console.warn('⚠️ [Visits] Firebase refs no disponibles');
-                return;
-            }
-
-            var todayKey = getTodayDateKey();
-            var lastVisitDate = null;
-
-            try {
-                lastVisitDate = localStorage.getItem(STORAGE_KEY);
-            } catch (storageError) {
-                // localStorage no disponible (modo incógnito, etc.)
-                console.warn('⚠️ [Visits] localStorage no disponible:', storageError);
-            }
-
-            // Si ya se registró hoy, no incrementar
-            if (lastVisitDate === todayKey) {
-                console.log('ℹ️ [Visits] Visita ya registrada hoy');
-                return;
-            }
-
-            // Transacción atómica para incrementar el total
-            refs.total.transaction(function (currentValue) {
-                return (currentValue || 0) + 1;
-            }, function (error) {
-                if (error) {
-                    console.error('❌ [Visits] Error al incrementar total:', error);
-                }
-            });
-
-            // Transacción atómica para incrementar el conteo diario
-            var dailyRef = refs.daily.child(todayKey);
-            dailyRef.transaction(function (currentValue) {
-                return (currentValue || 0) + 1;
-            }, function (error) {
-                if (error) {
-                    console.error('❌ [Visits] Error al incrementar diario:', error);
-                } else {
-                    // Marcar como visitado hoy en localStorage
-                    try {
-                        localStorage.setItem(STORAGE_KEY, todayKey);
-                    } catch (storageError) {
-                        console.warn('⚠️ [Visits] No se pudo guardar en localStorage');
-                    }
-                    console.log('✅ [Visits] Visita registrada para', todayKey);
-                }
-            });
-
-        } catch (error) {
-            console.error('❌ [Visits] Error general al registrar visita:', error);
+        var endpoint = window.CHAT_MESSAGE_ENDPOINT;
+        if (typeof endpoint !== 'string' || !/^https:\/\//i.test(endpoint)) {
+            console.warn('⚠️ [Visits] Configura window.CHAT_MESSAGE_ENDPOINT con la URL base HTTPS del Worker.');
+            return;
         }
+        var todayKey = getTodayDateKey();
+        try {
+            if (localStorage.getItem(STORAGE_KEY) === todayKey) {
+                console.log('ℹ️ [Visits] Visita ya solicitada hoy en este navegador');
+                return;
+            }
+        } catch (_storageError) {
+            // El servidor aplica su propia deduplicación aunque localStorage no esté disponible.
+        }
+        fetch(endpoint.replace(/\/$/, '') + '/visits', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: '{}'
+        }).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+        }).then(function (result) {
+            if (!result || result.ok !== true) throw new Error('Respuesta del servidor inválida');
+            try { localStorage.setItem(STORAGE_KEY, result.dateKey || todayKey); } catch (_storageError) {}
+            console.log(result.counted ? '✅ [Visits] Visita registrada por el servidor' : 'ℹ️ [Visits] Ya contada desde esta conexión hoy');
+        }).catch(function (error) {
+            console.error('❌ [Visits] No se pudo registrar la visita:', error.message || error);
+        });
     }
 
     /**

@@ -829,7 +829,7 @@
 
                     <div class="form-group">
                         <label><i class="fa fa-user"></i> Usuario Operador</label>
-                        <input type="text" id="adminEmail" placeholder="admin" required autocomplete="username" onkeypress="handleAuthEnter(event, 'login')">
+                        <input type="text" id="adminEmail" placeholder="admin@purollanoradio.com" required autocomplete="username" onkeypress="handleAuthEnter(event, 'login')">
                         <i class="fa fa-user input-icon"></i>
                     </div>
                     
@@ -855,7 +855,7 @@
 
                 <!-- Formulario de Registro de Administradores -->
                 <div id="registerFormArea" class="hidden">
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px;">Generar Nueva Credencial Administrativa en la Base de Datos.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px;">Crea una cuenta nueva desde una sesión administradora autorizada.</p>
                     
                     <div class="form-group">
                         <label><i class="fa fa-user"></i> Nombre Operador</label>
@@ -870,20 +870,15 @@
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fa fa-key"></i> Clave Asignada (Mín. 6 caracteres)</label>
-                        <input type="password" id="regPassword" placeholder="••••••••" required onkeypress="handleAuthEnter(event, 'register')">
+                        <label><i class="fa fa-key"></i> Clave segura (mín. 12 caracteres)</label>
+                        <input type="password" id="regPassword" placeholder="Mínimo 12 caracteres" minlength="12" autocomplete="new-password" required onkeypress="handleAuthEnter(event, 'register')">
                         <i class="fa fa-key input-icon"></i>
                     </div>
 
-                    <div class="form-group" style="border: 1px dashed rgba(99, 102, 241, 0.25); padding: 15px; border-radius: 12px; background: rgba(99, 102, 241, 0.02);">
-                        <label style="color: var(--secondary);"><i class="fa fa-unlock-alt"></i> Clave Maestra de Activación (Master PIN)</label>
-                        <input type="password" id="masterPin" placeholder="Ingrese Master PIN" required style="border-color: rgba(99, 102, 241, 0.3);" onkeypress="handleAuthEnter(event, 'register')">
-                        <i class="fa fa-unlock-alt input-icon" style="top: 60px;"></i>
-                        <span style="font-size: 0.65rem; color: var(--text-muted); display: block; margin-top: 6px;">Código requerido para validar rol administrador</span>
-                    </div>
+                    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:12px;">Solo una sesión administradora autorizada puede crear operadores. Contraseña mínima: 12 caracteres.</p>
 
                     <button class="btn-send" id="btnAuthRegister" onclick="registerAdmin()" style="background: linear-gradient(135deg, var(--secondary) 0%, #4f46e5 100%); color: white; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);" onmouseenter="playSynthSound('hover')">
-                        <i class="fa fa-user-plus"></i> Generar Credencial Admin
+                        <i class="fa fa-user-plus"></i> Crear cuenta de operador
                     </button>
                 </div>
 
@@ -1046,9 +1041,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js"></script>
 
+    <!-- Configuración del Cloudflare Worker -->
+    <script>
+        window.CHAT_MESSAGE_ENDPOINT = 'https://purollanoradio-cron.purollanoradio.workers.dev';
+    </script>
+
     <!-- Configuración e Inicialización -->
     <script src="./firebase.js?v=3"></script>
-    <script src="./admin-notify.js?v=3"></script>
+    <script src="./admin-notify.js?v=16"></script>
 
     <!-- Canvas Animation Script -->
     <script>

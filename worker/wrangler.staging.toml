@@ -1,0 +1,12 @@
+# Configuración aislada de STAGING. No usar para producción.
+# No hay triggers/crons en este archivo deliberadamente.
+# Antes de usar, configurar en el entorno de staging:
+#   FIREBASE_DATABASE_URL = URL de una base RTDB DE PRUEBA, nunca la de producción
+#   FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY como secretos
+#   VISIT_HASH_SECRET como secreto aleatorio (>= 32 caracteres)
+#   CRON_SECRET como secreto solo si se prueba manualmente el endpoint de cron
+# Configurar CHAT_ALLOWED_ORIGINS como variable con el origen HTTPS exacto del frontend de staging (sin comodines).
+# El Worker fallará cerrado si FIREBASE_DATABASE_URL no está configurado.
+name = "purollanoradio-staging"
+main = "worker.js"
+compatibility_date = "2024-01-01"

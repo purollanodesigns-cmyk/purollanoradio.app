@@ -38,94 +38,37 @@ class StreamingHistory {
         this.db = null;
         this.firebaseRef = null;
         this.localChanges = [];
-        this.isLeader = false; // Este cliente es el líder?
-        this.leaderCheckTimer = null;
 
-        // Inicializar Firebase si está disponible
+        // Inicializar Firebase si está disponible (modo solo lectura para clientes)
         this.initFirebase();
     }
 
-    // Inicializar conexión a Firebase
+    // Inicializar conexión a Firebase (solo lectura)
     initFirebase() {
         try {
             if (typeof firebase !== 'undefined' && firebase.database) {
                 this.db = firebase.database();
                 this.firebaseRef = this.db.ref('radio_history/puro_llano_radio');
                 historyState.firebaseConnected = true;
-                console.log('✅ Firebase conectado para historial');
+                console.log('✅ Firebase conectado para historial (modo tiempo real / solo lectura)');
 
-                // Escuchar cambios en tiempo real desde Firebase
+                // Escuchar cambios en tiempo real desde Firebase (actualizados por el Cloudflare Worker)
                 this.firebaseRef.on('value', (snapshot) => {
                     const data = snapshot.val();
                     if (data && data.songs) {
-                        console.log('📥 Datos recibidos desde Firebase:', data.songs.length, 'canciones');
+                        console.log('📥 Historial recibido desde Firebase:', data.songs.length, 'canciones');
                         this.songs = data.songs;
                         this.currentSong = data.currentSong || null;
                         this.render();
                     }
                 });
-
-                // Sistema de Leader Election
-                // Cada cliente verifica si debe ser el líder
-                this.startLeaderElection();
             } else {
-                console.log('⚠️ Firebase no está disponible');
+                console.log('⚠️ Firebase no está disponible para historial');
             }
         } catch (error) {
-            console.log('⚠️ Error al inicializar Firebase:', error.message);
+            console.log('⚠️ Error al inicializar Firebase para historial:', error.message);
             historyState.firebaseConnected = false;
         }
-    }
-
-    // Sistema de Leader Election
-    startLeaderElection() {
-        const leaderRef = this.db.ref('radio_history/puro_llano_radio/leader');
-        const myId = 'client_' + Math.random().toString(36).substr(2, 9);
-        const myTimestamp = Date.now();
-
-        // Intentar convertirse en líder
-        const tryBecomeLeader = () => {
-            leaderRef.get().then((snapshot) => {
-                const leader = snapshot.val();
-                const now = Date.now();
-
-                // Si no hay líder o el líder anterior expiró (30 segundos sin actualizar)
-                if (!leader || (now - leader.timestamp > 30000)) {
-                    // Intentar ser líder
-                    leaderRef.set({
-                        id: myId,
-                        timestamp: now
-                    }).then(() => {
-                        this.isLeader = true;
-                        console.log('👑 Soy el LÍDER - Escribiré en Firebase');
-                    });
-                } else {
-                    this.isLeader = false;
-                    console.log('👂 Soy seguidor - Solo leeré de Firebase (líder:', leader.id + ')');
-                }
-            }).catch(() => {
-                this.isLeader = false;
-            });
-        };
-
-        // Verificar liderazgo inmediatamente
-        tryBecomeLeader();
-
-        // Verificar cada 10 segundos
-        this.leaderCheckTimer = setInterval(tryBecomeLeader, 10000);
-
-        // Mantener liderazgo actualizado si soy líder
-        const keepLeadership = () => {
-            if (this.isLeader) {
-                leaderRef.set({
-                    id: myId,
-                    timestamp: Date.now()
-                });
-            }
-        };
-
-        // Actualizar liderazgo cada 5 segundos si soy líder
-        setInterval(keepLeadership, 5000);
     }
 
     // Construir URL de la API con cache buster
@@ -256,40 +199,7 @@ class StreamingHistory {
             }
         }
 
-        // Guardar en Firebase
-        this.saveToFirebase();
-
         return this.songs;
-    }
-
-    // Guardar historial en Firebase
-    saveToFirebase() {
-        // Solo el líder escribe en Firebase
-        if (!HISTORY_CONFIG.enableFirebaseSync || !this.firebaseRef || !this.isLeader) {
-            if (this.isLeader) {
-                console.log('💾 Guardando en Firebase (LÍDER)');
-            }
-            return;
-        }
-
-        try {
-            this.firebaseRef.set({
-                songs: this.songs,
-                currentSong: this.currentSong,
-                lastUpdate: Date.now(),
-                station: 'puro_llano_radio',
-                leader: {
-                    id: 'client_' + Math.random().toString(36).substr(2, 9),
-                    timestamp: Date.now()
-                }
-            }).then(() => {
-                console.log('💾 Historial guardado en Firebase por LÍDER');
-            }).catch(error => {
-                console.error('❌ Error guardando en Firebase:', error);
-            });
-        } catch (error) {
-            console.error('Error en saveToFirebase:', error);
-        }
     }
 
     // Generar enlace de YouTube
@@ -415,20 +325,44 @@ class StreamingHistory {
         return div.innerHTML;
     }
 
-    // Sincronizar con el streaming
+    // Sincronizar con el Worker / Streaming
     async sync() {
-        console.log('🔄 Sincronizando historial con streaming...');
-        console.log('📊 Estado actual:', this.songs.length, 'canciones en historial');
+        console.log('🔄 Sincronizando historial...');
+        const endpoint = window.CHAT_MESSAGE_ENDPOINT;
 
+        // Si el Worker está configurado, solicitar sincronización segura en el servidor
+        if (typeof endpoint === 'string' && /^https:\/\//i.test(endpoint)) {
+            try {
+                const response = await fetch(endpoint.replace(/\/$/, '') + '/sync-history', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    signal: AbortSignal.timeout(8000)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && Array.isArray(data.songs)) {
+                        console.log('✅ Historial sincronizado vía Worker:', data.songs.length, 'canciones');
+                        this.songs = data.songs;
+                        this.currentSong = data.currentSong || null;
+                        this.updateMetadataFromHistory();
+                        await this.render();
+                        return;
+                    }
+                }
+            } catch (workerError) {
+                console.warn('⚠️ No se pudo sincronizar vía Worker, usando respaldo local:', workerError.message || workerError);
+            }
+        }
+
+        // Respaldo local de visualización si el Worker no responde
         const data = await this.fetchFromStreaming();
-
         if (data && data.length > 0) {
-            console.log(`✅ Historial sincronizado: ${this.songs.length} canciones`);
-            console.log('🎵 Canción actual:', this.currentSong?.title || 'N/A');
+            console.log(`✅ Historial local sincronizado: ${this.songs.length} canciones`);
+            this.updateMetadataFromHistory();
             await this.render();
         } else {
-            console.warn('⚠️ No se pudieron obtener datos del streaming');
-            console.log('📊 Datos recibidos:', data);
+            console.warn('⚠️ No se pudieron obtener datos del streaming localmente');
             await this.render();
         }
     }
@@ -454,16 +388,12 @@ class StreamingHistory {
 
     // Iniciar sincronización automática
     startAutoSync() {
-        console.log('🎵 Iniciando sincronización automática del historial...');
-        console.log('📡 Fuente:', HISTORY_CONFIG.statsUrl);
+        console.log('🎵 Iniciando sincronización del historial...');
         console.log('🔄 Intervalo:', HISTORY_CONFIG.updateInterval / 1000, 'segundos');
-        console.log('📊 Máximo de canciones:', HISTORY_CONFIG.maxItems);
 
-        // Primera sincronización inmediata
-        console.log('⏳ Primera sincronización...');
+        // Primera sincronización
         this.sync();
 
-        // Sincronización periódica
         if (this.syncTimer) {
             clearInterval(this.syncTimer);
         }
@@ -479,33 +409,12 @@ class StreamingHistory {
             clearInterval(this.syncTimer);
             this.syncTimer = null;
         }
-
-        // Detener verificación de liderazgo
-        if (this.leaderCheckTimer) {
-            clearInterval(this.leaderCheckTimer);
-            this.leaderCheckTimer = null;
-        }
-
-        // Si soy líder, liberar liderazgo
-        if (this.isLeader && this.firebaseRef) {
-            this.firebaseRef.child('leader').remove();
-            this.isLeader = false;
-            console.log('👑 Liderazgo liberado');
-        }
     }
 
-    // Limpiar historial local y Firebase
+    // Limpiar vista local del historial
     clear() {
         this.songs = [];
         this.currentSong = null;
-
-        // Limpiar Firebase también
-        if (this.firebaseRef) {
-            this.firebaseRef.remove().then(() => {
-                console.log('🗑️ Historial eliminado de Firebase');
-            });
-        }
-
         this.render();
     }
 }

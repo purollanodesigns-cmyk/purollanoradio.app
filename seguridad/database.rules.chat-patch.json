@@ -1,0 +1,9 @@
+{
+  "chat": {
+    "messages": {
+      ".read": true,
+      ".write": false,
+      ".indexOn": ["timestamp"]
+    }
+  }
+}

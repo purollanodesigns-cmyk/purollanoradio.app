@@ -1,0 +1,159 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "radio_history": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false,
+        ".indexOn": ["timestamp"]
+      }
+    },
+
+    "radio_listeners": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false
+      }
+    },
+
+    "visits": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".write": false
+      }
+    },
+
+    "visit_dedupe": {
+      ".read": false,
+      ".write": false
+    },
+
+    "chat": {
+      "messages": {
+        ".read": true,
+        ".write": false,
+        ".indexOn": ["timestamp"]
+      },
+      "presence": {
+        ".read": true,
+        ".write": false
+      },
+      "typing": {
+        ".read": true,
+        ".write": false
+      },
+      "users": {
+        ".read": true,
+        ".write": false
+      }
+    },
+
+    "push_tokens": {
+      ".read": false,
+      ".write": false
+    },
+
+    "pushTokens": {
+      ".read": false,
+      ".write": false
+    },
+
+    "notifications_history": {
+      ".read": true,
+      ".write": false,
+      ".indexOn": ["timestamp"]
+    },
+
+    "notificationsHistory": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["sentAt"]
+    },
+
+    "scheduledNotifications": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["scheduledTime"]
+    },
+
+    "admin_users": {
+      ".read": false,
+      ".write": false
+    },
+
+    "blog_comments": {
+      "puro_llano_radio": {
+        ".read": true,
+        ".indexOn": ["timestamp"],
+        "$commentId": {
+          ".write": "!data.exists() && newData.exists()",
+          ".validate": "newData.hasChildren(['id', 'author', 'text', 'timestamp', 'articleId']) && newData.child('id').isString() && newData.child('id').val().length <= 100 && newData.child('author').isString() && newData.child('author').val().length >= 2 && newData.child('author').val().length <= 100 && newData.child('text').isString() && newData.child('text').val().length >= 10 && newData.child('text').val().length <= 2000 && newData.child('timestamp').isNumber() && newData.child('articleId').isString() && newData.child('articleId').val().length <= 100"
+        }
+      }
+    },
+
+    "talento_posts": {
+      ".read": true,
+      ".indexOn": ["timestamp"],
+      "$postId": {
+        ".write": "!data.exists() && newData.exists()",
+        ".validate": "newData.hasChildren(['artist', 'category', 'message', 'timestamp', 'likes']) && newData.child('artist').isString() && newData.child('artist').val().length >= 2 && newData.child('artist').val().length <= 100 && newData.child('category').isString() && newData.child('category').val().length <= 100 && newData.child('message').isString() && newData.child('message').val().length >= 5 && newData.child('message').val().length <= 3000 && newData.child('timestamp').isNumber() && newData.child('likes').val() === 0",
+        "comments": {
+          "$commentId": {
+            ".write": "!data.exists() && newData.exists()",
+            ".validate": "newData.hasChildren(['name','text','timestamp']) && newData.child('name').isString() && newData.child('name').val().length <= 100 && newData.child('text').isString() && newData.child('text').val().length >= 1 && newData.child('text').val().length <= 1000 && newData.child('timestamp').isNumber()"
+          }
+        }
+      }
+    },
+
+    "usuarios": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('usuarios').child(auth.uid).child('rol').val() === 'admin')",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['uid']) && newData.child('uid').val() === $uid && (!newData.child('rol').exists() || newData.child('rol').val() === 'artista')"
+      }
+    },
+
+    "perfiles": {
+      "$uid": {
+        ".read": true,
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['nombreArtistico']) && newData.child('nombreArtistico').isString() && newData.child('nombreArtistico').val().length <= 120",
+        "visitasPerfil": {
+          ".read": true,
+          ".write": false
+        },
+        "contrataciones": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": false
+        }
+      }
+    },
+
+    "contrataciones": {
+      ".indexOn": ["artistaId"],
+      "$contractId": {
+        ".read": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() === 'admin' || data.child('artistaId').val() === auth.uid)",
+        ".write": "!data.exists() && newData.exists()",
+        ".validate": "newData.hasChildren(['artistaId','nombreCliente','email','telefono','tipoEvento','nombreEvento','fechaEvento','ubicacion','mensaje','estado','fechaSolicitud']) && newData.child('artistaId').isString() && newData.child('artistaId').val().length <= 128 && newData.child('nombreCliente').isString() && newData.child('nombreCliente').val().length >= 2 && newData.child('nombreCliente').val().length <= 120 && newData.child('email').isString() && newData.child('email').val().length <= 254 && newData.child('telefono').isString() && newData.child('telefono').val().length <= 40 && newData.child('tipoEvento').isString() && newData.child('tipoEvento').val().length <= 100 && newData.child('nombreEvento').isString() && newData.child('nombreEvento').val().length <= 200 && newData.child('fechaEvento').isString() && newData.child('fechaEvento').val().length <= 40 && newData.child('ubicacion').isString() && newData.child('ubicacion').val().length <= 300 && newData.child('mensaje').isString() && newData.child('mensaje').val().length <= 3000 && newData.child('estado').val() === 'pendiente' && newData.child('fechaSolicitud').isNumber()"
+      }
+    },
+
+    "blog_posts": {
+      ".read": true,
+      "$postId": {
+        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+      }
+    },
+
+    "media_library": {
+      ".read": true,
+      "$mediaId": {
+        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+      }
+    }
+  }
+}
