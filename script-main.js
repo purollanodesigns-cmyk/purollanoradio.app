@@ -586,6 +586,31 @@ let lastFetchedSong = '';  // Rastrear última canción para evitar fetch duplic
 const albumArtCache = {};  // Caché de carátulas: { 'artista - canción': url }
 const defaultLogoUrl = './PUROLLANORADIO-COM-ICONO.png';
 
+// Marquesina en la pestaña del navegador
+let _tabMarqueeTimer = null;
+
+function startTabMarquee(fullText) {
+    // Limpiar marquesina anterior si existía
+    if (_tabMarqueeTimer) {
+        clearInterval(_tabMarqueeTimer);
+        _tabMarqueeTimer = null;
+    }
+
+    const padded = fullText + '     ';  // espacio entre repeticiones
+    let pos = 0;
+    const visibleLen = 40; // caracteres visibles en la pestaña (aprox.)
+
+    function step() {
+        const slice = (padded + padded).substring(pos, pos + visibleLen);
+        document.title = slice;
+        pos = (pos + 1) % padded.length;
+    }
+
+    step();
+    _tabMarqueeTimer = setInterval(step, 280);
+}
+window.startTabMarquee = startTabMarquee;
+
 // Función para mostrar el toast "Ahora Suena"
 function showAhoraSuenoToast(songName, artistName) {
     const toast = document.getElementById('ahoraSuenoToast');
@@ -755,8 +780,8 @@ async function updateMetadata() {
             });
         }
 
-        // Actualizar título de la página
-        document.title = `${son} - Puro Llano Radio`;
+        // Marquesina en la pestaña del navegador (scroll de derecha a izquierda)
+        startTabMarquee(`🎵 ${son} - Puro Llano Radio`);
 
     } catch (e) {
         console.error("❌ Error en metadata:", e);

@@ -381,7 +381,12 @@ class StreamingHistory {
             if (displayedSong !== currentSong.title) {
                 titleEl.innerText = `📻 ${currentSong.title}`;
                 artistEl.innerText = currentSong.artist;
-                document.title = `📻 ${currentSong.title} - Puro Llano Radio`;
+                // Marquesina en la pestaña del navegador
+                if (typeof startTabMarquee === 'function') {
+                    startTabMarquee(`🎵 ${currentSong.title} - Puro Llano Radio`);
+                } else {
+                    document.title = `📻 ${currentSong.title} - Puro Llano Radio`;
+                }
             }
         }
     }
