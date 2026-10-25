@@ -15,16 +15,16 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://purollanoradio.com/artistas.html">
+    <link rel="canonical" href="https://purollanoradioapp.vercel.app/artistas.html">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Artistas de Joropo 🎵 | Músicos del Folklore Llanero">
     <meta property="og:description"
         content="Conoce a los artistas más destacados de la música llanera venezolana y colombiana contemporánea.">
-    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image" content="https://purollanoradioapp.vercel.app/PUROLLANORADIO-COM-ICONO.png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-    <meta property="og:url" content="https://purollanoradio.com/artistas.html">
+    <meta property="og:url" content="https://purollanoradioapp.vercel.app/artistas.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Puro Llano Radio">
     <meta property="og:locale" content="es_VE">
@@ -33,7 +33,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Artistas de Joropo 🎵 | Puro Llano Radio">
     <meta name="twitter:description" content="Descubre los mejores artistas de música llanera venezolana.">
-    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta name="twitter:image" content="https://purollanoradioapp.vercel.app/PUROLLANORADIO-COM-ICONO.png">
 
     <!-- PWA -->
     <meta name="theme-color" content="#1a1108">
@@ -41,8 +41,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
 
-    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="icon" href="PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="PUROLLANORADIO-COM-ICONO.png" />
     <link rel="manifest" href="/manifest.json">
 
     <!-- Fuentes -->
@@ -481,7 +481,7 @@
 
 <body>
     <div class="container">
-        <a href="https://purollanoradio.com" class="back-btn">
+        <a href="index.html" class="back-btn">
             <i class="fa fa-arrow-left"></i>
             Volver al Inicio
         </a>
@@ -492,16 +492,22 @@
         </div>
 
         <!-- Breadcrumbs -->
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <ul itemscope itemtype="https://schema.org/BreadcrumbList">
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="https://purollanoradio.com/">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"
+            style="background: rgba(20, 10, 0, 0.4); padding: 15px 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(254, 210, 2, 0.15); backdrop-filter: blur(10px);">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList"
+                style="list-style: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; padding: 0;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <a itemprop="item" href="index.html"
+                        style="color: #fed202; text-decoration: none;">
                         <span itemprop="name">Inicio</span>
                     </a>
                     <meta itemprop="position" content="1" />
                 </li>
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current">
-                    <span itemprop="name">Artistas</span>
+                <li style="color: #fed202; font-weight: bold;">›</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <span itemprop="name" style="color: rgba(255, 255, 255, 0.7);">Artistas</span>
                     <meta itemprop="position" content="2" />
                 </li>
             </ul>
@@ -1674,7 +1680,7 @@
 
     <!-- REPRODUCTOR FLOTANTE -->
     <div class="floating-player" id="floatingPlayer">
-        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+        <img src="PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
         <div class="player-info">
             <h4 id="playerSongTitle">Puro Llano Radio</h4>
             <p id="playerArtistName">En vivo</p>
@@ -1755,7 +1761,7 @@
         "@type": "ItemList",
         "name": "Artistas Destacados del Folklore Llanero",
         "description": "Los mejores artistas de música llanera venezolana y colombiana contemporánea",
-        "url": "https://purollanoradio.com/artistas.html",
+        "url": "https://purollanoradioapp.vercel.app/artistas.html",
         "numberOfItems": 50,
         "itemListElement": [
             {

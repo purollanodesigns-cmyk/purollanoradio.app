@@ -15,16 +15,16 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://purollanoradio.com/blog.html">
+    <link rel="canonical" href="https://purollanoradioapp.vercel.app/blog.html">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Blog de Folklore Llanero 📝 | Puro Llano Radio">
     <meta property="og:description"
         content="Descubre la riqueza del folklore llanero venezolano. Artículos sobre joropo, instrumentos, historia y tradición cultural.">
-    <meta property="og:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta property="og:image" content="https://purollanoradioapp.vercel.app/PUROLLANORADIO-COM-ICONO.png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-    <meta property="og:url" content="https://purollanoradio.com/blog.html">
+    <meta property="og:url" content="https://purollanoradioapp.vercel.app/blog.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Puro Llano Radio">
     <meta property="og:locale" content="es_VE">
@@ -34,7 +34,7 @@
     <meta name="twitter:title" content="Blog de Folklore Llanero 📝 | Puro Llano Radio">
     <meta name="twitter:description"
         content="Aprende sobre joropo, instrumentos tradicionales y cultura llanera venezolana.">
-    <meta name="twitter:image" content="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png">
+    <meta name="twitter:image" content="https://purollanoradioapp.vercel.app/PUROLLANORADIO-COM-ICONO.png">
 
     <!-- PWA -->
     <meta name="theme-color" content="#1a1108">
@@ -42,8 +42,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Puro Llano Radio">
 
-    <link rel="icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" />
+    <link rel="icon" href="PUROLLANORADIO-COM-ICONO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="PUROLLANORADIO-COM-ICONO.png" />
     <link rel="manifest" href="/manifest.json">
 
     <!-- Fuentes -->
@@ -636,7 +636,7 @@
 
 <body>
     <div class="container">
-        <a href="https://purollanoradio.com" class="back-btn">
+        <a href="index.html" class="back-btn">
             <i class="fa fa-arrow-left"></i>
             Volver al Inicio
         </a>
@@ -651,16 +651,22 @@
         </div>
 
         <!-- Breadcrumbs con Schema.org -->
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <ul itemscope itemtype="https://schema.org/BreadcrumbList">
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="https://purollanoradio.com/">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"
+            style="background: rgba(20, 10, 0, 0.4); padding: 15px 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(254, 210, 2, 0.15); backdrop-filter: blur(10px);">
+            <ul itemscope itemtype="https://schema.org/BreadcrumbList"
+                style="list-style: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; padding: 0;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <a itemprop="item" href="index.html"
+                        style="color: #fed202; text-decoration: none;">
                         <span itemprop="name">Inicio</span>
                     </a>
                     <meta itemprop="position" content="1" />
                 </li>
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current">
-                    <span itemprop="name">Blog</span>
+                <li style="color: #fed202; font-weight: bold;">›</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="current"
+                    style="display: flex; align-items: center; gap: 10px;">
+                    <span itemprop="name" style="color: rgba(255, 255, 255, 0.7);">Blog</span>
                     <meta itemprop="position" content="2" />
                 </li>
             </ul>
@@ -1092,7 +1098,7 @@
 
     <!-- REPRODUCTOR FLOTANTE -->
     <div class="floating-player" id="floatingPlayer">
-        <img src="https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
+        <img src="PUROLLANORADIO-COM-ICONO.png" alt="Puro Llano Radio" class="player-logo">
 
         <div class="player-info">
             <h4 id="playerSongTitle">Puro Llano Radio</h4>
@@ -1495,13 +1501,13 @@
         "@type": "Blog",
         "name": "Blog de Folklore Llanero - Puro Llano Radio",
         "description": "Blog dedicado al folklore llanero venezolano: historia del joropo, instrumentos tradicionales, cultura y artistas.",
-        "url": "https://purollanoradio.com/blog.html",
+        "url": "https://purollanoradioapp.vercel.app/blog.html",
         "publisher": {
             "@type": "RadioStation",
             "name": "Puro Llano Radio",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://purollanoradio.com/PUROLLANORADIO-COM-ICONO.png"
+                "url": "https://purollanoradioapp.vercel.app/PUROLLANORADIO-COM-ICONO.png"
             }
         },
         "blogPost": [
